@@ -2,7 +2,7 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'org.jsoup:jsoup:1.11.3'
+    implementation 'org.jsoup:jsoup:1.11.3'
 }
 
 sourceCompatibility = "1.8"

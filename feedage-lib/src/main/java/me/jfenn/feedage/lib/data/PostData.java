@@ -10,6 +10,7 @@ public class PostData {
     private String description;
     private String content;
     private String imageUrl;
+    private List<String> tags;
 
     private Date publishDate;
     private Date updateDate;
@@ -19,6 +20,7 @@ public class PostData {
 
     public PostData(FeedData parent) {
         this.parent = parent;
+        tags = new ArrayList<>();
         authors = new ArrayList<>();
     }
 
@@ -70,6 +72,14 @@ public class PostData {
 
     public Date getUpdateDate() {
         return updateDate;
+    }
+
+    void addTag(String tag) {
+        tags.add(tag);
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     void addAuthor(AuthorData author) {

@@ -23,7 +23,46 @@ public class AtomFeedData extends FeedData {
         Document document = Jsoup.parse(content);
         Element root = document;
         while (document.children().size() == 1)
-            root = root.children().get(0);
+            root = root.children().first();
+
+        Element nameElement = root.selectFirst(":root > title");
+        if (nameElement != null)
+            setName(nameElement.text());
+
+        Element homepageElement = root.selectFirst(":root > id");
+        if (homepageElement != null)
+            setHomepage(homepageElement.text());
+
+        for (Element element : root.select(":root > id")) {
+            if (element.attr("rel").equals("alternate") && element.hasAttr("href")) {
+                setHomepage(element.attr("href"));
+                break;
+            }
+        }
+
+        for (Element element : root.select(":root > entry, :root > item")) {
+            PostData post = new PostData(this);
+
+            Element titleElement = element.selectFirst(":root > title");
+            if (titleElement != null)
+                post.setTitle(titleElement.text());
+
+            Element descriptionElement = element.selectFirst(":root > description");
+            if (descriptionElement != null)
+                post.setTitle(descriptionElement.text());
+
+            Element imageElement = element.selectFirst(":root > media|content");
+            if (imageElement != null)
+                post.setImageUrl(imageElement.text());
+
+            Element contentElement = element.selectFirst(":root > content|encoded");
+            if (contentElement != null)
+                post.setContent(contentElement.text());
+
+            for (Element tagElement : element.select(":root > category")) {
+                post.addTag(tagElement.text());
+            }
+        }
 
         return posts;
     }
