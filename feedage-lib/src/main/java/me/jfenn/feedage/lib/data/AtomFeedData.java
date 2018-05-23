@@ -59,8 +59,21 @@ public class AtomFeedData extends FeedData {
             if (contentElement != null)
                 post.setContent(contentElement.text());
 
-            for (Element tagElement : element.select(":root > category")) {
+            for (Element tagElement : element.select(":root > category"))
                 post.addTag(tagElement.text());
+
+            for (Element authorElement : element.select(":root > dc|creator"))
+                post.addAuthor(new AuthorData(authorElement.text()));
+
+            for (Element authorElement : element.select(":root > author")) {
+                AuthorData author;
+
+                Element authorNameElement = authorElement.selectFirst(":root > name");
+                if (authorNameElement != null)
+                    author = new AuthorData(authorNameElement.text());
+                else break;
+
+                post.addAuthor(author);
             }
         }
 
