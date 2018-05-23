@@ -35,7 +35,8 @@ public class Feedage implements FeedData.OnFeedLoadedListener {
         Feedage feedage = new Feedage(
                 new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1),
                 new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1),
-                new AtomFeedData("https://www.theverge.com/rss/index.xml")
+                new AtomFeedData("https://www.theverge.com/rss/index.xml"),
+                new AtomFeedData("https://techaeris.com/feed/?paged=%s", 1)
         );
 
         feedage.getNext();
