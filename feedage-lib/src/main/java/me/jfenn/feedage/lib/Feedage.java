@@ -1,9 +1,9 @@
 package me.jfenn.feedage.lib;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
 
@@ -11,10 +11,15 @@ public class Feedage implements FeedData.OnFeedLoadedListener {
 
     private FeedData[] feeds;
     private ExecutorService service;
+    private OnPostsLoadedListener listener;
 
     public Feedage(FeedData... feeds) {
         this.feeds = feeds;
         service = Executors.newSingleThreadExecutor();
+    }
+
+    public void setListener(OnPostsLoadedListener listener) {
+        this.listener = listener;
     }
 
     public void getNext() {
@@ -26,19 +31,11 @@ public class Feedage implements FeedData.OnFeedLoadedListener {
 
     @Override
     public void onFeedLoaded(FeedData feed) {
-        for (PostData post : feed.getPosts()) {
-            System.out.println(post);
-        }
+        if (listener != null)
+            listener.onPostsLoaded(feed.getPosts());
     }
 
-    public static void main(String... args) {
-        Feedage feedage = new Feedage(
-                new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1),
-                new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1),
-                new AtomFeedData("https://www.theverge.com/rss/index.xml"),
-                new AtomFeedData("https://techaeris.com/feed/?paged=%s", 1)
-        );
-
-        feedage.getNext();
+    public interface OnPostsLoadedListener {
+        void onPostsLoaded(List<PostData> posts);
     }
 }

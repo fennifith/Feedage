@@ -22,8 +22,11 @@ public class AtomFeedData extends FeedData {
         List<PostData> posts = new ArrayList<>();
         Document document = Jsoup.parse(content);
         Element root = document;
-        while (document.children().size() == 1)
+        while (root.children().size() == 1) {
             root = root.children().first();
+            if (root.tagName().equals("html"))
+                root = document.selectFirst("body");
+        }
 
         Element nameElement = root.selectFirst(":root > title");
         if (nameElement != null)
@@ -75,6 +78,8 @@ public class AtomFeedData extends FeedData {
 
                 post.addAuthor(author);
             }
+
+            posts.add(post);
         }
 
         return posts;

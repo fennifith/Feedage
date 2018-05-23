@@ -63,7 +63,7 @@ public abstract class FeedData {
     public final void getNext(ExecutorService service, OnFeedLoadedListener listener) {
         this.listener = listener;
 
-        service.submit(() -> {
+        service.execute(() -> {
             HttpURLConnection connection = null;
             InputStream stream = null;
             BufferedReader reader = null;
