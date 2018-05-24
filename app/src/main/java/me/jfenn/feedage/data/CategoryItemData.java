@@ -35,7 +35,7 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
             viewHolder.title.setText(StringUtils.toPlainText(category.getTitle()));
         if (category.getDescription().length() > 0) {
             viewHolder.subtitle.setVisibility(View.VISIBLE);
-            viewHolder.subtitle.setText(category.getDescription());
+            viewHolder.subtitle.setText(category.getDescriptionSentence());
         } else viewHolder.subtitle.setVisibility(View.GONE);
 
         if (viewHolder.recycler != null) {

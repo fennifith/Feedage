@@ -52,6 +52,32 @@ public class CategoryData implements Comparable<CategoryData> {
         return builder.toString();
     }
 
+    public String getDescriptionSentence() {
+        StringBuilder builder = new StringBuilder();
+        if (averages.size() > 1) {
+            SortOfAMarkovChainOrSomething.WordAverage average = averages.get(0);
+            String lastWord = average.getWord1();
+            builder.append(lastWord.substring(0, 1).toUpperCase()).append(lastWord.substring(1)).append(" ");
+            lastWord = average.getWord2();
+            builder.append(lastWord);
+
+            for (int i = 1; i < averages.size(); i++) {
+                average = averages.get(i);
+                if (lastWord.equals(average.getWord1())) {
+                    builder.append(" ").append(average.getWord1()).append(" ").append(average.getWord2());
+                } else {
+                    builder.append(". ").append(average.getWord1().substring(0, 1).toUpperCase()).append(average.getWord1().substring(1))
+                            .append(" ").append(average.getWord2());
+                }
+
+                lastWord = average.getWord2();
+            }
+
+            builder.append(".");
+        }
+        return builder.toString();
+    }
+
     public static List<CategoryData> getCategories(List<FeedData> feeds) {
         List<CategoryData> categories = new ArrayList<>();
         List<PostData> allPosts = new ArrayList<>();
