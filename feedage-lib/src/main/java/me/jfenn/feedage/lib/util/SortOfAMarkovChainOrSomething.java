@@ -26,6 +26,9 @@ public class SortOfAMarkovChainOrSomething {
     }
 
     private void addContent(String content) {
+        if (content == null || content.length() < 1)
+            return;
+
         String[] arr = content.split(" ");
         for (int i = 1; i < arr.length; i++) {
             WordAverage average = new WordAverage(arr[i - 1], arr[i]);
