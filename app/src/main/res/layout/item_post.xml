@@ -48,7 +48,6 @@
                     android:textColor="?android:textColorSecondary"
                     android:layout_marginRight="16dp"
                     android:ellipsize="end"
-                    android:lines="3"
                     android:maxLines="3"
                     android:textSize="14sp"
                     tools:text="Subtitle subtitle subtitle subtitle subtitle subtitle subtitle." />

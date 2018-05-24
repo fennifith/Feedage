@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnCategor
                 new AtomFeedData("https://www.theverge.com/rss/index.xml"),
                 new AtomFeedData("https://techaeris.com/feed/?paged=%s", 1),
                 new AtomFeedData("https://www.technobuffalo.com/feed/?paged=%s", 1),
-                new AtomFeedData("https://www.engadget.com/rss.xml")
+                new AtomFeedData("https://www.engadget.com/rss.xml"),
+                new AtomFeedData("https://techbeacon.com/rss.xml")
         );
 
         feedage.getNext(this);

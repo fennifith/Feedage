@@ -33,8 +33,10 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
     public void bind(Context context, ViewHolder viewHolder) {
         if (category.getTitle() != null)
             viewHolder.title.setText(StringUtils.toPlainText(category.getTitle()));
-        if (category.getTitle() != null)
+        if (category.getDescription().length() > 0) {
+            viewHolder.subtitle.setVisibility(View.VISIBLE);
             viewHolder.subtitle.setText(category.getDescription());
+        } else viewHolder.subtitle.setVisibility(View.GONE);
 
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));

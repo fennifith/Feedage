@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.lib.data.PostData;
 import me.jfenn.feedage.utils.StringUtils;
@@ -29,6 +31,10 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
             viewHolder.title.setText(StringUtils.toPlainText(post.getTitle()));
         if (post.getDescription() != null)
             viewHolder.subtitle.setText(StringUtils.toPlainText(post.getDescription()));
+        if (post.getImageUrl() != null) {
+            viewHolder.image.setVisibility(View.VISIBLE);
+            Glide.with(context).load(post.getImageUrl()).into(viewHolder.image);
+        } else viewHolder.image.setVisibility(View.GONE);
         viewHolder.website.setText(post.getParent().getBasicHomepage());
     }
 
