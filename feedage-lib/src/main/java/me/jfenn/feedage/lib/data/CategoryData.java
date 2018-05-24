@@ -8,7 +8,7 @@ import java.util.Map;
 
 import me.jfenn.feedage.lib.utils.SortOfAMarkovChainOrSomething;
 
-public class CategoryData {
+public class CategoryData implements Comparable<CategoryData> {
 
     private String title;
     private List<PostData> posts;
@@ -84,6 +84,7 @@ public class CategoryData {
             }
         }
 
+        Collections.sort(categories);
         return categories;
     }
 
@@ -99,4 +100,8 @@ public class CategoryData {
         return threshold;
     }
 
+    @Override
+    public int compareTo(CategoryData categoryData) {
+        return averages.size() - categoryData.averages.size();
+    }
 }
