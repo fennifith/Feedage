@@ -19,11 +19,8 @@ public class Feedage implements FeedData.OnFeedLoadedListener {
         service = Executors.newSingleThreadExecutor();
     }
 
-    public void setListener(OnCategoriesUpdatedListener listener) {
+    public void getNext(OnCategoriesUpdatedListener listener) {
         this.listener = listener;
-    }
-
-    public void getNext() {
         for (FeedData feed : feeds) {
             if (feed.getPage() == 0 || feed.isPaginated())
                 feed.getNext(service, this);
