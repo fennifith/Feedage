@@ -2,13 +2,10 @@ package me.jfenn.feedage;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
-import java.util.List;
 
 import me.jfenn.feedage.lib.Feedage;
 import me.jfenn.feedage.lib.data.AtomFeedData;
-import me.jfenn.feedage.lib.data.PostData;
+import me.jfenn.feedage.lib.data.FeedData;
 
 public class MainActivity extends AppCompatActivity implements Feedage.OnPostsLoadedListener {
 
@@ -29,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnPostsLo
     }
 
     @Override
-    public void onPostsLoaded(List<PostData> posts) {
-        Log.d("PostsLoaded", "" + posts.size());
+    public void onPostsLoaded(FeedData feed) {
     }
 }

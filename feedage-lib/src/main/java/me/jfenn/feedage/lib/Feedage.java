@@ -1,11 +1,9 @@
 package me.jfenn.feedage.lib;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import me.jfenn.feedage.lib.data.FeedData;
-import me.jfenn.feedage.lib.data.PostData;
 
 public class Feedage implements FeedData.OnFeedLoadedListener {
 
@@ -32,10 +30,10 @@ public class Feedage implements FeedData.OnFeedLoadedListener {
     @Override
     public void onFeedLoaded(FeedData feed) {
         if (listener != null)
-            listener.onPostsLoaded(feed.getPosts());
+            listener.onPostsLoaded(feed);
     }
 
     public interface OnPostsLoadedListener {
-        void onPostsLoaded(List<PostData> posts);
+        void onPostsLoaded(FeedData feed);
     }
 }
