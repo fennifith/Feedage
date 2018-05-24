@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.jfenn.feedage.adapters.ItemAdapter;
-import me.jfenn.feedage.data.CategoryItemData;
+import me.jfenn.feedage.data.FeedItemData;
 import me.jfenn.feedage.data.ItemData;
 import me.jfenn.feedage.lib.Feedage;
 import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;
+import me.jfenn.feedage.lib.data.FeedData;
 
 public class MainActivity extends AppCompatActivity implements Feedage.OnCategoriesUpdatedListener {
 
@@ -44,10 +45,23 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnCategor
     }
 
     @Override
+    public void onFeedsUpdated(final List<FeedData> feeds) {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            List<ItemData> items = new ArrayList<>();
+            for (FeedData feed : feeds)
+                items.add(new FeedItemData(feed));
+
+            if (recycler.getAdapter() == null)
+                recycler.setAdapter(new ItemAdapter(items));
+            else recycler.swapAdapter(new ItemAdapter(items), false);
+        });
+    }
+
+    @Override
     public void onCategoriesUpdated(final List<CategoryData> categories) {
         Log.d("CategoriesLoaded", categories.size() + "");
 
-        new Handler(Looper.getMainLooper()).post(() -> {
+        /*new Handler(Looper.getMainLooper()).post(() -> {
             List<ItemData> items = new ArrayList<>();
             for (CategoryData category : categories)
                 items.add(new CategoryItemData(category));
@@ -55,6 +69,6 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnCategor
             if (recycler.getAdapter() == null)
                 recycler.setAdapter(new ItemAdapter(items));
             else recycler.swapAdapter(new ItemAdapter(items), false);
-        });
+        });*/
     }
 }

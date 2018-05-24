@@ -9,10 +9,13 @@ public class CategoryData {
 
     private String title;
     private List<PostData> posts;
+    List<SortOfAMarkovChainOrSomething.WordAverage> averages;
 
     public CategoryData(String title, List<PostData> posts) {
         this.title = title;
         this.posts = posts;
+        posts = new ArrayList<>();
+        averages = new ArrayList<>();
     }
 
     public String getTitle() {

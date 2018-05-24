@@ -1,5 +1,6 @@
 package me.jfenn.feedage.lib;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -29,11 +30,15 @@ public class Feedage implements FeedData.OnFeedLoadedListener {
 
     @Override
     public void onFeedLoaded(FeedData feed) {
-        if (listener != null)
-            listener.onCategoriesUpdated(CategoryData.getCategories(Arrays.asList(feeds)));
+        List<FeedData> feeds = Arrays.asList(this.feeds);
+        if (listener != null) {
+            listener.onFeedsUpdated(new ArrayList<>(feeds));
+            listener.onCategoriesUpdated(CategoryData.getCategories(feeds));
+        }
     }
 
     public interface OnCategoriesUpdatedListener {
+        void onFeedsUpdated(List<FeedData> feeds);
         void onCategoriesUpdated(List<CategoryData> categories);
     }
 }
