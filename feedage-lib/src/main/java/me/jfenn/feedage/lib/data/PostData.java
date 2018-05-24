@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import me.jfenn.feedage.lib.util.SortOfAMarkovChainOrSomething;
+
 public class PostData {
 
     private String title;
@@ -17,6 +19,7 @@ public class PostData {
     private List<AuthorData> authors;
 
     private FeedData parent;
+    private SortOfAMarkovChainOrSomething chain;
 
     public PostData(FeedData parent) {
         this.parent = parent;
@@ -92,5 +95,12 @@ public class PostData {
 
     public FeedData getParent() {
         return parent;
+    }
+
+    public SortOfAMarkovChainOrSomething getChain() {
+        if (chain == null)
+            chain = new SortOfAMarkovChainOrSomething(this);
+
+        return chain;
     }
 }

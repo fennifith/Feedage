@@ -5,13 +5,28 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.jfenn.feedage.lib.data.PostData;
+
 public class SortOfAMarkovChainOrSomething {
 
+    private PostData post;
     private List<WordAverage> averages;
 
-    public SortOfAMarkovChainOrSomething(String words) {
+    public SortOfAMarkovChainOrSomething(PostData post) {
+        this.post = post;
         averages = new ArrayList<>();
-        String[] arr = words.split(" ");
+
+        addContent(post.getTitle());
+        addContent(post.getDescription());
+        addContent(post.getContent());
+    }
+
+    public PostData getPost() {
+        return post;
+    }
+
+    private void addContent(String content) {
+        String[] arr = content.split(" ");
         for (int i = 1; i < arr.length; i++) {
             WordAverage average = new WordAverage(arr[i - 1], arr[i]);
             if (average.equals(average) && !averages.contains(average))

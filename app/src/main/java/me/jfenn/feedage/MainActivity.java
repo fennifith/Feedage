@@ -3,11 +3,13 @@ package me.jfenn.feedage;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.List;
+
 import me.jfenn.feedage.lib.Feedage;
 import me.jfenn.feedage.lib.data.AtomFeedData;
-import me.jfenn.feedage.lib.data.FeedData;
+import me.jfenn.feedage.lib.data.CategoryData;
 
-public class MainActivity extends AppCompatActivity implements Feedage.OnPostsLoadedListener {
+public class MainActivity extends AppCompatActivity implements Feedage.OnCategoriesUpdatedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnPostsLo
     }
 
     @Override
-    public void onPostsLoaded(FeedData feed) {
+    public void onCategoriesUpdated(List<CategoryData> categories) {
+
     }
 }
