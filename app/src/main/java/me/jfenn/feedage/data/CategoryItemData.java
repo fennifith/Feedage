@@ -13,6 +13,7 @@ import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.PostData;
+import me.jfenn.feedage.utils.StringUtils;
 
 public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
 
@@ -30,8 +31,11 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
 
     @Override
     public void bind(Context context, ViewHolder viewHolder) {
-        viewHolder.title.setText(category.getTitle());
-        viewHolder.subtitle.setText(category.getTitle());
+        if (category.getTitle() != null)
+            viewHolder.title.setText(StringUtils.toPlainText(category.getTitle()));
+        if (category.getTitle() != null)
+            viewHolder.subtitle.setText(StringUtils.toPlainText(category.getTitle()));
+
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
@@ -52,6 +56,9 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
 
         public ViewHolder(View v) {
             super(v);
+            title = v.findViewById(R.id.title);
+            subtitle = v.findViewById(R.id.subtitle);
+            recycler = v.findViewById(R.id.recycler);
         }
     }
 
