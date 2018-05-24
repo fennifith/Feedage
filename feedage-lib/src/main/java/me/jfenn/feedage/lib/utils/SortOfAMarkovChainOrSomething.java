@@ -1,6 +1,8 @@
 package me.jfenn.feedage.lib.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,6 +10,25 @@ import java.util.regex.Pattern;
 import me.jfenn.feedage.lib.data.PostData;
 
 public class SortOfAMarkovChainOrSomething {
+
+    private static final List<String> FORBIDDEN_WORDS = Arrays.asList(
+            "a",
+            "href",
+            "rel",
+            "width",
+            "height",
+            "srcset",
+            "src",
+            "alt",
+            "class",
+            "style",
+            "url",
+            "title",
+            "wp",
+            "size",
+            "http",
+            "https"
+    );
 
     private PostData post;
     private List<WordAverage> averages;
@@ -32,9 +53,15 @@ public class SortOfAMarkovChainOrSomething {
         if (content == null || content.length() < 1)
             return;
 
-        String[] arr = content.split(" ");
-        for (int i = 1; i < arr.length; i++) {
-            WordAverage average = new WordAverage(arr[i - 1], arr[i]);
+        List<String> list = new ArrayList<>(Arrays.asList(content.split(" ")));
+        for (int i = 0; i < list.size(); i++) {
+            String word = WordAverage.toPlainText(list.get(i));
+            if (FORBIDDEN_WORDS.contains(word))
+                list.remove(i--);
+        }
+
+        for (int i = 1; i < list.size(); i++) {
+            WordAverage average = new WordAverage(list.get(i - 1), list.get(i));
             if (average.isValid()) {
                 if (averages.contains(average))
                     averages.get(averages.indexOf(average)).onThingHappen();
@@ -43,19 +70,35 @@ public class SortOfAMarkovChainOrSomething {
         }
     }
 
-    public double getDifference(SortOfAMarkovChainOrSomething o) {
+    public Double getDifference(SortOfAMarkovChainOrSomething o) {
         double difference = 0;
         double divisor = Math.max(1, Math.abs(averages.size() - o.averages.size()));
+        int count = 0;
         for (WordAverage average : averages) {
             if (o.averages.contains(average)) {
                 difference = (double) Math.abs(o.averages.get(o.averages.indexOf(average)).getYes() - average.getYes()) / divisor;
+                count++;
             } else difference += 1;
         }
 
-        return difference;
+        return count > 0 ? difference : null;
     }
 
-    public static class WordAverage {
+    public static List<WordAverage> getWordAverages(SortOfAMarkovChainOrSomething o1, SortOfAMarkovChainOrSomething o2) {
+        List<WordAverage> averages = new ArrayList<>();
+        for (WordAverage average : o1.averages) {
+            if (o2.averages.contains(average)) {
+                WordAverage newAverage = new WordAverage(average.getWord1(), average.getWord2());
+                newAverage.yes = average.getYes() + o2.averages.get(o2.averages.indexOf(average)).getYes();
+                averages.add(newAverage);
+            }
+        }
+
+        Collections.sort(averages);
+        return averages;
+    }
+
+    public static class WordAverage implements Comparable<WordAverage> {
 
         private int yes;
         private String word1, word2;
@@ -75,8 +118,9 @@ public class SortOfAMarkovChainOrSomething {
         }
 
         public boolean isValid() {
-            return word1 != null && word1.length() > 0
-                    && word2 != null && word2.length() > 0;
+            return word1 != null && word1.length() > 4
+                    && word2 != null && word2.length() > 4
+                    && !word1.equals(word2);
         }
 
         public int getYes() {
@@ -85,6 +129,11 @@ public class SortOfAMarkovChainOrSomething {
 
         private void onThingHappen() {
             yes++;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + word1 + ", " + word2 + ") ";
         }
 
         @Override
@@ -106,6 +155,11 @@ public class SortOfAMarkovChainOrSomething {
                 word = matcher.group();
 
             return word.replaceAll("<.*?>", "");
+        }
+
+        @Override
+        public int compareTo(WordAverage wordAverage) {
+            return yes - wordAverage.yes;
         }
     }
 

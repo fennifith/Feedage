@@ -34,7 +34,7 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
         if (category.getTitle() != null)
             viewHolder.title.setText(StringUtils.toPlainText(category.getTitle()));
         if (category.getTitle() != null)
-            viewHolder.subtitle.setText(StringUtils.toPlainText(category.getTitle()));
+            viewHolder.subtitle.setText(category.getDescription());
 
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
