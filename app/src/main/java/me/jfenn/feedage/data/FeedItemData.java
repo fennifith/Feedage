@@ -34,7 +34,7 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
         if (feed.getName() != null)
             viewHolder.title.setText(StringUtils.toPlainText(feed.getName()));
         if (feed.getHomepage() != null)
-            viewHolder.subtitle.setText(StringUtils.toPlainText(feed.getHomepage()));
+            viewHolder.subtitle.setText(StringUtils.toPlainText(feed.getBasicHomepage()));
 
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));

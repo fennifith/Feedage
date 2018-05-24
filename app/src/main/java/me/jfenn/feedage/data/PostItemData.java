@@ -25,11 +25,11 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
     @Override
     public void bind(Context context, ViewHolder viewHolder) {
-        viewHolder.image.setVisibility(View.GONE);
         if (post.getTitle() != null)
             viewHolder.title.setText(StringUtils.toPlainText(post.getTitle()));
         if (post.getDescription() != null)
             viewHolder.subtitle.setText(StringUtils.toPlainText(post.getDescription()));
+        viewHolder.website.setText(post.getParent().getBasicHomepage());
     }
 
     public static class ViewHolder extends ItemData.ViewHolder {
@@ -37,12 +37,14 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
         private ImageView image;
         private TextView title;
         private TextView subtitle;
+        private TextView website;
 
         public ViewHolder(View v) {
             super(v);
             image = v.findViewById(R.id.image);
             title = v.findViewById(R.id.title);
             subtitle = v.findViewById(R.id.subtitle);
+            website = v.findViewById(R.id.website);
         }
     }
 

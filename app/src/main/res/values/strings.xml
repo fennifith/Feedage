@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Feedage</string>
+
+    <string name="from">From %s</string>
 </resources>
