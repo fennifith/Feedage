@@ -28,6 +28,7 @@ public abstract class FeedData {
 
     public FeedData(String url, int pageStart) {
         this.url = url;
+        this.homepage = url;
         this.pageStart = pageStart;
         posts = new ArrayList<>();
     }
@@ -46,6 +47,12 @@ public abstract class FeedData {
 
     public String getHomepage() {
         return homepage;
+    }
+
+    public String getBasicHomepage() {
+        String basicHomepage = url.substring(url.contains("//") ? url.indexOf("//") + 2 : 0);
+        return (basicHomepage.contains("/") ? basicHomepage.substring(0, basicHomepage.indexOf("/")) : basicHomepage)
+                .replace("www.", "");
     }
 
     public final List<PostData> getPosts() {

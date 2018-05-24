@@ -81,7 +81,7 @@ public class SortOfAMarkovChainOrSomething {
             } else difference += 1;
         }
 
-        return count > 0 ? difference + (count / difference) : null;
+        return count > 0 ? count + difference : null;
     }
 
     public static List<WordAverage> getWordAverages(SortOfAMarkovChainOrSomething o1, SortOfAMarkovChainOrSomething o2) {
