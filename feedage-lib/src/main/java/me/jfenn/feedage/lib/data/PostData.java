@@ -3,6 +3,8 @@ package me.jfenn.feedage.lib.data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.jfenn.feedage.lib.utils.SortOfAMarkovChainOrSomething;
 
@@ -60,7 +62,15 @@ public class PostData {
     }
 
     public String getImageUrl(String imageUrl) {
-        return imageUrl;
+        if (imageUrl != null)
+            return imageUrl;
+        else if (content != null) {
+            Matcher matcher = Pattern.compile("(<img)([\"A-Za-z0-9 =-_]*)(src=\")([A-Za-z0-9./?-_:]*)(\")").matcher(content);
+            if (matcher.find())
+                return matcher.group(4);
+        }
+
+        return null;
     }
 
     void setPublishDate(String publishDate) {

@@ -27,7 +27,18 @@ public class SortOfAMarkovChainOrSomething {
             "wp",
             "size",
             "http",
-            "https"
+            "https",
+            "article",
+            "header",
+            "footer",
+            "property",
+            "content",
+            "target",
+            "frameborder",
+            "allowfullscreen",
+            "nofollow",
+            "async",
+            "charset"
     );
 
     private PostData post;
@@ -40,6 +51,8 @@ public class SortOfAMarkovChainOrSomething {
         addContent(post.getTitle());
         addContent(post.getDescription());
         addContent(post.getContent());
+        for (String string : post.getTags())
+            addContent(string);
 
         for (WordAverage average : averages)
             average.getYes();
@@ -81,7 +94,7 @@ public class SortOfAMarkovChainOrSomething {
             } else difference += 1;
         }
 
-        return count > 0 ? count + difference : null;
+        return count > 0 ? difference / count : null;
     }
 
     public static List<WordAverage> getWordAverages(SortOfAMarkovChainOrSomething o1, SortOfAMarkovChainOrSomething o2) {
