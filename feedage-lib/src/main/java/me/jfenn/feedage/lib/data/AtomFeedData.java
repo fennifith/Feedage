@@ -52,7 +52,7 @@ public class AtomFeedData extends FeedData {
 
             Element descriptionElement = element.selectFirst(":root > description");
             if (descriptionElement != null)
-                post.setTitle(descriptionElement.text());
+                post.setDescription(descriptionElement.text());
 
             Element imageElement = element.selectFirst(":root > media|content");
             if (imageElement != null)
