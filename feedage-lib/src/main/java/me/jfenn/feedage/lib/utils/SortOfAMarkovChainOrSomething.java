@@ -1,4 +1,4 @@
-package me.jfenn.feedage.lib.util;
+package me.jfenn.feedage.lib.utils;
 
 import java.util.ArrayList;
 import java.util.List;

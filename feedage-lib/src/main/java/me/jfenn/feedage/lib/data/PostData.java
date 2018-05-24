@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import me.jfenn.feedage.lib.util.SortOfAMarkovChainOrSomething;
+import me.jfenn.feedage.lib.utils.SortOfAMarkovChainOrSomething;
 
 public class PostData {
 

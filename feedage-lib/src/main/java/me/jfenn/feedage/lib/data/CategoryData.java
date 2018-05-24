@@ -3,7 +3,7 @@ package me.jfenn.feedage.lib.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.jfenn.feedage.lib.util.SortOfAMarkovChainOrSomething;
+import me.jfenn.feedage.lib.utils.SortOfAMarkovChainOrSomething;
 
 public class CategoryData {
 
@@ -35,14 +35,15 @@ public class CategoryData {
 
         for (int i = 0; i < allPosts.size(); i++) {
             double threshold = getThreshold(allPosts.get(i).getChain(), allPosts);
-            List<PostData> posts = new ArrayList<>();
-
             if (threshold < maxThreshold) {
-                allPosts.add(allPosts.get(i));
+                List<PostData> posts = new ArrayList<>();
+                posts.add(allPosts.get(i));
                 for (int i2 = 0; i2 < allPosts.size(); i2++) {
                     if (i != i2 && allPosts.get(i).getChain().getDifference(allPosts.get(i2).getChain()) < threshold)
                         posts.add(allPosts.get(i2));
                 }
+
+                System.out.println("Posts: " + posts.size());
 
                 categories.add(new CategoryData(allPosts.get(i).getTitle(), posts));
             }
