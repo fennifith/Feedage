@@ -31,7 +31,7 @@ public class CategoryData {
 
         double maxThreshold = 0;
         for (int i = 0; i < allPosts.size(); i++)
-            maxThreshold = ((maxThreshold * (i - 1)) + getThreshold(allPosts.get(i).getChain(), allPosts)) / i;
+            maxThreshold = ((maxThreshold * i) + getThreshold(allPosts.get(i).getChain(), allPosts)) / (i + 1);
 
         for (int i = 0; i < allPosts.size(); i++) {
             double threshold = getThreshold(allPosts.get(i).getChain(), allPosts);
@@ -44,7 +44,7 @@ public class CategoryData {
                         posts.add(allPosts.get(i2));
                 }
 
-                categories.add(new CategoryData(posts.get(i).getTitle(), posts));
+                categories.add(new CategoryData(allPosts.get(i).getTitle(), posts));
             }
         }
 
@@ -55,7 +55,7 @@ public class CategoryData {
         double threshold = 0;
         for (int i = 0; i < posts.size(); i++) {
             if (!posts.get(i).equals(base.getPost()))
-                threshold = ((threshold * (i - 1)) + posts.get(i).getChain().getDifference(base)) / i;
+                threshold = ((threshold * i) + posts.get(i).getChain().getDifference(base)) / (i + 1);
         }
 
         return threshold;
