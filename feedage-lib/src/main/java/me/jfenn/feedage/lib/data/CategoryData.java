@@ -36,8 +36,23 @@ public class CategoryData implements Comparable<CategoryData> {
         return posts;
     }
 
-    void setAverages(List<SortOfAMarkovChainOrSomething.WordAverage> averages) {
-        this.averages = averages;
+    void addAverage(SortOfAMarkovChainOrSomething.WordAverage average) {
+        if (!averages.contains(average)) {
+            boolean isAdded = false;
+            for (int i = 0; i < averages.size() && !isAdded; i++) {
+                SortOfAMarkovChainOrSomething.WordAverage average1 = averages.get(i);
+                if (average.getWord1().equals(average1.getWord2())) {
+                    averages.add(i + 1, average);
+                    isAdded = true;
+                } else if (average.getWord2().equals(average1.getWord1())) {
+                    averages.add(i, average);
+                    isAdded = true;
+                }
+            }
+
+            if (!isAdded)
+                averages.add(average);
+        }
     }
 
     public String getDescription() {
@@ -64,7 +79,7 @@ public class CategoryData implements Comparable<CategoryData> {
             for (int i = 1; i < averages.size(); i++) {
                 average = averages.get(i);
                 if (lastWord.equals(average.getWord1())) {
-                    builder.append(" ").append(average.getWord1()).append(" ").append(average.getWord2());
+                    builder.append(" ").append(average.getWord2());
                 } else {
                     builder.append(". ").append(average.getWord1().substring(0, 1).toUpperCase()).append(average.getWord1().substring(1))
                             .append(" ").append(average.getWord2());
@@ -109,11 +124,48 @@ public class CategoryData implements Comparable<CategoryData> {
                     category.setPosts(posts);
 
                     SortOfAMarkovChainOrSomething base = posts.get(0).getChain();
-                    category.setAverages(SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(1).getChain()));
-                    for (int i2 = 2; i2 < posts.size() && category.averages.size() < 2; i2++)
-                        category.averages.addAll(SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(i2).getChain()));
+                    for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(1).getChain()))
+                        category.addAverage(average);
+                    for (int i2 = 2; i2 < posts.size() && category.averages.size() < 2; i2++) {
+                        for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(i2).getChain()))
+                            category.addAverage(average);
+                    }
 
-                    categories.add(category);
+                    CategoryData equivalent = null;
+                    for (CategoryData category2 : categories) {
+                        for (int i2 = 0; i2 < category2.posts.size() && equivalent == null; i2++) {
+                            PostData post = category2.posts.get(i2);
+                            for (int i3 = 0; i3 < posts.size(); i3++) {
+                                if (post.equals(posts.get(i3))) {
+                                    equivalent = category2;
+                                    break;
+                                }
+                            }
+                        }
+
+                        for (int i2 = 0; i2 < category2.averages.size() && equivalent == null; i2++) {
+                            SortOfAMarkovChainOrSomething.WordAverage average = category2.averages.get(i2);
+                            for (int i3 = 0; i3 < category.averages.size(); i3++) {
+                                if (average.equals(category.averages.get(i3))) {
+                                    equivalent = category2;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (equivalent != null)
+                            break;
+                    }
+
+                    if (equivalent != null) {
+                        for (PostData post : posts) {
+                            if (!equivalent.posts.contains(post))
+                                equivalent.posts.add(post);
+                        }
+
+                        for (SortOfAMarkovChainOrSomething.WordAverage average : equivalent.averages)
+                            equivalent.addAverage(average);
+                    } else categories.add(category);
                 }
             }
         }
