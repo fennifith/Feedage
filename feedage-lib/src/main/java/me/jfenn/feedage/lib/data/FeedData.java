@@ -12,9 +12,8 @@ import java.util.concurrent.ExecutorService;
 
 public abstract class FeedData {
 
-    private String url;
-    private String name;
-    private String homepage;
+    private String url, name, homepage;
+    private int backgroundColor, textColor;
 
     private List<PostData> posts;
     private int pages;
@@ -22,15 +21,24 @@ public abstract class FeedData {
 
     private OnFeedLoadedListener listener;
 
-    public FeedData(String url) {
-        this(url, 0);
+    public FeedData(String url, int backgroundColor, int textColor) {
+        this(url, 0, backgroundColor, textColor);
     }
 
-    public FeedData(String url, int pageStart) {
-        this.url = url;
-        this.homepage = url;
+    public FeedData(String url, int pageStart, int backgroundColor, int textColor) {
+        this.url = homepage = url;
         this.pageStart = pageStart;
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
         posts = new ArrayList<>();
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public int getTextColor() {
+        return textColor;
     }
 
     void setName(String name) {
@@ -52,7 +60,8 @@ public abstract class FeedData {
     public String getBasicHomepage() {
         String basicHomepage = url.substring(url.contains("//") ? url.indexOf("//") + 2 : 0);
         return (basicHomepage.contains("/") ? basicHomepage.substring(0, basicHomepage.indexOf("/")) : basicHomepage)
-                .replace("www.", "");
+                .replace("www.", "")
+                .replace("rss.", "");
     }
 
     public final List<PostData> getPosts() {

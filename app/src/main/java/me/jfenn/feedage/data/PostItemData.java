@@ -1,6 +1,8 @@
 package me.jfenn.feedage.data;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import me.jfenn.feedage.R;
+import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
 import me.jfenn.feedage.utils.StringUtils;
 
@@ -27,15 +30,26 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
     @Override
     public void bind(Context context, ViewHolder viewHolder) {
+        FeedData parent = post.getParent();
+
         if (post.getTitle() != null)
             viewHolder.title.setText(StringUtils.toPlainText(post.getTitle()));
-        if (post.getDescription() != null)
-            viewHolder.subtitle.setText(StringUtils.toPlainText(post.getDescription()));
+        if (post.getDescriptionText() != null)
+            viewHolder.subtitle.setText(StringUtils.toPlainText(post.getDescriptionText()));
         if (post.getImageUrl() != null) {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context).load(post.getImageUrl()).into(viewHolder.image);
         } else viewHolder.image.setVisibility(View.GONE);
-        viewHolder.website.setText(post.getParent().getBasicHomepage());
+        viewHolder.website.setText(parent.getBasicHomepage());
+
+        int backgroundColor = parent.getBackgroundColor(),
+                textColor = parent.getTextColor(),
+                secondaryTextColor = Color.argb(150, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
+
+        viewHolder.background.setBackgroundColor(backgroundColor);
+        viewHolder.title.setTextColor(textColor);
+        viewHolder.subtitle.setTextColor(secondaryTextColor);
+        viewHolder.website.setTextColor(secondaryTextColor);
     }
 
     public static class ViewHolder extends ItemData.ViewHolder {
@@ -44,6 +58,7 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
         private TextView title;
         private TextView subtitle;
         private TextView website;
+        private View background;
 
         public ViewHolder(View v) {
             super(v);
@@ -51,6 +66,7 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
             title = v.findViewById(R.id.title);
             subtitle = v.findViewById(R.id.subtitle);
             website = v.findViewById(R.id.website);
+            background = v.findViewById(R.id.background);
         }
     }
 

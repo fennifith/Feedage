@@ -50,12 +50,12 @@ public class SortOfAMarkovChainOrSomething {
 
         addContent(post.getTitle());
         addContent(post.getDescription());
-        addContent(post.getContent());
+        addContent(post.getContentText());
         for (String string : post.getTags())
             addContent(string);
 
         for (WordAverage average : averages)
-            average.getYes();
+            average.getCount();
     }
 
     public PostData getPost() {
@@ -77,7 +77,7 @@ public class SortOfAMarkovChainOrSomething {
             WordAverage average = new WordAverage(list.get(i - 1), list.get(i));
             if (average.isValid()) {
                 if (averages.contains(average))
-                    averages.get(averages.indexOf(average)).onThingHappen();
+                    averages.get(averages.indexOf(average)).onCounted();
                 else averages.add(average);
             }
         }
@@ -89,7 +89,7 @@ public class SortOfAMarkovChainOrSomething {
         int count = 0;
         for (WordAverage average : averages) {
             if (o.averages.contains(average)) {
-                difference = (double) Math.abs(o.averages.get(o.averages.indexOf(average)).getYes() - average.getYes()) / divisor;
+                difference = (double) Math.abs(o.averages.get(o.averages.indexOf(average)).getCount() - average.getCount()) / divisor;
                 count++;
             } else difference += 1;
         }
@@ -101,8 +101,8 @@ public class SortOfAMarkovChainOrSomething {
         List<WordAverage> averages = new ArrayList<>();
         for (WordAverage average : o1.averages) {
             if (o2.averages.contains(average)) {
-                WordAverage newAverage = new WordAverage(average.getWord1(), average.getWord2());
-                newAverage.yes = average.getYes() + o2.averages.get(o2.averages.indexOf(average)).getYes();
+                WordAverage newAverage = new WordAverage(average.getFirstWord(), average.getLastWord());
+                newAverage.count = average.getCount() + o2.averages.get(o2.averages.indexOf(average)).getCount();
                 averages.add(newAverage);
             }
         }
@@ -113,48 +113,48 @@ public class SortOfAMarkovChainOrSomething {
 
     public static class WordAverage implements Comparable<WordAverage> {
 
-        private int yes;
-        private String word1, word2;
+        private int count;
+        private String firstWord, lastWord;
 
-        public WordAverage(String word1, String word2) {
-            this.word1 = word1 != null ? toPlainText(word1) : null;
-            this.word2 = word2 != null ? toPlainText(word2) : null;
-            onThingHappen();
+        public WordAverage(String firstWord, String lastWord) {
+            this.firstWord = firstWord != null ? toPlainText(firstWord) : null;
+            this.lastWord = lastWord != null ? toPlainText(lastWord) : null;
+            onCounted();
         }
 
-        public String getWord1() {
-            return word1;
+        public String getFirstWord() {
+            return firstWord;
         }
 
-        public String getWord2() {
-            return word2;
+        public String getLastWord() {
+            return lastWord;
         }
 
         public boolean isValid() {
-            return word1 != null && word1.length() > 4
-                    && word2 != null && word2.length() > 4
-                    && !word1.equals(word2);
+            return firstWord != null && firstWord.length() > 4
+                    && lastWord != null && lastWord.length() > 4
+                    && !firstWord.equals(lastWord);
         }
 
-        public int getYes() {
-            return yes;
+        public int getCount() {
+            return count;
         }
 
-        private void onThingHappen() {
-            yes++;
+        private void onCounted() {
+            count++;
         }
 
         @Override
         public String toString() {
-            return "(" + word1 + ", " + word2 + ") ";
+            return "(" + firstWord + ", " + lastWord + ") ";
         }
 
         @Override
         public boolean equals(Object o) {
             if (o instanceof WordAverage) {
                 WordAverage average = (WordAverage) o;
-                return word1 != null && word1.length() > 0 && word1.equals(average.word1)
-                        && word2 != null && word2.length() > 0 && word2.equals(average.word2);
+                return firstWord != null && firstWord.length() > 0 && firstWord.equals(average.firstWord)
+                        && lastWord != null && lastWord.length() > 0 && lastWord.equals(average.lastWord);
             } else return super.equals(o);
         }
 
@@ -172,7 +172,7 @@ public class SortOfAMarkovChainOrSomething {
 
         @Override
         public int compareTo(WordAverage wordAverage) {
-            return yes - wordAverage.yes;
+            return count - wordAverage.count;
         }
     }
 

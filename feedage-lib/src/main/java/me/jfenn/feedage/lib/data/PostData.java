@@ -1,5 +1,7 @@
 package me.jfenn.feedage.lib.data;
 
+import org.jsoup.Jsoup;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,19 +36,31 @@ public class PostData {
     }
 
     void setTitle(String title) {
-        this.title = title;
+        if (title != null)
+            this.title = Jsoup.parse(title).text();
     }
 
     public String getDescription() {
         return description;
     }
 
+    public String getDescriptionText() {
+        if (parent.getBasicHomepage().equals("theverge.com"))
+            System.out.println("Description: " + description + ", Content: " + getContentText());
+        return description != null && description.length() > 0 ? description : getContentText();
+    }
+
     void setDescription(String description) {
-        this.description = description;
+        if (description != null)
+            this.description = Jsoup.parse(description).text();
     }
 
     public String getContent() {
         return content;
+    }
+
+    public String getContentText() {
+        return content != null ? Jsoup.parse(content).text() : null;
     }
 
     void setContent(String content) {
@@ -65,7 +79,7 @@ public class PostData {
         if (imageUrl != null)
             return imageUrl;
         else if (content != null) {
-            Matcher matcher = Pattern.compile("(<img)([\"A-Za-z0-9 =-_]*)(src=\")([A-Za-z0-9./?-_:]*)(\")").matcher(content);
+            Matcher matcher = Pattern.compile("(<img)([\"A-Za-z0-9\\s=-_]*)(src=\")([A-Za-z0-9./?-_:]*)(\")").matcher(content);
             if (matcher.find())
                 return matcher.group(4);
         }

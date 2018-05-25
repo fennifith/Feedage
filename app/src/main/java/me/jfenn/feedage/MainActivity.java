@@ -1,5 +1,6 @@
 package me.jfenn.feedage;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,14 +33,15 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnCategor
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         Feedage feedage = new Feedage(
-                new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1),
-                new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1),
-                new AtomFeedData("https://www.theverge.com/rss/index.xml"),
-                new AtomFeedData("https://techaeris.com/feed/?paged=%s", 1),
-                new AtomFeedData("https://www.engadget.com/rss.xml"),
-                new AtomFeedData("https://techbeacon.com/rss.xml"),
-                new AtomFeedData("http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"),
-                new AtomFeedData("https://www.xda-developers.com/feed/?paged=%s", 1)
+                new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1, Color.parseColor("#af1c1c"), Color.WHITE),
+                new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1, Color.parseColor("#01e0bd"), Color.BLACK),
+                new AtomFeedData("https://www.theverge.com/rss/index.xml", Color.parseColor("#e5127d"), Color.WHITE),
+                new AtomFeedData("https://techaeris.com/feed/?paged=%s", 1, Color.parseColor("#212121"), Color.WHITE),
+                new AtomFeedData("https://www.engadget.com/rss.xml", Color.WHITE, Color.BLACK),
+                new AtomFeedData("http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml", Color.WHITE, Color.BLACK),
+                new AtomFeedData("https://www.xda-developers.com/feed/?paged=%s", 1, Color.parseColor("#f59714"), Color.BLACK),
+                new AtomFeedData("https://www.wired.com/feed", Color.parseColor("#BDBDBD"), Color.BLACK),
+                new AtomFeedData("https://techbeacon.com/rss.xml", Color.parseColor("#0096D6"), Color.WHITE)
         );
 
         feedage.getNext(this);

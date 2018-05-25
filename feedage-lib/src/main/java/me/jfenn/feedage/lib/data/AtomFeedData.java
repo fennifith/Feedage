@@ -9,12 +9,12 @@ import java.util.List;
 
 public class AtomFeedData extends FeedData {
 
-    public AtomFeedData(String url) {
-        super(url);
+    public AtomFeedData(String url, int backgroundColor, int textColor) {
+        super(url, backgroundColor, textColor);
     }
 
-    public AtomFeedData(String url, int pageStart) {
-        super(url, pageStart);
+    public AtomFeedData(String url, int pageStart, int backgroundColor, int textColor) {
+        super(url, pageStart, backgroundColor, textColor);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class AtomFeedData extends FeedData {
             if (imageElement != null)
                 post.setImageUrl(imageElement.text());
 
-            Element contentElement = element.selectFirst(":root > content|encoded");
+            Element contentElement = element.selectFirst(":root > content|encoded, :root > content");
             if (contentElement != null)
                 post.setContent(contentElement.text());
 
