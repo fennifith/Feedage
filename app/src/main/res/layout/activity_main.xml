@@ -25,4 +25,9 @@
         android:layout_weight="1"
         android:scrollbars="vertical" />
 
+    <me.jfenn.feedage.views.ProgressLineView
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
 </LinearLayout>

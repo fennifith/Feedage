@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,12 @@ import me.jfenn.feedage.lib.Feedage;
 import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
+import me.jfenn.feedage.views.ProgressLineView;
 
 public class MainActivity extends AppCompatActivity implements Feedage.OnCategoriesUpdatedListener {
 
     private RecyclerView recycler;
+    private ProgressLineView progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnCategor
         setContentView(R.layout.activity_main);
 
         recycler = findViewById(R.id.recycler);
+        progress = findViewById(R.id.progress);
+
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         Feedage feedage = new Feedage(
@@ -45,21 +50,20 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnCategor
         );
 
         feedage.getNext(this);
-
-        //findViewById(R.id.loadMore).setOnClickListener(v -> feedage.getNext(this));
     }
 
     @Override
     public void onFeedsUpdated(final List<FeedData> feeds) {
-        /*new Handler(Looper.getMainLooper()).post(() -> {
-            List<ItemData> items = new ArrayList<>();
-            for (FeedData feed : feeds)
-                items.add(new FeedItemData(feed));
+        new Handler(Looper.getMainLooper()).post(() -> {
+            int loaded = 0;
+            for (FeedData feed : feeds) {
+                if (!feed.isLoading())
+                    loaded++;
+            }
 
-            if (recycler.getAdapter() == null)
-                recycler.setAdapter(new ItemAdapter(items));
-            else recycler.swapAdapter(new ItemAdapter(items), true);
-        });*/
+            progress.update((float) loaded / feeds.size());
+            progress.setVisibility(loaded == feeds.size() ? View.GONE : View.VISIBLE);
+        });
     }
 
     @Override

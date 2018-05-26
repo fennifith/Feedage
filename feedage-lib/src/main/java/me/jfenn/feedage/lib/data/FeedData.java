@@ -16,8 +16,8 @@ public abstract class FeedData {
     private int backgroundColor, textColor;
 
     private List<PostData> posts;
-    private int pages;
-    private int pageStart;
+    private int pages, pageStart;
+    private boolean isLoading;
 
     private OnFeedLoadedListener listener;
 
@@ -64,6 +64,10 @@ public abstract class FeedData {
                 .replace("rss.", "");
     }
 
+    public boolean isLoading() {
+        return isLoading;
+    }
+
     public final List<PostData> getPosts() {
         return posts;
     }
@@ -78,6 +82,7 @@ public abstract class FeedData {
 
     public final void getNext(ExecutorService service, OnFeedLoadedListener listener) {
         this.listener = listener;
+        isLoading = true;
 
         service.execute(() -> {
             HttpURLConnection connection = null;
@@ -125,6 +130,7 @@ public abstract class FeedData {
 
     private void onFeedLoaded(String content) {
         posts.addAll(parseContent(content));
+        isLoading = false;
 
         if (listener != null)
             listener.onFeedLoaded(this);
