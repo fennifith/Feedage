@@ -10,14 +10,14 @@ import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.utils.CacheInterface;
 
-public class Feedage implements FeedData.OnFeedLoadedListener {
+public class FeedageLib implements FeedData.OnFeedLoadedListener {
 
     private FeedData[] feeds;
     private ExecutorService service;
     private OnCategoriesUpdatedListener listener;
     private boolean hasOrganized;
 
-    public Feedage(CacheInterface cache, FeedData... feeds) {
+    public FeedageLib(CacheInterface cache, FeedData... feeds) {
         this.feeds = feeds;
         service = Executors.newSingleThreadExecutor();
 

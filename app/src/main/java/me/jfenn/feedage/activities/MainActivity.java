@@ -18,14 +18,14 @@ import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
 import me.jfenn.feedage.data.items.CategoryItemData;
 import me.jfenn.feedage.data.items.ItemData;
-import me.jfenn.feedage.lib.Feedage;
+import me.jfenn.feedage.lib.FeedageLib;
 import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.utils.HackyCacheInterface;
 import me.jfenn.feedage.views.ProgressLineView;
 
-public class MainActivity extends AppCompatActivity implements Feedage.OnCategoriesUpdatedListener {
+public class MainActivity extends AppCompatActivity implements FeedageLib.OnCategoriesUpdatedListener {
 
     private RecyclerView recycler;
     private ProgressLineView progress;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements Feedage.OnCategor
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        Feedage feedage = new Feedage(
+        FeedageLib feedage = new FeedageLib(
                 new HackyCacheInterface(PreferenceManager.getDefaultSharedPreferences(this)),
                 new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1, Color.parseColor("#af1c1c"), Color.WHITE),
                 new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1, Color.parseColor("#01e0bd"), Color.BLACK),

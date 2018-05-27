@@ -1,14 +1,19 @@
 package me.jfenn.feedage.activities;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,11 +49,11 @@ public class PostActivity extends AppCompatActivity {
         authors = findViewById(R.id.authors);
         content = findViewById(R.id.content);
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setTitle(post.getTitle());
 
         String html = post.getHTML();
         content.setText(html != null ? Html.fromHtml(html) : null);
+        content.setMovementMethod(new LinkMovementMethod());
 
         List<ItemData> items = new ArrayList<>();
         for (AuthorData author : post.getAuthors())
@@ -65,8 +70,23 @@ public class PostActivity extends AppCompatActivity {
         findViewById(android.R.id.content).setBackgroundColor(backgroundColor);
         content.setTextColor(secondaryTextColor);
         content.setLinkTextColor(textColor);
+        content.setHintTextColor(textColor);
         toolbar.setTitleTextColor(textColor);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().setStatusBarColor(darkBackgroundColor);
+
+        Drawable drawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
+        DrawableCompat.setTint(drawable, textColor);
+        toolbar.setNavigationIcon(drawable);
+
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }

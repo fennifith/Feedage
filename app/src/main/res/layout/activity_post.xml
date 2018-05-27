@@ -30,6 +30,7 @@
             android:padding="16dp"
             android:textColor="?android:textColorPrimary"
             android:textSize="14sp"
+            android:lineSpacingMultiplier="1.2"
             tools:text="Content content content content content content content content content content content content content content content content content." />
 
         <android.support.v7.widget.RecyclerView
