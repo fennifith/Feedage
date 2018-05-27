@@ -1,4 +1,4 @@
-package me.jfenn.feedage;
+package me.jfenn.feedage.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,9 +14,10 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
-import me.jfenn.feedage.data.CategoryItemData;
-import me.jfenn.feedage.data.ItemData;
+import me.jfenn.feedage.data.items.CategoryItemData;
+import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.lib.Feedage;
 import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;

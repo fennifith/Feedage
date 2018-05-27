@@ -18,7 +18,7 @@ public class AuthorData {
         return homepage;
     }
 
-    void setHomepage(String homepage) {
+    public void setHomepage(String homepage) {
         this.homepage = homepage;
     }
 
@@ -26,7 +26,7 @@ public class AuthorData {
         return imageUrl;
     }
 
-    void setImageUrl(String imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

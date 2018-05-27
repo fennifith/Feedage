@@ -47,7 +47,7 @@ public class PostData {
         return title;
     }
 
-    void setTitle(String title) {
+    public void setTitle(String title) {
         if (title != null)
             this.title = Jsoup.parse(title).text();
     }
@@ -62,7 +62,7 @@ public class PostData {
         return description != null && description.length() > 0 ? description : getContentText();
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         if (description != null)
             this.description = Jsoup.parse(description).text();
     }
@@ -75,7 +75,7 @@ public class PostData {
         return content != null ? Jsoup.parse(content).text() : null;
     }
 
-    void setContent(String content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
@@ -83,7 +83,7 @@ public class PostData {
         return imageUrl;
     }
 
-    void setImageUrl(String imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -99,21 +99,21 @@ public class PostData {
         return null;
     }
 
-    void setPublishDate(String publishDate) {
+    public void setPublishDate(String publishDate) {
     }
 
     public Date getPublishDate() {
         return publishDate;
     }
 
-    void setUpdateDate(String updateDate) {
+    public void setUpdateDate(String updateDate) {
     }
 
     public Date getUpdateDate() {
         return updateDate;
     }
 
-    void addTag(String tag) {
+    public void addTag(String tag) {
         tags.add(tag);
     }
 
@@ -121,7 +121,7 @@ public class PostData {
         return tags;
     }
 
-    void addAuthor(AuthorData author) {
+    public void addAuthor(AuthorData author) {
         authors.add(author);
     }
 

@@ -55,6 +55,10 @@ public abstract class FeedData {
         }
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public int getBackgroundColor() {
         return backgroundColor;
     }

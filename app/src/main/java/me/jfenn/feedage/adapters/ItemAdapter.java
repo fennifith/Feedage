@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import me.jfenn.feedage.data.ItemData;
+import me.jfenn.feedage.data.items.ItemData;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemData.ViewHolder> {
 

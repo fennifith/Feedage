@@ -1,4 +1,4 @@
-package me.jfenn.feedage.data;
+package me.jfenn.feedage.data.items;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
