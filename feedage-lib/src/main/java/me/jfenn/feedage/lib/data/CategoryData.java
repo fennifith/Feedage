@@ -99,39 +99,46 @@ public class CategoryData implements Comparable<CategoryData> {
         for (FeedData feed : feeds)
             allPosts.addAll(feed.getPosts());
 
-        double maxThreshold = 0;
-        for (int i = 0; i < allPosts.size(); i++)
-            maxThreshold = ((maxThreshold * i) + getThreshold(allPosts.get(i).getChain(), allPosts)) / (i + 1);
-
         for (int i = 0; i < allPosts.size(); i++) {
             double threshold = getThreshold(allPosts.get(i).getChain(), allPosts);
-            if (threshold < maxThreshold) {
-                CategoryData category = new CategoryData();
+            CategoryData category = new CategoryData();
 
-                Map<PostData, Double> postMap = new HashMap<>();
-                postMap.put(allPosts.get(i), 0.0);
-                for (int i2 = 0; i2 < allPosts.size(); i2++) {
-                    if (i != i2) {
-                        Double difference = allPosts.get(i).getChain().getDifference(allPosts.get(i2).getChain());
-                        if (difference != null && difference < threshold)
-                            postMap.put(allPosts.get(i2), difference);
+            Map<PostData, Double> postMap = new HashMap<>();
+            postMap.put(allPosts.get(i), 0.0);
+            for (int i2 = 0; i2 < allPosts.size(); i2++) {
+                if (i != i2) {
+                    Double difference = allPosts.get(i).getChain().getDifference(allPosts.get(i2).getChain());
+                    if (difference != null && difference < threshold)
+                        postMap.put(allPosts.get(i2), difference);
+                }
+            }
+
+            List<PostData> posts = new ArrayList<>(postMap.keySet());
+            if (posts.size() > 1) {
+                Collections.sort(posts, (p1, p2) -> (int) ((postMap.get(p2) - postMap.get(p1)) * 100));
+                category.setPosts(posts);
+
+                SortOfAMarkovChainOrSomething base = posts.get(0).getChain();
+                for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(1).getChain()))
+                    category.addAverage(average);
+                for (int i2 = 2; i2 < posts.size() && category.averages.size() < 2; i2++) {
+                    for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(i2).getChain()))
+                        category.addAverage(average);
+                }
+
+                List<FeedData> sources = new ArrayList<>();
+                sources.add(category.posts.get(0).getParent());
+                for (int i2 = 1; i2 < category.posts.size(); i2++) {
+                    FeedData source = category.posts.get(i2).getParent();
+                    if (!sources.contains(source)) {
+                        sources.add(source);
                     }
                 }
 
-                List<PostData> posts = new ArrayList<>(postMap.keySet());
-                if (posts.size() > 1) {
-                    Collections.sort(posts, (p1, p2) -> (int) ((postMap.get(p2) - postMap.get(p1)) * 100));
-                    category.setPosts(posts);
+                boolean isDiverse = ((float) sources.size() / category.posts.size()) > 0.25;
 
-                    SortOfAMarkovChainOrSomething base = posts.get(0).getChain();
-                    for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(1).getChain()))
-                        category.addAverage(average);
-                    for (int i2 = 2; i2 < posts.size() && category.averages.size() < 2; i2++) {
-                        for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(i2).getChain()))
-                            category.addAverage(average);
-                    }
-
-                    CategoryData equivalent = null;
+                CategoryData equivalent = null;
+                if (isDiverse) {
                     for (CategoryData category2 : categories) {
                         int postsCount = 0, categoriesCount = 0;
                         for (PostData post : category2.posts) {
@@ -153,17 +160,18 @@ public class CategoryData implements Comparable<CategoryData> {
                             break;
                         }
                     }
-
-                    if (equivalent != null) {
-                        for (PostData post : posts) {
-                            if (!equivalent.posts.contains(post))
-                                equivalent.posts.add(post);
-                        }
-
-                        for (SortOfAMarkovChainOrSomething.WordAverage average : equivalent.averages)
-                            equivalent.addAverage(average);
-                    } else categories.add(category);
                 }
+
+                if (equivalent != null) {
+                    for (PostData post : posts) {
+                        if (!equivalent.posts.contains(post))
+                            equivalent.posts.add(post);
+                    }
+
+                    for (SortOfAMarkovChainOrSomething.WordAverage average : equivalent.averages)
+                        equivalent.addAverage(average);
+                } else if (isDiverse)
+                    categories.add(category);
             }
         }
 
