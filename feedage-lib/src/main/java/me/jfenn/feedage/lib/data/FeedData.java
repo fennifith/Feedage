@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import me.jfenn.feedage.lib.utils.CacheInterface;
+
 public abstract class FeedData {
 
     private String url, name, homepage;
@@ -20,6 +22,7 @@ public abstract class FeedData {
     private boolean isLoading;
 
     private OnFeedLoadedListener listener;
+    private CacheInterface cache;
 
     public FeedData(String url, int backgroundColor, int textColor) {
         this(url, 0, backgroundColor, textColor);
@@ -31,6 +34,25 @@ public abstract class FeedData {
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;
         posts = new ArrayList<>();
+    }
+
+    public void loadCache(CacheInterface cache) {
+        this.cache = cache;
+
+        if (cache != null) {
+            int number;
+            try {
+                number = Integer.parseInt(cache.getCache(url + "-length"));
+            } catch (Exception e) {
+                return;
+            }
+
+            for (int i = 0; i < number; i++) {
+                PostData post = PostData.fromString(this, cache.getCache(url + "-post" + i));
+                if (post != null)
+                    posts.add(post);
+            }
+        }
     }
 
     public int getBackgroundColor() {
@@ -129,14 +151,29 @@ public abstract class FeedData {
     abstract List<PostData> parseContent(String content);
 
     private void onFeedLoaded(String content) {
-        posts.addAll(parseContent(content));
-        isLoading = false;
+        List<PostData> newPosts = parseContent(content);
+        int newCount = 0;
+        for (PostData newPost : newPosts) {
+            if (!posts.contains(newPost)) {
+                posts.add(newPost);
+                newCount++;
+            }
+        }
 
+        if (newCount > 0) {
+            if (cache != null) {
+                cache.putCache(url + "-length", posts.size() + "");
+                for (int i = 0; i < posts.size(); i++)
+                    cache.putCache(url + "-post" + i, posts.get(i).toString());
+            }
+        }
+
+        isLoading = false;
         if (listener != null)
-            listener.onFeedLoaded(this);
+            listener.onFeedLoaded(this, newCount > 0);
     }
 
     public interface OnFeedLoadedListener {
-        void onFeedLoaded(FeedData feed);
+        void onFeedLoaded(FeedData feed, boolean reorganize);
     }
 }

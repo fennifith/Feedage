@@ -3,6 +3,7 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'com.google.code.gson:gson:2.8.4'
 }
 
 sourceCompatibility = "1.8"

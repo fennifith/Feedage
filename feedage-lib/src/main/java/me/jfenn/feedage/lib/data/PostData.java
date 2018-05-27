@@ -1,5 +1,7 @@
 package me.jfenn.feedage.lib.data;
 
+import com.google.gson.Gson;
+
 import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
@@ -16,19 +18,29 @@ public class PostData {
     private String description;
     private String content;
     private String imageUrl;
-    private List<String> tags;
+    private transient List<String> tags;
 
-    private Date publishDate;
-    private Date updateDate;
-    private List<AuthorData> authors;
+    private transient Date publishDate;
+    private transient Date updateDate;
+    private transient List<AuthorData> authors;
 
-    private FeedData parent;
-    private SortOfAMarkovChainOrSomething chain;
+    private transient FeedData parent;
+    private transient SortOfAMarkovChainOrSomething chain;
 
     public PostData(FeedData parent) {
         this.parent = parent;
         tags = new ArrayList<>();
         authors = new ArrayList<>();
+    }
+
+    public PostData(FeedData parent, PostData post) {
+        this.parent = parent;
+        tags = new ArrayList<>();
+        authors = new ArrayList<>();
+        this.title = post.title;
+        this.description = post.description;
+        this.content = post.content;
+        this.imageUrl = post.imageUrl;
     }
 
     public String getTitle() {
@@ -126,5 +138,25 @@ public class PostData {
             chain = new SortOfAMarkovChainOrSomething(this);
 
         return chain;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof PostData) {
+            PostData post = (PostData) o;
+            return (title != null && title.equals(post.title))
+                    || (content != null && content.equals(post.content));
+        } else return super.equals(o);
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
+
+    public static PostData fromString(FeedData parent, String json) {
+        if (json != null)
+            return new PostData(parent, new Gson().fromJson(json, PostData.class));
+        else return null;
     }
 }

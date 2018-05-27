@@ -8,16 +8,21 @@ import java.util.concurrent.Executors;
 
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
+import me.jfenn.feedage.lib.utils.CacheInterface;
 
 public class Feedage implements FeedData.OnFeedLoadedListener {
 
     private FeedData[] feeds;
     private ExecutorService service;
     private OnCategoriesUpdatedListener listener;
+    private boolean hasOrganized;
 
-    public Feedage(FeedData... feeds) {
+    public Feedage(CacheInterface cache, FeedData... feeds) {
         this.feeds = feeds;
         service = Executors.newSingleThreadExecutor();
+
+        for (FeedData feed : feeds)
+            feed.loadCache(cache);
     }
 
     public void getNext(OnCategoriesUpdatedListener listener) {
@@ -29,11 +34,14 @@ public class Feedage implements FeedData.OnFeedLoadedListener {
     }
 
     @Override
-    public void onFeedLoaded(FeedData feed) {
+    public void onFeedLoaded(FeedData feed, boolean shouldReorganize) {
         List<FeedData> feeds = Arrays.asList(this.feeds);
         if (listener != null) {
+            if (shouldReorganize || !hasOrganized) {
+                listener.onCategoriesUpdated(CategoryData.getCategories(feeds));
+                hasOrganized = true;
+            }
             listener.onFeedsUpdated(new ArrayList<>(feeds));
-            listener.onCategoriesUpdated(CategoryData.getCategories(feeds));
         }
     }
 
