@@ -1,5 +1,7 @@
 package me.jfenn.feedage.activities;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import me.jfenn.feedage.data.PostParcelData;
 import me.jfenn.feedage.data.items.AuthorItemData;
 import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.lib.data.AuthorData;
+import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
 
 public class PostActivity extends AppCompatActivity {
@@ -35,6 +38,7 @@ public class PostActivity extends AppCompatActivity {
 
         PostParcelData parcel = getIntent().getParcelableExtra(EXTRA_POST_PARCEL);
         PostData post = parcel.getPost();
+        FeedData parent = post.getParent();
 
         toolbar = findViewById(R.id.toolbar);
         authors = findViewById(R.id.authors);
@@ -53,7 +57,16 @@ public class PostActivity extends AppCompatActivity {
         authors.setLayoutManager(new LinearLayoutManager(this));
         authors.setAdapter(new ItemAdapter(items));
 
-        findViewById(android.R.id.content).setBackgroundColor(post.getParent().getBackgroundColor());
-        content.setTextColor(post.getParent().getTextColor());
+        int backgroundColor = parent.getBackgroundColor(),
+                darkBackgroundColor = Color.rgb(Math.max(0, Color.red(backgroundColor) - 30), Math.max(0, Color.green(backgroundColor) - 30), Math.max(0, Color.blue(backgroundColor) - 30)),
+                textColor = parent.getTextColor(),
+                secondaryTextColor = Color.argb(150, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
+
+        findViewById(android.R.id.content).setBackgroundColor(backgroundColor);
+        content.setTextColor(secondaryTextColor);
+        content.setLinkTextColor(textColor);
+        toolbar.setTitleTextColor(textColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().setStatusBarColor(darkBackgroundColor);
     }
 }
