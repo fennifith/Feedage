@@ -3,12 +3,12 @@ package me.jfenn.feedage.lib.data;
 import com.google.gson.Gson;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import me.jfenn.feedage.lib.utils.SortOfAMarkovChainOrSomething;
 
@@ -75,6 +75,14 @@ public class PostData {
         return content != null ? Jsoup.parse(content).text() : null;
     }
 
+    public String getHTML() {
+        if (content != null) {
+            Document document = Jsoup.parse(content);
+            document.select("img").remove();
+            return document.toString();
+        } else return getDescription();
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -87,12 +95,9 @@ public class PostData {
         if (imageUrl != null)
             return imageUrl;
         else if (content != null) {
-            Matcher matcher = Pattern.compile("(<img)([\"A-Za-z0-9\\s=-_]*)(src=\")([A-Za-z0-9./?-_:]*)(\")").matcher(content);
-            if (matcher.find())
-                return matcher.group(4);
-        }
-
-        return null;
+            Element element = Jsoup.parse(content).selectFirst("img");
+            return element != null && element.hasAttr("src") ? element.attr("src") : null;
+        } else return null;
     }
 
     public void setPublishDate(String publishDate) {

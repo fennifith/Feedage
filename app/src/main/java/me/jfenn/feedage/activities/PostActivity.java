@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,7 +42,9 @@ public class PostActivity extends AppCompatActivity {
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setTitle(post.getTitle());
-        content.setText(post.getContentText());
+
+        String html = post.getHTML();
+        content.setText(html != null ? Html.fromHtml(html) : null);
 
         List<ItemData> items = new ArrayList<>();
         for (AuthorData author : post.getAuthors())
