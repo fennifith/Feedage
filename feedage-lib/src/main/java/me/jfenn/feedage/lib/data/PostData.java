@@ -79,15 +79,11 @@ public class PostData {
         this.content = content;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    public String getImageUrl(String imageUrl) {
+    public String getImageUrl() {
         if (imageUrl != null)
             return imageUrl;
         else if (content != null) {
