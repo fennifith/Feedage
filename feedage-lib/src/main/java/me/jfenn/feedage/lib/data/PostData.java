@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import me.jfenn.feedage.lib.utils.SortOfAMarkovChainOrSomething;
+import me.jfenn.feedage.lib.utils.SOAMCOS;
 
 public class PostData {
 
@@ -25,7 +25,7 @@ public class PostData {
     private transient List<AuthorData> authors;
 
     private transient FeedData parent;
-    private transient SortOfAMarkovChainOrSomething chain;
+    private transient SOAMCOS chain;
 
     public PostData(FeedData parent) {
         this.parent = parent;
@@ -134,9 +134,9 @@ public class PostData {
         return parent;
     }
 
-    public SortOfAMarkovChainOrSomething getChain() {
+    public SOAMCOS getChain() {
         if (chain == null)
-            chain = new SortOfAMarkovChainOrSomething(this);
+            chain = new SOAMCOS(this);
 
         return chain;
     }

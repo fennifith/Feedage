@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import me.jfenn.feedage.lib.data.PostData;
 
-public class SortOfAMarkovChainOrSomething {
+public class SOAMCOS { //stands for "Sort Of A Markov Chain Or Something" because the class name was too long and I didn't know what else to call it
 
     private static final List<String> FORBIDDEN_WORDS = Arrays.asList(
             "a",
@@ -44,7 +44,7 @@ public class SortOfAMarkovChainOrSomething {
     private PostData post;
     private List<WordAverage> averages;
 
-    public SortOfAMarkovChainOrSomething(PostData post) {
+    public SOAMCOS(PostData post) {
         this.post = post;
         averages = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class SortOfAMarkovChainOrSomething {
         }
     }
 
-    public Double getDifference(SortOfAMarkovChainOrSomething o) {
+    public Double getDifference(SOAMCOS o) {
         double difference = 0;
         double divisor = Math.max(1, Math.abs(averages.size() - o.averages.size()));
         int count = 0;
@@ -97,7 +97,7 @@ public class SortOfAMarkovChainOrSomething {
         return count > 0 ? difference / count : null;
     }
 
-    public static List<WordAverage> getWordAverages(SortOfAMarkovChainOrSomething o1, SortOfAMarkovChainOrSomething o2) {
+    public static List<WordAverage> getWordAverages(SOAMCOS o1, SOAMCOS o2) {
         List<WordAverage> averages = new ArrayList<>();
         for (WordAverage average : o1.averages) {
             if (o2.averages.contains(average)) {

@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.jfenn.feedage.lib.utils.SortOfAMarkovChainOrSomething;
+import me.jfenn.feedage.lib.utils.SOAMCOS;
 
 public class CategoryData implements Comparable<CategoryData> {
 
     private List<PostData> posts;
-    private List<SortOfAMarkovChainOrSomething.WordAverage> averages;
+    private List<SOAMCOS.WordAverage> averages;
 
     public CategoryData() {
         posts = new ArrayList<>();
@@ -19,7 +19,7 @@ public class CategoryData implements Comparable<CategoryData> {
     }
 
     public String getTitle() {
-        SortOfAMarkovChainOrSomething.WordAverage average = averages.get(0);
+        SOAMCOS.WordAverage average = averages.get(0);
         if (average != null) {
             return String.valueOf(average.getFirstWord().charAt(0)).toUpperCase()
                     + average.getFirstWord().substring(1) + " "
@@ -36,11 +36,11 @@ public class CategoryData implements Comparable<CategoryData> {
         return posts;
     }
 
-    void addAverage(SortOfAMarkovChainOrSomething.WordAverage average) {
+    void addAverage(SOAMCOS.WordAverage average) {
         if (!averages.contains(average)) {
             boolean isAdded = false;
             for (int i = 0; i < averages.size() && !isAdded; i++) {
-                SortOfAMarkovChainOrSomething.WordAverage average1 = averages.get(i);
+                SOAMCOS.WordAverage average1 = averages.get(i);
                 if (average.getFirstWord().equals(average1.getLastWord())) {
                     averages.add(i + 1, average);
                     isAdded = true;
@@ -70,7 +70,7 @@ public class CategoryData implements Comparable<CategoryData> {
     public String getDescriptionSentence() {
         StringBuilder builder = new StringBuilder();
         if (averages.size() > 1) {
-            SortOfAMarkovChainOrSomething.WordAverage average = averages.get(0);
+            SOAMCOS.WordAverage average = averages.get(0);
             String lastWord = average.getFirstWord();
             builder.append(lastWord.substring(0, 1).toUpperCase()).append(lastWord.substring(1)).append(" ");
             lastWord = average.getLastWord();
@@ -118,11 +118,11 @@ public class CategoryData implements Comparable<CategoryData> {
                 Collections.sort(posts, (p1, p2) -> (int) ((postMap.get(p2) - postMap.get(p1)) * 100));
                 category.setPosts(posts);
 
-                SortOfAMarkovChainOrSomething base = posts.get(0).getChain();
-                for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(1).getChain()))
+                SOAMCOS base = posts.get(0).getChain();
+                for (SOAMCOS.WordAverage average : SOAMCOS.getWordAverages(base, posts.get(1).getChain()))
                     category.addAverage(average);
                 for (int i2 = 2; i2 < posts.size() && category.averages.size() < 2; i2++) {
-                    for (SortOfAMarkovChainOrSomething.WordAverage average : SortOfAMarkovChainOrSomething.getWordAverages(base, posts.get(i2).getChain()))
+                    for (SOAMCOS.WordAverage average : SOAMCOS.getWordAverages(base, posts.get(i2).getChain()))
                         category.addAverage(average);
                 }
 
@@ -148,8 +148,8 @@ public class CategoryData implements Comparable<CategoryData> {
                             }
                         }
 
-                        for (SortOfAMarkovChainOrSomething.WordAverage average : category2.averages) {
-                            for (SortOfAMarkovChainOrSomething.WordAverage average1 : category.averages) {
+                        for (SOAMCOS.WordAverage average : category2.averages) {
+                            for (SOAMCOS.WordAverage average1 : category.averages) {
                                 if (average.equals(average1))
                                     categoriesCount++;
                             }
@@ -168,7 +168,7 @@ public class CategoryData implements Comparable<CategoryData> {
                             equivalent.posts.add(post);
                     }
 
-                    for (SortOfAMarkovChainOrSomething.WordAverage average : equivalent.averages)
+                    for (SOAMCOS.WordAverage average : equivalent.averages)
                         equivalent.addAverage(average);
                 } else if (isDiverse)
                     categories.add(category);
@@ -179,7 +179,7 @@ public class CategoryData implements Comparable<CategoryData> {
         return categories;
     }
 
-    private static double getThreshold(SortOfAMarkovChainOrSomething base, List<PostData> posts) {
+    private static double getThreshold(SOAMCOS base, List<PostData> posts) {
         double threshold = 0;
         for (int i = 0; i < posts.size(); i++) {
             if (!posts.get(i).equals(base.getPost())) {
