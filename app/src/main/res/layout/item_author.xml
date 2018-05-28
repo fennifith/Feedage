@@ -9,7 +9,8 @@
     android:paddingLeft="12dp"
     android:paddingRight="12dp">
 
-    <ImageView
+    <me.jfenn.feedage.views.CircleImageView
+        android:id="@+id/image"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="4dp"
