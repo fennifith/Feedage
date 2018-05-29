@@ -23,12 +23,16 @@ import me.jfenn.feedage.lib.data.FeedData;
 public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCategoriesUpdatedListener {
 
     private RecyclerView recycler;
+    private View refresh;
+    private boolean shouldSwap;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_recycler, container, false);
         recycler = v.findViewById(R.id.recycler);
+        refresh = v.findViewById(R.id.refresh);
+
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         onFeedsUpdated(getFeedage().getFeeds());
         return v;
@@ -52,7 +56,20 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
         for (FeedData feed : feeds)
             items.add(new FeedItemData(feed));
 
-        recycler.setAdapter(new ItemAdapter(items));
+        if (recycler.getAdapter() != null) {
+            if (shouldSwap) {
+                shouldSwap = false;
+                recycler.swapAdapter(new ItemAdapter(items), true);
+                refresh.setOnClickListener(null);
+                refresh.animate().alpha(0).start();
+            } else {
+                refresh.setOnClickListener(v -> {
+                    shouldSwap = true;
+                    onFeedsUpdated(feeds);
+                });
+                refresh.animate().alpha(1).start();
+            }
+        } else recycler.setAdapter(new ItemAdapter(items));
     }
 
     @Override
