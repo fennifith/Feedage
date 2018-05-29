@@ -1,5 +1,6 @@
 package me.jfenn.feedage.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -60,6 +61,11 @@ public class PostActivity extends AppCompatActivity {
         if (post.getImageUrl() != null) {
             image.setVisibility(View.VISIBLE);
             Glide.with(this).load(post.getImageUrl()).into(image);
+            image.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), ImageViewActivity.class);
+                intent.putExtra(ImageViewActivity.EXTRA_IMAGE_URL, post.getImageUrl());
+                v.getContext().startActivity(intent);
+            });
         } else image.setVisibility(View.GONE);
 
         String html = post.getHTML();
