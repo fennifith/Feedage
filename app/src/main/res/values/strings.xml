@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Feedage</string>
+    <string name="title_about">About</string>
 </resources>
