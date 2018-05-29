@@ -23,6 +23,7 @@ public class PostParcelData implements Parcelable {
         post.setDescription(in.readString());
         post.setContent(in.readString());
         post.setImageUrl(in.readString());
+        post.setSourceUrl(in.readString());
 
         int tags = in.readInt();
         for (int i = 0; i < tags; i++)
@@ -67,6 +68,7 @@ public class PostParcelData implements Parcelable {
         dest.writeString(post.getDescription());
         dest.writeString(post.getContent());
         dest.writeString(post.getImageUrl());
+        dest.writeString(post.getSourceUrl());
         dest.writeInt(post.getTags().size());
         for (String tag : post.getTags())
             dest.writeString(tag);

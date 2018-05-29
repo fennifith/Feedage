@@ -3,6 +3,7 @@ package me.jfenn.feedage.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,14 +44,17 @@ public class PostActivity extends AppCompatActivity {
     private TextView content;
     private ImageView image;
 
+    private PostData post;
+    private FeedData parent;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
         PostParcelData parcel = getIntent().getParcelableExtra(EXTRA_POST_PARCEL);
-        PostData post = parcel.getPost();
-        FeedData parent = post.getParent();
+        post = parcel.getPost();
+        parent = post.getParent();
 
         toolbar = findViewById(R.id.toolbar);
         authors = findViewById(R.id.authors);
@@ -100,9 +105,25 @@ public class PostActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
+        else if (item.getItemId() == R.id.bookmark)
+            ;
+        else if (item.getItemId() == R.id.open)
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(post.getSourceUrl())));
+        else if (item.getItemId() == R.id.share) {
+            Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse(post.getSourceUrl()));
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, post.getTitle());
+            intent.putExtra(Intent.EXTRA_TEXT, post.getSourceUrl());
+            startActivity(Intent.createChooser(intent, getString(R.string.title_share)));
+        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Feedage</string>
     <string name="title_about">About</string>
+    <string name="title_bookmark">Bookmark</string>
+    <string name="title_open_in_browser">Open in Browser</string>
+    <string name="title_share">Share to...</string>
 </resources>

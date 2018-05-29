@@ -79,6 +79,10 @@ public class AtomFeedData extends FeedData {
                 post.addAuthor(author);
             }
 
+            Element sourceElement = element.selectFirst(":root > link, :root > guid, :root > id");
+            if (sourceElement != null)
+                post.setSourceUrl(sourceElement.text());
+
             posts.add(post);
         }
 

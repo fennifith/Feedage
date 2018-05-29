@@ -18,6 +18,7 @@ public class PostData {
     private String description;
     private String content;
     private String imageUrl;
+    private String sourceUrl;
     private transient List<String> tags;
 
     private transient Date publishDate;
@@ -98,6 +99,14 @@ public class PostData {
             Element element = Jsoup.parse(content).selectFirst("img");
             return element != null && element.hasAttr("src") ? element.attr("src") : null;
         } else return null;
+    }
+
+    public void setSourceUrl(String soureUrl) {
+        this.sourceUrl = sourceUrl;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl != null ? sourceUrl : parent.getBasicHomepage();
     }
 
     public void setPublishDate(String publishDate) {
