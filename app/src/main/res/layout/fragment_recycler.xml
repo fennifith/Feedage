@@ -18,7 +18,7 @@
         android:layout_height="42dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
-        android:alpha="1"
+        android:alpha="0"
         android:background="@drawable/bg_refresh"
         android:elevation="6dp"
         android:gravity="center"
