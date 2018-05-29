@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<about>
+    <appInfo
+        description="A feed reader that sorts posts from various RSS feeds into separate categories."
+        repo="TheAndroidMaster/Feedage" />
+    <contributors repo="TheAndroidMaster/Feedage">
+        <contributor
+            name="James Fenn"
+            avatar="https://avatars1.githubusercontent.com/u/13000407?v=4"
+            bio="Android developer and co-founder of @DoubleDotLabs. Writes Java, C, and HTML. PHP confuses me."
+            blog="https://jfenn.me/"
+            email="me@jfenn.me"
+            login="TheAndroidMaster" />
+    </contributors>
+    <licenses>
+        <project
+            description="A Java serialization/deserialization library to convert Java Objects into JSON and back"
+            license="apache-2.0"
+            licenseName="Apache License 2.0"
+            repo="google/gson"
+            title="Gson" />
+        <project
+            description="A lightweight 'about screen' library to allow quick but customizable attribution in Android apps."
+            license="apache-2.0"
+            licenseName="Apache License 2.0"
+            repo="TheAndroidMaster/Attribouter"
+            title="Attribouter"
+            website="https://bintray.com/18jafenn90/maven/attribouter" />
+        <project
+            description="jsoup: Java HTML Parser, with best of DOM, CSS, and jquery"
+            license="mit"
+            licenseName="MIT License"
+            repo="jhy/jsoup"
+            title="JSoup"
+            website="https://jsoup.org/" />
+        <project
+            description="An image loading and caching library for Android focused on smooth scrolling"
+            license="other"
+            licenseName="Other"
+            repo="bumptech/glide"
+            title="Glide"
+            website="https://bumptech.github.io/glide/" />
+        <project
+            description="Implementation of ImageView for Android that supports zooming, by various touch gestures."
+            license="apache-2.0"
+            licenseName="Apache License 2.0"
+            repo="chrisbanes/PhotoView"
+            title="Photo View" />
+    </licenses>
+</about>
