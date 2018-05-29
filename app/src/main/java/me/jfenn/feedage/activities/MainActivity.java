@@ -13,7 +13,9 @@ import me.jfenn.attribouter.Attribouter;
 import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.fragments.BaseFragment;
+import me.jfenn.feedage.fragments.BookmarksFragment;
 import me.jfenn.feedage.fragments.CategoriesFragment;
+import me.jfenn.feedage.fragments.FeedsFragment;
 import me.jfenn.feedage.lib.FeedageLib;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
@@ -49,6 +51,33 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        findViewById(R.id.home).setOnClickListener(v -> {
+            if (!(fragment instanceof CategoriesFragment)) {
+                fragment = new CategoriesFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment, fragment)
+                        .commit();
+            }
+        });
+
+        findViewById(R.id.feeds).setOnClickListener(v -> {
+            if (!(fragment instanceof FeedsFragment)) {
+                fragment = new FeedsFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment, fragment)
+                        .commit();
+            }
+        });
+
+        findViewById(R.id.bookmarks).setOnClickListener(v -> {
+            if (!(fragment instanceof BookmarksFragment)) {
+                fragment = new BookmarksFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment, fragment)
+                        .commit();
+            }
+        });
     }
 
     @Override
@@ -80,9 +109,7 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-
-        } else if (item.getItemId() == R.id.action_about)
+        if (item.getItemId() == R.id.action_about)
             Attribouter.from(this).show();
 
         return super.onOptionsItemSelected(item);
