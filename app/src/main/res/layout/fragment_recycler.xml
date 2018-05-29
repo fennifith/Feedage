@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:id="@+id/refresh"
-        android:alpha="0"
+        android:alpha="1"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:layout_gravity="center_horizontal"
