@@ -1,86 +1,67 @@
 package me.jfenn.feedage.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
-import me.jfenn.feedage.adapters.ItemAdapter;
-import me.jfenn.feedage.data.items.CategoryItemData;
-import me.jfenn.feedage.data.items.ItemData;
+import me.jfenn.feedage.fragments.BaseFragment;
+import me.jfenn.feedage.fragments.CategoriesFragment;
 import me.jfenn.feedage.lib.FeedageLib;
-import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
-import me.jfenn.feedage.utils.HackyCacheInterface;
-import me.jfenn.feedage.views.ProgressLineView;
 
-public class MainActivity extends AppCompatActivity implements FeedageLib.OnCategoriesUpdatedListener {
+public class MainActivity extends AppCompatActivity implements FeedageLib.OnCategoriesUpdatedListener, FragmentManager.OnBackStackChangedListener {
 
-    private RecyclerView recycler;
-    private ProgressLineView progress;
+    private Feedage feedage;
+    private BaseFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        feedage = (Feedage) getApplicationContext();
 
-        recycler = findViewById(R.id.recycler);
-        progress = findViewById(R.id.progress);
+        if (savedInstanceState == null) {
+            fragment = new CategoriesFragment();
 
-        recycler.setLayoutManager(new LinearLayoutManager(this));
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment, fragment)
+                    .commit();
+        } else {
+            if (fragment == null)
+                fragment = new CategoriesFragment();
 
-        FeedageLib feedage = new FeedageLib(
-                new HackyCacheInterface(PreferenceManager.getDefaultSharedPreferences(this)),
-                new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1, Color.parseColor("#af1c1c"), Color.WHITE),
-                new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1, Color.parseColor("#01e0bd"), Color.BLACK),
-                new AtomFeedData("https://www.theverge.com/rss/index.xml", Color.parseColor("#e5127d"), Color.WHITE),
-                new AtomFeedData("https://techaeris.com/feed/?paged=%s", 1, Color.parseColor("#212121"), Color.WHITE),
-                new AtomFeedData("https://www.engadget.com/rss.xml", Color.WHITE, Color.BLACK),
-                new AtomFeedData("http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml", Color.WHITE, Color.BLACK),
-                new AtomFeedData("https://www.xda-developers.com/feed/?paged=%s", 1, Color.parseColor("#f59714"), Color.BLACK),
-                new AtomFeedData("https://www.wired.com/feed", Color.parseColor("#BDBDBD"), Color.BLACK)
-        );
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment, fragment)
+                    .commit();
+        }
 
-        feedage.getNext(this);
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        feedage.addListener(this);
     }
 
     @Override
-    public void onFeedsUpdated(final List<FeedData> feeds) {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            int loaded = 0;
-            for (FeedData feed : feeds) {
-                if (!feed.isLoading())
-                    loaded++;
-            }
-
-            progress.update((float) loaded / feeds.size());
-            progress.setVisibility(loaded == feeds.size() ? View.GONE : View.VISIBLE);
-        });
+    protected void onDestroy() {
+        super.onDestroy();
+        feedage.removeListener(this);
     }
 
     @Override
-    public void onCategoriesUpdated(final List<CategoryData> categories) {
-        Log.d("CategoriesLoaded", categories.size() + "");
+    public void onFeedsUpdated(List<FeedData> feeds) {
 
-        new Handler(Looper.getMainLooper()).post(() -> {
-            List<ItemData> items = new ArrayList<>();
-            for (CategoryData category : categories)
-                items.add(new CategoryItemData(category));
+    }
 
-            if (recycler.getAdapter() == null)
-                recycler.setAdapter(new ItemAdapter(items));
-            else recycler.swapAdapter(new ItemAdapter(items), false);
-        });
+    @Override
+    public void onCategoriesUpdated(List<CategoryData> categories) {
+
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        fragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     }
 }
