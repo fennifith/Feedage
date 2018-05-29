@@ -106,7 +106,7 @@ public class PostData {
     }
 
     public String getSourceUrl() {
-        return sourceUrl != null ? sourceUrl : parent.getBasicHomepage();
+        return sourceUrl != null ? sourceUrl : "https://" + parent.getBasicHomepage();
     }
 
     public void setPublishDate(String publishDate) {

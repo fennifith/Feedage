@@ -1,8 +1,14 @@
 package me.jfenn.feedage.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -22,5 +28,19 @@ public class ImageViewActivity extends AppCompatActivity {
         String url = getIntent().getStringExtra(EXTRA_IMAGE_URL);
         if (url != null)
             Glide.with(this).load(url).into(image);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
+        DrawableCompat.setTint(icon, Color.WHITE);
+        toolbar.setNavigationIcon(icon);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }
