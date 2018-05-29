@@ -56,7 +56,7 @@ public class AtomFeedData extends FeedData {
 
             Element imageElement = element.selectFirst(":root > media|content");
             if (imageElement != null)
-                post.setImageUrl(imageElement.text());
+                post.setImageUrl(imageElement.hasAttr("url") ? imageElement.attr("url") : imageElement.text());
 
             Element contentElement = element.selectFirst(":root > content|encoded, :root > content");
             if (contentElement != null)
