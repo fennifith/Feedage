@@ -31,6 +31,9 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
 
     @Override
     public void bind(Context context, ViewHolder viewHolder) {
+        viewHolder.itemView.setAlpha(0);
+        viewHolder.itemView.animate().alpha(1).start();
+
         if (category.getTitle() != null)
             viewHolder.title.setText(StringUtils.toPlainText(category.getTitle()));
         if (category.getDescription().length() > 0) {

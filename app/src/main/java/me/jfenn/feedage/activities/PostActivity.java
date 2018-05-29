@@ -14,7 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,7 @@ public class PostActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView authors;
     private TextView content;
+    private ImageView image;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,8 +53,14 @@ public class PostActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         authors = findViewById(R.id.authors);
         content = findViewById(R.id.content);
+        image = findViewById(R.id.image);
 
         toolbar.setTitle(post.getTitle());
+
+        if (post.getImageUrl() != null) {
+            image.setVisibility(View.VISIBLE);
+            Glide.with(this).load(post.getImageUrl()).into(image);
+        } else image.setVisibility(View.GONE);
 
         String html = post.getHTML();
         content.setText(html != null ? Html.fromHtml(html) : null);
