@@ -61,7 +61,7 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
         for (CategoryData category : categories)
             items.add(new CategoryItemData(category));
 
-        if (recycler.getAdapter() != null) {
+        if (recycler.getAdapter() != null && recycler.getAdapter().getItemCount() > 0) {
             if (shouldSwap) {
                 shouldSwap = false;
                 recycler.swapAdapter(new ItemAdapter(items), true);

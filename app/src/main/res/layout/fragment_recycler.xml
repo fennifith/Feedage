@@ -15,7 +15,6 @@
     <LinearLayout
         android:id="@+id/refresh"
         android:alpha="0"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:layout_gravity="center_horizontal"
@@ -31,14 +30,15 @@
             android:scaleType="centerInside"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            app:srcCompat="@drawable/ic_refresh" />
+            app:srcCompat="@drawable/ic_refresh"
+            android:tint="#FFF" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:textColor="?android:textColorPrimary"
+            android:textColor="#FFF"
             android:textStyle="bold"
             android:text="Show More..." />
 
