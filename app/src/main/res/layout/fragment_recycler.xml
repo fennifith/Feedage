@@ -20,7 +20,7 @@
         android:layout_margin="16dp"
         android:alpha="0"
         android:background="@drawable/bg_refresh"
-        android:elevation="6dp"
+        android:elevation="2dp"
         android:gravity="center"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">

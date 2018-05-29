@@ -27,39 +27,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
+        android:elevation="8dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <me.jfenn.feedage.views.TintedImageView
             android:id="@+id/home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="centerInside"
-            android:tint="#FFF"
+            android:tint="@color/colorAccent"
             app:srcCompat="@drawable/ic_home" />
 
-        <ImageView
+        <me.jfenn.feedage.views.TintedImageView
             android:id="@+id/feeds"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="centerInside"
-            android:tint="#FFF"
             app:srcCompat="@drawable/ic_rss_feed" />
 
-        <ImageView
+        <me.jfenn.feedage.views.TintedImageView
             android:id="@+id/bookmarks"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="centerInside"
-            android:tint="#FFF"
             app:srcCompat="@drawable/ic_bookmark" />
 
     </LinearLayout>

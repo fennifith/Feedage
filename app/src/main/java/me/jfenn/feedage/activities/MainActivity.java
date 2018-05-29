@@ -1,7 +1,9 @@
 package me.jfenn.feedage.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,11 +21,16 @@ import me.jfenn.feedage.fragments.FeedsFragment;
 import me.jfenn.feedage.lib.FeedageLib;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
+import me.jfenn.feedage.views.TintedImageView;
 
 public class MainActivity extends AppCompatActivity implements FeedageLib.OnCategoriesUpdatedListener, FragmentManager.OnBackStackChangedListener {
 
     private Feedage feedage;
     private BaseFragment fragment;
+
+    private TintedImageView home;
+    private TintedImageView feeds;
+    private TintedImageView bookmarks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,32 +57,51 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
         feedage.addListener(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        home = findViewById(R.id.home);
+        feeds = findViewById(R.id.feeds);
+        bookmarks = findViewById(R.id.bookmarks);
+
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.home).setOnClickListener(v -> {
+        home.setTint(ContextCompat.getColor(this, R.color.colorAccent));
+        home.setOnClickListener(v -> {
             if (!(fragment instanceof CategoriesFragment)) {
                 fragment = new CategoriesFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment, fragment)
                         .commit();
+
+                home.tint(ContextCompat.getColor(this, R.color.colorAccent));
+                feeds.tint(Color.BLACK);
+                bookmarks.tint(Color.BLACK);
             }
         });
 
-        findViewById(R.id.feeds).setOnClickListener(v -> {
+        feeds.setTint(Color.BLACK);
+        feeds.setOnClickListener(v -> {
             if (!(fragment instanceof FeedsFragment)) {
                 fragment = new FeedsFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment, fragment)
                         .commit();
+
+                home.tint(Color.BLACK);
+                feeds.tint(ContextCompat.getColor(this, R.color.colorAccent));
+                bookmarks.tint(Color.BLACK);
             }
         });
 
-        findViewById(R.id.bookmarks).setOnClickListener(v -> {
+        bookmarks.setTint(Color.BLACK);
+        bookmarks.setOnClickListener(v -> {
             if (!(fragment instanceof BookmarksFragment)) {
                 fragment = new BookmarksFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment, fragment)
                         .commit();
+
+                home.tint(Color.BLACK);
+                feeds.tint(Color.BLACK);
+                bookmarks.tint(ContextCompat.getColor(this, R.color.colorAccent));
             }
         });
     }
