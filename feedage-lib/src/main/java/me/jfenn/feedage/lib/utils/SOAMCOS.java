@@ -153,9 +153,13 @@ public class SOAMCOS { //stands for "Sort Of A Markov Chain Or Something" becaus
         public boolean equals(Object o) {
             if (o instanceof WordAverage) {
                 WordAverage average = (WordAverage) o;
-                return firstWord != null && firstWord.length() > 0 && firstWord.equals(average.firstWord)
-                        && lastWord != null && lastWord.length() > 0 && lastWord.equals(average.lastWord);
+                return compareString(firstWord, average.firstWord) && compareString(lastWord, average.lastWord);
             } else return super.equals(o);
+        }
+
+        @Override
+        public int compareTo(WordAverage wordAverage) {
+            return count - wordAverage.count;
         }
 
         private static String toPlainText(String word) {
@@ -170,9 +174,16 @@ public class SOAMCOS { //stands for "Sort Of A Markov Chain Or Something" becaus
             return word.replaceAll("<.*?>", "");
         }
 
-        @Override
-        public int compareTo(WordAverage wordAverage) {
-            return count - wordAverage.count;
+        private static boolean compareString(String s1, String s2) {
+            if (s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0)
+                return false;
+            else if (s1.length() == s2.length())
+                return s1.equals(s2);
+            else {
+                if (s1.length() > s2.length())
+                    return s2.indexOf(s1) == 0;
+                else return s2.indexOf(s1) == 0;
+            }
         }
     }
 

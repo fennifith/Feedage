@@ -19,8 +19,8 @@ public class CategoryData implements Comparable<CategoryData> {
     }
 
     public String getTitle() {
-        SOAMCOS.WordAverage average = averages.get(0);
-        if (average != null) {
+        if (averages.size() > 0) {
+            SOAMCOS.WordAverage average = averages.get(0);
             return String.valueOf(average.getFirstWord().charAt(0)).toUpperCase()
                     + average.getFirstWord().substring(1) + " "
                     + String.valueOf(average.getLastWord().charAt(0)).toUpperCase()
