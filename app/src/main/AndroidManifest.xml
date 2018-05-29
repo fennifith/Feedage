@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.PostActivity" />
-        <activity android:name=".activities.ImageViewActivity" />
+        <activity
+            android:name=".activities.ImageViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

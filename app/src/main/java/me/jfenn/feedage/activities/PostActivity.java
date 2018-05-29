@@ -94,8 +94,10 @@ public class PostActivity extends AppCompatActivity {
         content.setLinkTextColor(textColor);
         content.setHintTextColor(textColor);
         toolbar.setTitleTextColor(textColor);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(darkBackgroundColor);
+            getWindow().setNavigationBarColor(darkBackgroundColor);
+        }
 
         Drawable drawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
         DrawableCompat.setTint(drawable, textColor);
