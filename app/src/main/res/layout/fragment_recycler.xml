@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="12dp"
+        android:clipToPadding="false"
         android:paddingBottom="12dp"
-        android:clipToPadding="false" />
+        android:paddingTop="12dp" />
 
     <LinearLayout
         android:id="@+id/refresh"
-        android:alpha="1"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:alpha="1"
         android:background="@drawable/bg_refresh"
-        android:gravity="center">
+        android:elevation="4dp"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:scaleType="centerInside"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            app:srcCompat="@drawable/ic_refresh"
-            android:tint="#FFF" />
+            android:scaleType="centerInside"
+            android:tint="#FFF"
+            app:srcCompat="@drawable/ic_refresh" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
+            android:text="Show More..."
             android:textColor="#FFF"
-            android:textStyle="bold"
-            android:text="Show More..." />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
