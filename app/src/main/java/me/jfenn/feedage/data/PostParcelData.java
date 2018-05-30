@@ -1,5 +1,7 @@
 package me.jfenn.feedage.data;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -36,6 +38,58 @@ public class PostParcelData implements Parcelable {
             author.setImageUrl(in.readString());
             post.addAuthor(author);
         }
+    }
+
+    public PostParcelData(SharedPreferences prefs, String name) {
+        FeedData feed = new AtomFeedData(
+                prefs.getString(name + "-parent-url", null),
+                prefs.getInt(name + "-parent-color", Color.WHITE),
+                prefs.getInt(name + "-parent-text", Color.BLACK)
+        );
+
+        post = new PostData(feed);
+        post.setTitle(prefs.getString(name + "-title", null));
+        post.setDescription(prefs.getString(name + "-description", null));
+        post.setContent(prefs.getString(name + "-content", null));
+        post.setImageUrl(prefs.getString(name + "-image", null));
+        post.setSourceUrl(prefs.getString(name + "-source", null));
+
+        int tags = prefs.getInt(name + "-tags-length", 0);
+        for (int i = 0; i < tags; i++)
+            post.addTag(prefs.getString(name + "-tags-" + i, null));
+
+        int authors = prefs.getInt(name + "-authors-length", 0);
+        for (int i = 0; i < authors; i++) {
+            AuthorData author = new AuthorData(prefs.getString(name + "-authors-" + i + "-name", null));
+            author.setHomepage(prefs.getString(name + "-authors-" + i + "-homepage", null));
+            author.setImageUrl(prefs.getString(name + "-authors-" + i + "-image", null));
+            post.addAuthor(author);
+        }
+    }
+
+    public SharedPreferences.Editor putPreference(SharedPreferences.Editor editor, String name) {
+        editor = editor.putString(name + "-parent-url", post.getParent().getUrl())
+                .putInt(name + "-parent-background", post.getParent().getBackgroundColor())
+                .putInt(name + "-parent-text", post.getParent().getTextColor())
+                .putString(name + "-title", post.getTitle())
+                .putString(name + "-description", post.getDescription())
+                .putString(name + "-content", post.getContent())
+                .putString(name + "-image", post.getImageUrl())
+                .putString(name + "-source", post.getSourceUrl())
+                .putInt(name + "-tags-length", post.getTags().size())
+                .putInt(name + "-authors-length", post.getAuthors().size());
+
+        for (int i = 0; i < post.getTags().size(); i++)
+            editor = editor.putString(name + "-tags-" + i, post.getTags().get(i));
+
+        for (int i = 0; i < post.getAuthors().size(); i++) {
+            AuthorData author = post.getAuthors().get(i);
+            editor = editor.putString(name + "-authors-" + i + "-name", author.getName())
+                    .putString(name + "-authors-" + i + "-homepage", author.getHomepage())
+                    .putString(name + "-authors-" + i + "-image", author.getImageUrl());
+        }
+
+        return editor;
     }
 
     public PostData getPost() {

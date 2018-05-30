@@ -33,6 +33,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
 import me.jfenn.feedage.data.PostParcelData;
@@ -53,11 +54,13 @@ public class PostActivity extends AppCompatActivity {
 
     private PostData post;
     private FeedData parent;
+    private Feedage feedage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        feedage = (Feedage) getApplicationContext();
 
         PostParcelData parcel = getIntent().getParcelableExtra(EXTRA_POST_PARCEL);
         post = parcel.getPost();
@@ -125,6 +128,7 @@ public class PostActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_post, menu);
+        menu.findItem(R.id.bookmark).setIcon(feedage.isBookmarked(post) ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -132,9 +136,11 @@ public class PostActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
-        else if (item.getItemId() == R.id.bookmark)
-            ;
-        else if (item.getItemId() == R.id.open)
+        else if (item.getItemId() == R.id.bookmark) {
+            boolean isBookmarked = !feedage.isBookmarked(post);
+            feedage.setBookmarked(post, isBookmarked);
+            item.setIcon(isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
+        } else if (item.getItemId() == R.id.open)
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(post.getSourceUrl())));
         else if (item.getItemId() == R.id.share) {
             Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse(post.getSourceUrl()));

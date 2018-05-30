@@ -1,6 +1,7 @@
 package me.jfenn.feedage;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,7 +15,9 @@ import me.jfenn.feedage.lib.FeedageLib;
 import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
+import me.jfenn.feedage.lib.data.PostData;
 import me.jfenn.feedage.utils.HackyCacheInterface;
+import me.jfenn.feedage.utils.PreferenceUtils;
 
 public class Feedage extends Application implements FeedageLib.OnCategoriesUpdatedListener {
 
@@ -24,15 +27,20 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
 
     private List<FeedData> feeds;
     private List<CategoryData> categories;
+    private List<PostData> bookmarks;
 
+    private SharedPreferences prefs;
     private boolean isLoading;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         listeners = new ArrayList<>();
         feeds = new ArrayList<>();
         categories = new ArrayList<>();
+        bookmarks = PreferenceUtils.getPostList(prefs, "bookmarks");
 
         feeds.addAll(Arrays.asList(
                 new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1, Color.parseColor("#af1c1c"), Color.WHITE),
@@ -46,7 +54,7 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
         ));
 
         feedage = new FeedageLib(
-                new HackyCacheInterface(PreferenceManager.getDefaultSharedPreferences(this)),
+                new HackyCacheInterface(prefs),
                 feeds.toArray(new FeedData[feeds.size()])
         );
 
@@ -76,6 +84,22 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
 
     public List<CategoryData> getCategories() {
         return categories;
+    }
+
+    public List<PostData> getBookmarks() {
+        return bookmarks;
+    }
+
+    public void setBookmarked(PostData post, boolean isBookmarked) {
+        if (isBookmarked)
+            bookmarks.add(post);
+        else bookmarks.remove(post);
+
+        PreferenceUtils.putPostList(prefs.edit(), "bookmarks", bookmarks).apply();
+    }
+
+    public boolean isBookmarked(PostData post) {
+        return bookmarks.contains(post);
     }
 
     public boolean isLoading() {
