@@ -10,7 +10,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,9 +74,18 @@ public class PostActivity extends AppCompatActivity {
             image.setVisibility(View.VISIBLE);
             Glide.with(this).load(post.getImageUrl()).into(image);
             image.setOnClickListener(v -> {
+                ActivityOptionsCompat options;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    options = ActivityOptionsCompat.makeSceneTransitionAnimation(PostActivity.this,
+                            new Pair<>(image, ViewCompat.getTransitionName(image)));
+                } else {
+                    options = ActivityOptionsCompat.makeClipRevealAnimation(image, (int) image.getX(),
+                            (int) image.getY(), image.getWidth(), image.getHeight());
+                }
+
                 Intent intent = new Intent(v.getContext(), ImageViewActivity.class);
                 intent.putExtra(ImageViewActivity.EXTRA_IMAGE_URL, post.getImageUrl());
-                v.getContext().startActivity(intent);
+                v.getContext().startActivity(intent, options.toBundle());
             });
         } else image.setVisibility(View.GONE);
 

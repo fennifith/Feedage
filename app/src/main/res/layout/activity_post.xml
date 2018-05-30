@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:transitionName="background"
-    xmlns:tools="http://schemas.android.com/tools"
     android:scrollbars="vertical">
 
     <LinearLayout
@@ -15,27 +14,26 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:transitionName="title"
             android:layout_height="wrap_content"
+            android:transitionName="toolbar"
             app:title="@string/app_name" />
 
         <me.jfenn.feedage.views.RatioImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:transitionName="image"
             android:layout_height="wrap_content"
+            android:background="#30000000"
             android:scaleType="centerCrop"
-            android:background="#30000000" />
+            android:transitionName="image" />
 
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
             android:padding="16dp"
             android:textColor="?android:textColorPrimary"
-            android:transitionName="content"
             android:textSize="14sp"
-            android:lineSpacingMultiplier="1.2"
             tools:text="Content content content content content content content content content content content content content content content content content." />
 
         <android.support.v7.widget.RecyclerView

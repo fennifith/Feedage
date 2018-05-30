@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,16 +65,10 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
         viewHolder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), PostActivity.class);
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    activity,
-                    new Pair<>(viewHolder.image, ViewCompat.getTransitionName(viewHolder.image)),
-                    new Pair<>(viewHolder.title, ViewCompat.getTransitionName(viewHolder.title)),
-                    new Pair<>(viewHolder.subtitle, ViewCompat.getTransitionName(viewHolder.subtitle)),
-                    new Pair<>(viewHolder.background, ViewCompat.getTransitionName(viewHolder.background))
-            );
-
             intent.putExtra(PostActivity.EXTRA_POST_PARCEL, new PostParcelData(post));
-            v.getContext().startActivity(intent, options.toBundle());
+
+            v.getContext().startActivity(intent, ActivityOptionsCompat.makeClipRevealAnimation(viewHolder.background, (int) viewHolder.background.getX(),
+                    (int) viewHolder.background.getY(), viewHolder.background.getWidth(), viewHolder.background.getHeight()).toBundle());
         });
     }
 
