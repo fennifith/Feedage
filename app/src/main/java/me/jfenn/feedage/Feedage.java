@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.jfenn.feedage.lib.FeedageLib;
@@ -33,8 +34,7 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
         feeds = new ArrayList<>();
         categories = new ArrayList<>();
 
-        feedage = new FeedageLib(
-                new HackyCacheInterface(PreferenceManager.getDefaultSharedPreferences(this)),
+        feeds.addAll(Arrays.asList(
                 new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1, Color.parseColor("#af1c1c"), Color.WHITE),
                 new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1, Color.parseColor("#01e0bd"), Color.BLACK),
                 new AtomFeedData("https://www.theverge.com/rss/index.xml", Color.parseColor("#e5127d"), Color.WHITE),
@@ -43,6 +43,11 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
                 new AtomFeedData("http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml", Color.WHITE, Color.BLACK),
                 new AtomFeedData("https://www.xda-developers.com/feed/?paged=%s", 1, Color.parseColor("#f59714"), Color.BLACK),
                 new AtomFeedData("https://www.wired.com/feed", Color.parseColor("#BDBDBD"), Color.BLACK)
+        ));
+
+        feedage = new FeedageLib(
+                new HackyCacheInterface(PreferenceManager.getDefaultSharedPreferences(this)),
+                feeds.toArray(new FeedData[feeds.size()])
         );
 
         getNext();
@@ -84,15 +89,7 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
             for (FeedageLib.OnCategoriesUpdatedListener listener : listeners)
                 listener.onFeedsUpdated(feeds);
 
-            int loaded = 0;
-            for (FeedData feed : feeds) {
-                if (!feed.isLoading())
-                    loaded++;
-            }
-
-            isLoading = loaded == feeds.size();
-            if (progressListener != null)
-                progressListener.onProgressUpdate(isLoading, (float) loaded / feeds.size());
+            onProgressUpdate(feeds);
         });
     }
 
@@ -102,7 +99,21 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
         new Handler(Looper.getMainLooper()).post(() -> {
             for (FeedageLib.OnCategoriesUpdatedListener listener : listeners)
                 listener.onCategoriesUpdated(categories);
+
+            onProgressUpdate(feeds);
         });
+    }
+
+    private void onProgressUpdate(List<FeedData> feeds) {
+        int loaded = 0;
+        for (FeedData feed : feeds) {
+            if (!feed.isLoading())
+                loaded++;
+        }
+
+        isLoading = loaded == feeds.size();
+        if (progressListener != null)
+            progressListener.onProgressUpdate(isLoading, (float) loaded / feeds.size());
     }
 
     public interface OnProgressUpdateListener {

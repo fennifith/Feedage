@@ -37,12 +37,16 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
     public void onFeedLoaded(FeedData feed, boolean shouldReorganize) {
         List<FeedData> feeds = Arrays.asList(this.feeds);
         if (listener != null) {
+            listener.onFeedsUpdated(new ArrayList<>(feeds));
             if (shouldReorganize || !hasOrganized) {
                 listener.onCategoriesUpdated(CategoryData.getCategories(feeds));
                 hasOrganized = true;
             }
-            listener.onFeedsUpdated(new ArrayList<>(feeds));
         }
+    }
+
+    public FeedData[] getFeeds() {
+        return feeds;
     }
 
     public interface OnCategoriesUpdatedListener {

@@ -21,16 +21,21 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
     private CategoryData category;
     private String title;
     private String subtitle;
-    private Activity activity;
+    private ItemAdapter adapter;
 
     public CategoryItemData(CategoryData category, Activity activity) {
         super(R.layout.item_category);
         this.category = category;
+
         title = StringUtils.toPlainText(category.getTitle());
         if (category.getDescription().length() > 0)
             subtitle = category.getDescriptionSentence();
 
-        this.activity = activity;
+        List<ItemData> posts = new ArrayList<>();
+        for (PostData post : category.getPosts())
+            posts.add(new PostItemData(post, activity));
+
+        adapter = new ItemAdapter(posts);
     }
 
     @Override
@@ -52,12 +57,7 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
 
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-
-            List<ItemData> posts = new ArrayList<>();
-            for (PostData post : category.getPosts())
-                posts.add(new PostItemData(post, activity));
-
-            viewHolder.recycler.setAdapter(new ItemAdapter(posts));
+            viewHolder.recycler.setAdapter(adapter);
         }
     }
 
