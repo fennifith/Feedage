@@ -1,5 +1,6 @@
 package me.jfenn.feedage.data.items;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +21,14 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
     private FeedData feed;
     private String title;
     private String subtitle;
+    private Activity activity;
 
-    public FeedItemData(FeedData feed) {
+    public FeedItemData(FeedData feed, Activity activity) {
         super(R.layout.item_category);
         this.feed = feed;
         title = StringUtils.toPlainText(feed.getName());
         subtitle = StringUtils.toPlainText(feed.getBasicHomepage());
+        this.activity = activity;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
 
             List<ItemData> posts = new ArrayList<>();
             for (PostData post : feed.getPosts())
-                posts.add(new PostItemData(post));
+                posts.add(new PostItemData(post, activity));
 
             viewHolder.recycler.setAdapter(new ItemAdapter(posts));
         }

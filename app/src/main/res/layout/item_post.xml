@@ -14,6 +14,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:transitionName="background"
             android:id="@+id/background">
 
             <LinearLayout
@@ -26,7 +27,8 @@
                     android:layout_width="match_parent"
                     android:background="#30000000"
                     android:scaleType="centerCrop"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:transitionName="image" />
 
                 <TextView
                     android:id="@+id/title"
@@ -34,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="16dp"
+                    android:transitionName="title"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:ellipsize="end"
@@ -50,6 +53,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:textColor="?android:textColorSecondary"
+                    android:transitionName="content"
                     android:layout_marginRight="16dp"
                     android:ellipsize="end"
                     android:maxLines="3"

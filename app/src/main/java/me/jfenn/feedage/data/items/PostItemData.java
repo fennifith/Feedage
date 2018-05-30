@@ -1,8 +1,12 @@
 package me.jfenn.feedage.data.items;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,17 +22,19 @@ import me.jfenn.feedage.utils.StringUtils;
 
 public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
+    private Activity activity;
     private PostData post;
     private String title;
     private String subtitle;
     private String imageUrl;
 
-    public PostItemData(PostData post) {
+    public PostItemData(PostData post, Activity activity) {
         super(R.layout.item_post);
         this.post = post;
         title = StringUtils.toPlainText(post.getTitle());
         subtitle = StringUtils.toPlainText(post.getDescriptionText());
         imageUrl = post.getImageUrl();
+        this.activity = activity;
     }
 
     @Override
@@ -61,8 +67,16 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
         viewHolder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), PostActivity.class);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    activity,
+                    new Pair<>(viewHolder.image, ViewCompat.getTransitionName(viewHolder.image)),
+                    new Pair<>(viewHolder.title, ViewCompat.getTransitionName(viewHolder.title)),
+                    new Pair<>(viewHolder.subtitle, ViewCompat.getTransitionName(viewHolder.subtitle)),
+                    new Pair<>(viewHolder.background, ViewCompat.getTransitionName(viewHolder.background))
+            );
+
             intent.putExtra(PostActivity.EXTRA_POST_PARCEL, new PostParcelData(post));
-            v.getContext().startActivity(intent);
+            v.getContext().startActivity(intent, options.toBundle());
         });
     }
 
