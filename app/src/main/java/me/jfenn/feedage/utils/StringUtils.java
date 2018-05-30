@@ -3,7 +3,7 @@ package me.jfenn.feedage.utils;
 public class StringUtils {
 
     public static String toPlainText(String html) {
-        return html.replaceAll("<.*?>", "");
+        return html != null ? html.replaceAll("<.*?>", "") : null;
     }
 
 }
