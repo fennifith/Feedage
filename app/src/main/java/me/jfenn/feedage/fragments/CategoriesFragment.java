@@ -1,5 +1,6 @@
 package me.jfenn.feedage.fragments;
 
+import android.animation.Animator;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
     private RecyclerView recycler;
     private View refresh;
     private ImageView loading;
-    private boolean shouldSwap;
+    private boolean shouldSwap, isRefresh, isAnimating;
 
     private AnimatedVectorDrawableCompat loadingDrawable;
 
@@ -42,6 +44,38 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
         loading = v.findViewById(R.id.loading);
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (isRefresh && !isAnimating) {
+                    isAnimating = true;
+                    ViewPropertyAnimator animator = refresh.animate().alpha(dy > 0 ? 0 : 1);
+                    animator.setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            isAnimating = false;
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                            isAnimating = false;
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    });
+                    animator.start();
+
+                    refresh.setClickable(dy <= 0);
+                }
+            }
+        });
+
         onCategoriesUpdated(getFeedage().getCategories());
 
         loadingDrawable = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.ic_anim_feed_loading);
@@ -90,12 +124,14 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
                 recycler.swapAdapter(new ItemAdapter(items), true);
                 refresh.setOnClickListener(null);
                 refresh.animate().alpha(0).start();
+                isRefresh = false;
             } else {
                 refresh.setOnClickListener(v -> {
                     shouldSwap = true;
                     onCategoriesUpdated(categories);
                 });
                 refresh.animate().alpha(1).start();
+                isRefresh = true;
             }
         } else recycler.setAdapter(new ItemAdapter(items));
     }
