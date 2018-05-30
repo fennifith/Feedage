@@ -1,17 +1,13 @@
 package me.jfenn.feedage.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +45,8 @@ public class PostActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView authors;
+    private TextView title;
+    private TextView source;
     private TextView content;
     private ImageView image;
 
@@ -68,6 +66,8 @@ public class PostActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         authors = findViewById(R.id.authors);
+        title = findViewById(R.id.title);
+        source = findViewById(R.id.source);
         content = findViewById(R.id.content);
         image = findViewById(R.id.image);
 
@@ -92,6 +92,11 @@ public class PostActivity extends AppCompatActivity {
             });
         } else image.setVisibility(View.GONE);
 
+        title.setText(post.getTitle());
+        source.setText("From " + post.getParent().getBasicHomepage());
+        source.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://" + post.getParent().getBasicHomepage()))));
+
         String html = post.getHTML();
         content.setMovementMethod(new LinkMovementMethod());
         new HtmlParserThread(html, html1 -> content.setText(html1)).start();
@@ -103,25 +108,7 @@ public class PostActivity extends AppCompatActivity {
         authors.setLayoutManager(new LinearLayoutManager(this));
         authors.setAdapter(new ItemAdapter(items));
 
-        int backgroundColor = parent.getBackgroundColor(),
-                darkBackgroundColor = Color.rgb(Math.max(0, Color.red(backgroundColor) - 30), Math.max(0, Color.green(backgroundColor) - 30), Math.max(0, Color.blue(backgroundColor) - 30)),
-                textColor = parent.getTextColor(),
-                secondaryTextColor = Color.argb(150, Color.red(textColor), Color.green(textColor), Color.blue(textColor));
-
-        findViewById(android.R.id.content).setBackgroundColor(backgroundColor);
-        content.setTextColor(secondaryTextColor);
-        content.setLinkTextColor(textColor);
-        content.setHintTextColor(textColor);
-        toolbar.setTitleTextColor(textColor);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(darkBackgroundColor);
-            getWindow().setNavigationBarColor(darkBackgroundColor);
-        }
-
-        Drawable drawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
-        DrawableCompat.setTint(drawable, textColor);
-        toolbar.setNavigationIcon(drawable);
-
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
     }
 
