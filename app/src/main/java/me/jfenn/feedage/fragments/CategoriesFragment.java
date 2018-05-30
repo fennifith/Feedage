@@ -44,7 +44,7 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         onCategoriesUpdated(getFeedage().getCategories());
 
-        loadingDrawable = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.ic_feed_loading);
+        loadingDrawable = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.ic_anim_feed_loading);
         loading.setImageDrawable(loadingDrawable);
 
         loadingDrawable.registerAnimationCallback(new Animatable2Compat.AnimationCallback() {

@@ -44,7 +44,7 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         onFeedsUpdated(getFeedage().getFeeds());
 
-        loadingDrawable = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.ic_feed_loading);
+        loadingDrawable = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.ic_anim_feed_loading);
         loading.setImageDrawable(loadingDrawable);
 
         loadingDrawable.registerAnimationCallback(new Animatable2Compat.AnimationCallback() {
