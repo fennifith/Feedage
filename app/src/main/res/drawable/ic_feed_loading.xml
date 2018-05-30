@@ -32,7 +32,7 @@
             <set>
                 <objectAnimator
                     android:propertyName="trimPathOffset"
-                    android:duration="1500"
+                    android:duration="2000"
                     android:valueFrom="1"
                     android:valueTo="0"
                     android:valueType="floatType"
@@ -61,7 +61,7 @@
                 <objectAnimator
                     android:propertyName="fillAlpha"
                     android:startOffset="1250"
-                    android:duration="250"
+                    android:duration="500"
                     android:valueFrom="0"
                     android:valueTo="1"
                     android:valueType="floatType"
@@ -76,8 +76,8 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="trimPathStart"
-                    android:startOffset="1000"
-                    android:duration="250"
+                    android:startOffset="750"
+                    android:duration="500"
                     android:valueFrom="0.5"
                     android:valueTo="0"
                     android:valueType="floatType"
@@ -90,7 +90,7 @@
             <set>
                 <objectAnimator
                     android:propertyName="trimPathOffset"
-                    android:duration="1500"
+                    android:duration="2000"
                     android:valueFrom="1"
                     android:valueTo="0"
                     android:valueType="floatType"
@@ -119,7 +119,7 @@
                 <objectAnimator
                     android:propertyName="fillAlpha"
                     android:startOffset="1250"
-                    android:duration="250"
+                    android:duration="500"
                     android:valueFrom="0"
                     android:valueTo="1"
                     android:valueType="floatType"
@@ -134,8 +134,8 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="trimPathStart"
-                    android:startOffset="1000"
-                    android:duration="250"
+                    android:startOffset="750"
+                    android:duration="500"
                     android:valueFrom="0.5"
                     android:valueTo="0"
                     android:valueType="floatType"
