@@ -19,10 +19,16 @@ import me.jfenn.feedage.utils.StringUtils;
 public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
     private PostData post;
+    private String title;
+    private String subtitle;
+    private String imageUrl;
 
     public PostItemData(PostData post) {
         super(R.layout.item_post);
         this.post = post;
+        title = StringUtils.toPlainText(post.getTitle());
+        subtitle = StringUtils.toPlainText(post.getDescriptionText());
+        imageUrl = post.getImageUrl();
     }
 
     @Override
@@ -34,13 +40,13 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
     public void bind(Context context, ViewHolder viewHolder) {
         FeedData parent = post.getParent();
 
-        if (post.getTitle() != null)
-            viewHolder.title.setText(StringUtils.toPlainText(post.getTitle()));
-        if (post.getDescriptionText() != null)
-            viewHolder.subtitle.setText(StringUtils.toPlainText(post.getDescriptionText()));
-        if (post.getImageUrl() != null) {
+        if (title != null)
+            viewHolder.title.setText(title);
+        if (subtitle != null)
+            viewHolder.subtitle.setText(subtitle);
+        if (imageUrl != null) {
             viewHolder.image.setVisibility(View.VISIBLE);
-            Glide.with(context).load(post.getImageUrl()).into(viewHolder.image);
+            Glide.with(context).load(imageUrl).into(viewHolder.image);
         } else viewHolder.image.setVisibility(View.GONE);
         viewHolder.website.setText(parent.getBasicHomepage());
 

@@ -18,10 +18,15 @@ import me.jfenn.feedage.utils.StringUtils;
 public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
 
     private CategoryData category;
+    private String title;
+    private String subtitle;
 
     public CategoryItemData(CategoryData category) {
         super(R.layout.item_category);
         this.category = category;
+        title = StringUtils.toPlainText(category.getTitle());
+        if (category.getDescription().length() > 0)
+            subtitle = category.getDescriptionSentence();
     }
 
     @Override
@@ -35,10 +40,10 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
         viewHolder.itemView.animate().alpha(1).start();
 
         if (category.getTitle() != null)
-            viewHolder.title.setText(StringUtils.toPlainText(category.getTitle()));
+            viewHolder.title.setText(title);
         if (category.getDescription().length() > 0) {
             viewHolder.subtitle.setVisibility(View.VISIBLE);
-            viewHolder.subtitle.setText(category.getDescriptionSentence());
+            viewHolder.subtitle.setText(subtitle);
         } else viewHolder.subtitle.setVisibility(View.GONE);
 
         if (viewHolder.recycler != null) {

@@ -18,10 +18,14 @@ import me.jfenn.feedage.utils.StringUtils;
 public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
 
     private FeedData feed;
+    private String title;
+    private String subtitle;
 
     public FeedItemData(FeedData feed) {
         super(R.layout.item_category);
         this.feed = feed;
+        title = StringUtils.toPlainText(feed.getName());
+        subtitle = StringUtils.toPlainText(feed.getBasicHomepage());
     }
 
     @Override
@@ -34,10 +38,10 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
         viewHolder.itemView.setAlpha(0);
         viewHolder.itemView.animate().alpha(1).start();
 
-        if (feed.getName() != null)
-            viewHolder.title.setText(StringUtils.toPlainText(feed.getName()));
-        if (feed.getHomepage() != null)
-            viewHolder.subtitle.setText(StringUtils.toPlainText(feed.getBasicHomepage()));
+        if (title != null)
+            viewHolder.title.setText(title);
+        if (subtitle != null)
+            viewHolder.subtitle.setText(subtitle);
 
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));

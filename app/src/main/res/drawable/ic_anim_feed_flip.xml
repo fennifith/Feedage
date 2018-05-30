@@ -46,7 +46,7 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="strokeWidth"
-                    android:startOffset="600"
+                    android:startOffset="400"
                     android:duration="200"
                     android:valueFrom="1"
                     android:valueTo="0"
@@ -54,7 +54,7 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="fillAlpha"
-                    android:startOffset="600"
+                    android:startOffset="400"
                     android:duration="200"
                     android:valueFrom="0"
                     android:valueTo="1"
@@ -82,7 +82,7 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="strokeWidth"
-                    android:startOffset="600"
+                    android:startOffset="400"
                     android:duration="200"
                     android:valueFrom="1"
                     android:valueTo="0"
@@ -90,7 +90,7 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="fillAlpha"
-                    android:startOffset="600"
+                    android:startOffset="400"
                     android:duration="200"
                     android:valueFrom="0"
                     android:valueTo="1"
@@ -118,7 +118,7 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="strokeWidth"
-                    android:startOffset="600"
+                    android:startOffset="400"
                     android:duration="200"
                     android:valueFrom="1"
                     android:valueTo="0"
@@ -126,7 +126,7 @@
                     android:interpolator="@android:interpolator/fast_out_slow_in" />
                 <objectAnimator
                     android:propertyName="fillAlpha"
-                    android:startOffset="600"
+                    android:startOffset="400"
                     android:duration="200"
                     android:valueFrom="0"
                     android:valueTo="1"
