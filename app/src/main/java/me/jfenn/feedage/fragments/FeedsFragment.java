@@ -50,7 +50,7 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
         loadingDrawable.registerAnimationCallback(new Animatable2Compat.AnimationCallback() {
             @Override
             public void onAnimationEnd(Drawable drawable) {
-                loadingDrawable.start();
+                loading.post(() -> loadingDrawable.start());
             }
         });
         loadingDrawable.start();
