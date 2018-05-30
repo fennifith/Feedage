@@ -2,6 +2,7 @@ package me.jfenn.feedage.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -75,6 +76,12 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
                 feeds.tint(Color.BLACK);
                 bookmarks.tint(Color.BLACK);
             }
+
+            AnimatedVectorDrawableCompat animatedVector = AnimatedVectorDrawableCompat.create(v.getContext(), R.drawable.ic_anim_home_flip);
+            if (animatedVector != null) {
+                home.setImageDrawable(animatedVector);
+                animatedVector.start();
+            }
         });
 
         feeds.setTint(Color.BLACK);
@@ -89,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
                 feeds.tint(ContextCompat.getColor(this, R.color.colorAccent));
                 bookmarks.tint(Color.BLACK);
             }
+
+            AnimatedVectorDrawableCompat animatedVector = AnimatedVectorDrawableCompat.create(v.getContext(), R.drawable.ic_anim_feed_flip);
+            if (animatedVector != null) {
+                feeds.setImageDrawable(animatedVector);
+                animatedVector.start();
+            }
         });
 
         bookmarks.setTint(Color.BLACK);
@@ -102,6 +115,12 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
                 home.tint(Color.BLACK);
                 feeds.tint(Color.BLACK);
                 bookmarks.tint(ContextCompat.getColor(this, R.color.colorAccent));
+            }
+
+            AnimatedVectorDrawableCompat animatedVector = AnimatedVectorDrawableCompat.create(v.getContext(), R.drawable.ic_anim_bookmark_flip);
+            if (animatedVector != null) {
+                bookmarks.setImageDrawable(animatedVector);
+                animatedVector.start();
             }
         });
     }
