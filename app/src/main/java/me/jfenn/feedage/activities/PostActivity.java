@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -14,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,8 +78,8 @@ public class PostActivity extends AppCompatActivity {
         } else image.setVisibility(View.GONE);
 
         String html = post.getHTML();
-        content.setText(html != null ? Html.fromHtml(html) : null);
         content.setMovementMethod(new LinkMovementMethod());
+        new HtmlParserThread(html, html1 -> content.setText(html1)).start();
 
         List<ItemData> items = new ArrayList<>();
         for (AuthorData author : post.getAuthors())
@@ -129,5 +133,30 @@ public class PostActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private static class HtmlParserThread extends Thread {
+
+        private WeakReference<HtmlListener> listenerReference;
+        private String source;
+
+        public HtmlParserThread(String source, HtmlListener listener) {
+            listenerReference = new WeakReference<>(listener);
+            this.source = source;
+        }
+
+        @Override
+        public void run() {
+            Spanned html = Html.fromHtml(source);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                HtmlListener listener = listenerReference.get();
+                if (listener != null)
+                    listener.onHtml(html);
+            });
+        }
+
+        public interface HtmlListener {
+            void onHtml(Spanned html);
+        }
     }
 }

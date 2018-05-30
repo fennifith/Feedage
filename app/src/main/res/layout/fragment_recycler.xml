@@ -45,4 +45,10 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/loading"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center" />
+
 </FrameLayout>

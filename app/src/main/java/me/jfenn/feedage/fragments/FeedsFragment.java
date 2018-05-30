@@ -1,13 +1,17 @@
 package me.jfenn.feedage.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.Animatable2Compat;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +28,10 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
 
     private RecyclerView recycler;
     private View refresh;
+    private ImageView loading;
     private boolean shouldSwap;
+
+    private AnimatedVectorDrawableCompat loadingDrawable;
 
     @Nullable
     @Override
@@ -32,9 +39,22 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
         View v = inflater.inflate(R.layout.fragment_recycler, container, false);
         recycler = v.findViewById(R.id.recycler);
         refresh = v.findViewById(R.id.refresh);
+        loading = v.findViewById(R.id.loading);
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         onFeedsUpdated(getFeedage().getFeeds());
+
+        loadingDrawable = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.ic_feed_loading);
+        loading.setImageDrawable(loadingDrawable);
+
+        loadingDrawable.registerAnimationCallback(new Animatable2Compat.AnimationCallback() {
+            @Override
+            public void onAnimationEnd(Drawable drawable) {
+                loadingDrawable.start();
+            }
+        });
+        loadingDrawable.start();
+
         return v;
     }
 
@@ -52,6 +72,9 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
 
     @Override
     public void onFeedsUpdated(List<FeedData> feeds) {
+        if (feeds.size() > 0)
+            loading.setVisibility(View.GONE);
+
         List<ItemData> items = new ArrayList<>();
         for (FeedData feed : feeds)
             items.add(new FeedItemData(feed));
