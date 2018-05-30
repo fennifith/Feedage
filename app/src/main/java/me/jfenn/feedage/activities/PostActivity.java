@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -79,8 +78,7 @@ public class PostActivity extends AppCompatActivity {
             image.setOnClickListener(v -> {
                 ActivityOptionsCompat options;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    options = ActivityOptionsCompat.makeSceneTransitionAnimation(PostActivity.this,
-                            new Pair<>(image, ViewCompat.getTransitionName(image)));
+                    options = ActivityOptionsCompat.makeSceneTransitionAnimation(PostActivity.this, image, ViewCompat.getTransitionName(image));
                 } else {
                     options = ActivityOptionsCompat.makeClipRevealAnimation(image, (int) image.getX(),
                             (int) image.getY(), image.getWidth(), image.getHeight());

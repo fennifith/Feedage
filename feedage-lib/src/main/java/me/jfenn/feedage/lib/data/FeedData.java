@@ -95,7 +95,7 @@ public abstract class FeedData {
     }
 
     public final List<PostData> getPosts() {
-        return posts;
+        return new ArrayList<>(posts);
     }
 
     public final int getPage() {
