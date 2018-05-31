@@ -28,7 +28,7 @@ public class CategoryData implements Comparable<CategoryData> {
         } else return null;
     }
 
-    void setPosts(List<PostData> posts) {
+    public void setPosts(List<PostData> posts) {
         this.posts = posts;
     }
 
@@ -36,7 +36,15 @@ public class CategoryData implements Comparable<CategoryData> {
         return posts;
     }
 
-    void addAverage(SOAMCOS.WordAverage average) {
+    public void addPost(PostData post) {
+        posts.add(post);
+    }
+
+    public List<SOAMCOS.WordAverage> getAverages() {
+        return averages;
+    }
+
+    public void addAverage(SOAMCOS.WordAverage average) {
         if (!averages.contains(average)) {
             boolean isAdded = false;
             for (int i = 0; i < averages.size() && !isAdded; i++) {
