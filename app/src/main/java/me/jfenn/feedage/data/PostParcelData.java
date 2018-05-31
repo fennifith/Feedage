@@ -42,8 +42,8 @@ public class PostParcelData implements Parcelable {
 
     public PostParcelData(SharedPreferences prefs, String name) {
         FeedData feed = new AtomFeedData(
-                prefs.getString(name + "-parent-url", null),
-                prefs.getInt(name + "-parent-color", Color.WHITE),
+                prefs.getString(name + "-parent-url", "https://example.com/"),
+                prefs.getInt(name + "-parent-background", Color.WHITE),
                 prefs.getInt(name + "-parent-text", Color.BLACK)
         );
 

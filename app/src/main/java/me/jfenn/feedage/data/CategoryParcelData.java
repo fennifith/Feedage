@@ -47,7 +47,7 @@ public class CategoryParcelData implements Parcelable {
                 .putInt(name + "-averages-length", category.getAverages().size());
 
         for (int i = 0; i < category.getPosts().size(); i++)
-            editor = new PostParcelData(category.getPosts().get(i)).putPreference(editor, name + "--posts-" + i);
+            editor = new PostParcelData(category.getPosts().get(i)).putPreference(editor, name + "-posts-" + i);
 
         for (int i = 0; i < category.getAverages().size(); i++) {
             SOAMCOS.WordAverage average = category.getAverages().get(i);

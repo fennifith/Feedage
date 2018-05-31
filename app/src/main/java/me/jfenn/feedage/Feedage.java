@@ -39,7 +39,7 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
 
         listeners = new ArrayList<>();
         feeds = new ArrayList<>();
-        categories = new ArrayList<>();
+        categories = PreferenceUtils.getCategoryList(prefs, "categories");
         bookmarks = PreferenceUtils.getPostList(prefs, "bookmarks");
 
         feeds.addAll(Arrays.asList(
@@ -121,6 +121,7 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
     public void onCategoriesUpdated(final List<CategoryData> categories) {
         this.categories = categories;
         new Handler(Looper.getMainLooper()).post(() -> {
+            PreferenceUtils.putCategoryList(prefs.edit(), "categories", categories).apply();
             for (FeedageLib.OnCategoriesUpdatedListener listener : listeners)
                 listener.onCategoriesUpdated(categories);
 
