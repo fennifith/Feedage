@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (isRefresh && !isAnimating) {
                     isAnimating = true;
-                    ViewPropertyAnimator animator = refresh.animate().alpha(dy > 0 ? 0 : 1);
+                    ViewPropertyAnimator animator = refresh.animate().alpha(dy > 0 ? 0 : 1).y(dy > 0 ? -(refresh.getHeight() + ((FrameLayout.LayoutParams) refresh.getLayoutParams()).topMargin) : ((FrameLayout.LayoutParams) refresh.getLayoutParams()).topMargin);
                     animator.setListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -123,14 +124,14 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
                 shouldSwap = false;
                 recycler.swapAdapter(new ItemAdapter(items), true);
                 refresh.setOnClickListener(null);
-                refresh.animate().alpha(0).start();
+                refresh.animate().alpha(0).y(-(refresh.getHeight() + ((FrameLayout.LayoutParams) refresh.getLayoutParams()).topMargin)).start();
                 isRefresh = false;
             } else {
                 refresh.setOnClickListener(v -> {
                     shouldSwap = true;
                     onCategoriesUpdated(categories);
                 });
-                refresh.animate().alpha(1).start();
+                refresh.animate().alpha(1).y(((FrameLayout.LayoutParams) refresh.getLayoutParams()).topMargin).start();
                 isRefresh = true;
             }
         } else recycler.setAdapter(new ItemAdapter(items));
