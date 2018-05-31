@@ -17,6 +17,12 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
     private OnCategoriesUpdatedListener listener;
     private boolean hasOrganized;
 
+    /**
+     * Create a FeedageLib object from a set of feeds
+     *
+     * @param cache interface used to store data temporarily
+     * @param feeds sources to fetch data from
+     */
     public FeedageLib(CacheInterface cache, FeedData... feeds) {
         this.feeds = feeds;
         service = Executors.newSingleThreadExecutor();
@@ -25,6 +31,11 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
             feed.loadCache(cache);
     }
 
+    /**
+     * Load the next data from the given sources
+     *
+     * @param listener listener for when the loading is complete
+     */
     public void getNext(OnCategoriesUpdatedListener listener) {
         this.listener = listener;
         for (FeedData feed : feeds) {
