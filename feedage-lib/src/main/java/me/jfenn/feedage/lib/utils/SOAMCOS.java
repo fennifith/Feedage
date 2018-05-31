@@ -53,9 +53,11 @@ public class SOAMCOS { //stands for "Sort Of A Markov Chain Or Something" becaus
         addContent(post.getContentText());
         for (String string : post.getTags())
             addContent(string);
+    }
 
-        for (WordAverage average : averages)
-            average.getCount();
+    private SOAMCOS(String string) {
+        averages = new ArrayList<>();
+        addContent(string);
     }
 
     public PostData getPost() {
@@ -81,6 +83,7 @@ public class SOAMCOS { //stands for "Sort Of A Markov Chain Or Something" becaus
                 else averages.add(average);
             }
         }
+        System.out.println(averages.size());
     }
 
     public Double getDifference(SOAMCOS o) {
@@ -185,6 +188,12 @@ public class SOAMCOS { //stands for "Sort Of A Markov Chain Or Something" becaus
                 else return s2.indexOf(s1) == 0;
             }
         }
+    }
+
+    public static void main(String... args) {
+        SOAMCOS orangutan = new SOAMCOS("The pudgy orangutan galumphed up a tree. Orangutans are pudgy because they eat a lot of concentrated magnesium sulfate. Unlike pudgy dogs, pudgy orangutans are a sign of good health and peace in the orangutan culture.");
+        SOAMCOS dogs = new SOAMCOS("The pudgy dog happily bounded up a hill. Pugs tend to galumph more than chihuahuas because of the way they are. Unlike the pudgy orangutans, pudgy dogs are not a sign of good health because they eat poisonous berries sometimes.");
+        System.out.println(orangutan.getDifference(dogs));
     }
 
 }
