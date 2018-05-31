@@ -48,7 +48,7 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
             viewHolder.title.setText(title);
         if (subtitle != null)
             viewHolder.subtitle.setText(subtitle);
-        if (imageUrl != null) {
+        if (imageUrl != null && imageUrl.length() > 7) {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context).load(imageUrl).into(viewHolder.image);
         } else viewHolder.image.setVisibility(View.GONE);
