@@ -1,13 +1,17 @@
 package me.jfenn.feedage.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -106,7 +110,9 @@ public class PostActivity extends AppCompatActivity {
         authors.setLayoutManager(new LinearLayoutManager(this));
         authors.setAdapter(new ItemAdapter(items));
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
+        DrawableCompat.setTint(icon, Color.BLACK);
+        toolbar.setNavigationIcon(icon);
         setSupportActionBar(toolbar);
     }
 
