@@ -46,4 +46,20 @@ public class PreferenceUtils {
         return categories;
     }
 
+    public static SharedPreferences.Editor putStringList(SharedPreferences.Editor editor, String name, List<String> strings) {
+        editor = editor.putInt(name + "-length", strings.size());
+        for (int i = 0; i < strings.size(); i++)
+            editor = editor.putString(name + "-" + i, strings.get(i));
+
+        return editor;
+    }
+
+    public static List<String> getStringList(SharedPreferences prefs, String name) {
+        List<String> strings = new ArrayList<>();
+        int length = prefs.getInt(name + "-length", 0);
+        for (int i = 0; i < length; i++)
+            strings.add(prefs.getString(name + "-" + i, null));
+
+        return strings;
+    }
 }

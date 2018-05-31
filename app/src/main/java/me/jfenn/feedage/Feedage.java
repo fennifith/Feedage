@@ -42,16 +42,41 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
         categories = PreferenceUtils.getCategoryList(prefs, "categories");
         bookmarks = PreferenceUtils.getPostList(prefs, "bookmarks");
 
-        feeds.addAll(Arrays.asList(
-                new AtomFeedData("https://www.androidpolice.com/feed/?paged=%s", 1, Color.parseColor("#af1c1c"), Color.WHITE),
-                new AtomFeedData("https://www.androidauthority.com/feed/?paged=%s", 1, Color.parseColor("#01e0bd"), Color.BLACK),
-                new AtomFeedData("https://www.theverge.com/rss/index.xml", Color.parseColor("#e5127d"), Color.WHITE),
-                new AtomFeedData("https://techaeris.com/feed/?paged=%s", 1, Color.parseColor("#212121"), Color.WHITE),
-                new AtomFeedData("https://www.engadget.com/rss.xml", Color.WHITE, Color.BLACK),
-                new AtomFeedData("http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml", Color.WHITE, Color.BLACK),
-                new AtomFeedData("https://www.xda-developers.com/feed/?paged=%s", 1, Color.parseColor("#f59714"), Color.BLACK),
-                new AtomFeedData("https://www.wired.com/feed", Color.parseColor("#BDBDBD"), Color.BLACK)
-        ));
+        List<String> feedUrls = PreferenceUtils.getStringList(prefs, "feeds");
+        if (feedUrls.size() == 0) {
+            feedUrls.addAll(Arrays.asList(
+                    "https://www.androidpolice.com/feed/",
+                    "https://www.androidauthority.com/feed/",
+                    "https://www.theverge.com/rss/index.xml",
+                    "https://techaeris.com/feed/",
+                    "https://www.engadget.com/rss.xml",
+                    "http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+                    "https://www.xda-developers.com/feed/",
+                    "https://www.wired.com/feed"
+            ));
+        }
+
+        for (String url : feedUrls) {
+            int textColor = Color.BLACK, backgroundColor = Color.WHITE;
+            if (url.contains("androidpolice")) {
+                textColor = Color.WHITE;
+                backgroundColor = Color.parseColor("#af1c1c");
+            } else if (url.contains("androidauthority")) {
+                backgroundColor = Color.parseColor("#01e0bd");
+            } else if (url.contains("theverge")) {
+                textColor = Color.WHITE;
+                backgroundColor = Color.parseColor("#e5127d");
+            } else if (url.contains("techaeris")) {
+                textColor = Color.WHITE;
+                backgroundColor = Color.parseColor("#212121");
+            } else if (url.contains("xda-developers")) {
+                backgroundColor = Color.parseColor("#f59714");
+            } else if (url.contains("wired")) {
+                backgroundColor = Color.parseColor("#BDBDBD");
+            }
+
+            feeds.add(new AtomFeedData(url, backgroundColor, textColor));
+        }
 
         feedage = new FeedageLib(
                 new HackyCacheInterface(prefs),
