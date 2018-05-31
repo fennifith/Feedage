@@ -101,7 +101,7 @@ public class PostData {
         } else return null;
     }
 
-    public void setSourceUrl(String soureUrl) {
+    public void setSourceUrl(String sourceUrl) {
         this.sourceUrl = sourceUrl;
     }
 
