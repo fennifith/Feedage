@@ -11,52 +11,30 @@
         android:layout_margin="12dp"
         app:cardElevation="0dp">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <me.jfenn.feedage.views.RatioImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="#30000000"
+                android:scaleType="centerCrop" />
 
-                <me.jfenn.feedage.views.RatioImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#30000000"
-                    android:scaleType="centerCrop" />
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="18sp"
-                    tools:text="Title" />
-
-                <TextView
-                    android:id="@+id/subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:textColor="?android:textColorSecondary"
-                    android:textSize="14sp"
-                    tools:text="Subtitle subtitle subtitle subtitle subtitle subtitle subtitle." />
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="16dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="18sp"
+                tools:text="Title" />
 
             <TextView
                 android:id="@+id/website"
@@ -75,7 +53,7 @@
                 android:textStyle="italic"
                 tools:text="example.com" />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

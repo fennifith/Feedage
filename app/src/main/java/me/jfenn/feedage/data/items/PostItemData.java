@@ -23,23 +23,16 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
     private Activity activity;
     private PostData post;
     private String title;
-    private String subtitle;
     private String imageUrl;
 
     public PostItemData(PostData post, Activity activity) {
-        super(R.layout.item_post);
-        this.post = post;
-        title = StringUtils.toPlainText(post.getTitle());
-        subtitle = StringUtils.toPlainText(post.getDescriptionText());
-        imageUrl = post.getImageUrl();
-        this.activity = activity;
+        this(post, activity, R.layout.item_post);
     }
 
     public PostItemData(PostData post, Activity activity, int layoutRes) {
         super(layoutRes);
         this.post = post;
         title = StringUtils.toPlainText(post.getTitle());
-        subtitle = StringUtils.toPlainText(post.getDescriptionText());
         imageUrl = post.getImageUrl();
         this.activity = activity;
     }
@@ -55,8 +48,6 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
         if (title != null)
             viewHolder.title.setText(title);
-        if (subtitle != null)
-            viewHolder.subtitle.setText(subtitle);
         if (imageUrl != null && imageUrl.length() > 7) {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context).load(imageUrl).into(viewHolder.image);
@@ -69,7 +60,6 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
         viewHolder.background.setBackgroundColor(backgroundColor);
         viewHolder.title.setTextColor(textColor);
-        viewHolder.subtitle.setTextColor(secondaryTextColor);
         viewHolder.website.setTextColor(secondaryTextColor);
 
         viewHolder.itemView.setOnClickListener(v -> {
@@ -85,7 +75,6 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
         private ImageView image;
         private TextView title;
-        private TextView subtitle;
         private TextView website;
         private View background;
 
@@ -93,7 +82,6 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
             super(v);
             image = v.findViewById(R.id.image);
             title = v.findViewById(R.id.title);
-            subtitle = v.findViewById(R.id.subtitle);
             website = v.findViewById(R.id.website);
             background = v.findViewById(R.id.background);
         }
