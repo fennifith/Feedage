@@ -35,6 +35,15 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
         this.activity = activity;
     }
 
+    public PostItemData(PostData post, Activity activity, int layoutRes) {
+        super(layoutRes);
+        this.post = post;
+        title = StringUtils.toPlainText(post.getTitle());
+        subtitle = StringUtils.toPlainText(post.getDescriptionText());
+        imageUrl = post.getImageUrl();
+        this.activity = activity;
+    }
+
     @Override
     public ViewHolder getViewHolder(View v) {
         return new ViewHolder(v);
