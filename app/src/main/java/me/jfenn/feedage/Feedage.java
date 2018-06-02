@@ -52,7 +52,9 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
                     "https://www.engadget.com/rss.xml",
                     "http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
                     "https://www.xda-developers.com/feed/",
-                    "https://www.wired.com/feed"
+                    "https://www.wired.com/feed",
+                    "https://www.techradar.com/rss",
+                    "https://techcrunch.com/feed/"
             ));
         }
 
@@ -73,6 +75,12 @@ public class Feedage extends Application implements FeedageLib.OnCategoriesUpdat
                 backgroundColor = Color.parseColor("#f59714");
             } else if (url.contains("wired")) {
                 backgroundColor = Color.parseColor("#BDBDBD");
+            } else if (url.contains("techradar")) {
+                textColor = Color.WHITE;
+                backgroundColor = Color.parseColor("#2f6e91");
+            } else if (url.contains("techcrunch")) {
+                textColor = Color.WHITE;
+                backgroundColor = Color.parseColor("#00a562");
             }
 
             feeds.add(new AtomFeedData(url, backgroundColor, textColor));
