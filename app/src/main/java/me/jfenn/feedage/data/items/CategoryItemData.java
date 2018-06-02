@@ -31,11 +31,12 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
         if (category.getDescription().length() > 0)
             subtitle = category.getDescriptionSentence();
 
-        List<ItemData> posts = new ArrayList<>();
-        for (PostData post : category.getPosts())
-            posts.add(new PostItemData(post, activity));
+        List<ItemData> items = new ArrayList<>();
+        List<PostData> posts = category.getPosts();
+        for (int i = 0; i < posts.size() && i < 3; i++)
+            items.add(new PostItemData(posts.get(i), activity));
 
-        adapter = new ItemAdapter(posts);
+        adapter = new ItemAdapter(items);
     }
 
     @Override

@@ -2,12 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="172dp"
-    android:layout_height="match_parent">
+    android:layout_width="264dp"
+    android:layout_height="110dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="86dp"
         android:layout_margin="12dp"
         app:cardElevation="0dp">
 
@@ -15,43 +15,52 @@
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <me.jfenn.feedage.views.RatioImageView
+            <me.jfenn.feedage.views.SquareImageView
                 android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
                 android:background="#30000000"
                 android:scaleType="centerCrop" />
 
-            <me.jfenn.feedage.views.VerticalTextView
-                android:id="@+id/title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_margin="16dp"
-                android:gravity="center_vertical"
-                android:ellipsize="end"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="18sp"
-                tools:text="Title" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/website"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_gravity="bottom"
-                android:background="#30000000"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:maxLines="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:singleLine="true"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                tools:text="example.com" />
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp"
+                    tools:text="Title title title title title title" />
+
+                <TextView
+                    android:id="@+id/website"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom"
+                    android:background="#30000000"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="12sp"
+                    android:textStyle="italic"
+                    tools:text="example.com" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
