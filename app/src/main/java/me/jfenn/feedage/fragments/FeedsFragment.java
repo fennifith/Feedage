@@ -35,6 +35,7 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
     private boolean shouldSwap, isRefresh, isAnimating;
 
     private AnimatedVectorDrawableCompat loadingDrawable;
+    private RecyclerView.RecycledViewPool viewPool;
 
     @Nullable
     @Override
@@ -44,6 +45,7 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
         refresh = v.findViewById(R.id.refresh);
         loading = v.findViewById(R.id.loading);
 
+        viewPool = new RecyclerView.RecycledViewPool();
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -112,7 +114,7 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
 
         List<ItemData> items = new ArrayList<>();
         for (FeedData feed : feeds)
-            items.add(new FeedItemData(feed));
+            items.add(new FeedItemData(feed, viewPool));
 
         if (recycler.getAdapter() != null && recycler.getAdapter().getItemCount() > 0) {
             if (shouldSwap) {

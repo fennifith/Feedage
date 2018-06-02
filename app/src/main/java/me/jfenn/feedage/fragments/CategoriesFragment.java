@@ -35,6 +35,7 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
     private boolean shouldSwap, isRefresh, isAnimating;
 
     private AnimatedVectorDrawableCompat loadingDrawable;
+    private RecyclerView.RecycledViewPool viewPool;
 
     @Nullable
     @Override
@@ -44,6 +45,7 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
         refresh = v.findViewById(R.id.refresh);
         loading = v.findViewById(R.id.loading);
 
+        viewPool = new RecyclerView.RecycledViewPool();
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -117,7 +119,7 @@ public class CategoriesFragment extends BasePagerFragment implements FeedageLib.
 
         List<ItemData> items = new ArrayList<>();
         for (CategoryData category : categories)
-            items.add(new CategoryItemData(category));
+            items.add(new CategoryItemData(category, viewPool));
 
         if (recycler.getAdapter() != null && recycler.getAdapter().getItemCount() > 0) {
             if (shouldSwap) {

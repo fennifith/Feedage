@@ -20,11 +20,14 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
     private FeedData feed;
     private String title;
     private String subtitle;
-    private ItemAdapter adapter;
 
-    public FeedItemData(FeedData feed) {
+    private ItemAdapter adapter;
+    private RecyclerView.RecycledViewPool viewPool;
+
+    public FeedItemData(FeedData feed, RecyclerView.RecycledViewPool viewPool) {
         super(R.layout.item_category);
         this.feed = feed;
+        this.viewPool = viewPool;
 
         title = StringUtils.toPlainText(feed.getName());
         subtitle = StringUtils.toPlainText(feed.getBasicHomepage());
@@ -59,6 +62,7 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             viewHolder.recycler.setAdapter(adapter);
+            viewHolder.recycler.setRecycledViewPool(viewPool);
         }
     }
 

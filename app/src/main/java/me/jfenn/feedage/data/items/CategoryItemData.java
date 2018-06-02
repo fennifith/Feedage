@@ -20,11 +20,14 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
     private CategoryData category;
     private String title;
     private String subtitle;
-    private ItemAdapter adapter;
 
-    public CategoryItemData(CategoryData category) {
+    private ItemAdapter adapter;
+    private RecyclerView.RecycledViewPool viewPool;
+
+    public CategoryItemData(CategoryData category, RecyclerView.RecycledViewPool viewPool) {
         super(R.layout.item_category);
         this.category = category;
+        this.viewPool = viewPool;
 
         title = StringUtils.toPlainText(category.getTitle());
         if (category.getDescription().length() > 0)
@@ -58,6 +61,7 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             viewHolder.recycler.setAdapter(adapter);
+            viewHolder.recycler.setRecycledViewPool(viewPool);
         }
     }
 
