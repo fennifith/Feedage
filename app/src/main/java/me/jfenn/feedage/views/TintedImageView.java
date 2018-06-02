@@ -3,6 +3,7 @@ package me.jfenn.feedage.views;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -28,6 +29,7 @@ public class TintedImageView extends AppCompatImageView {
         animator.addUpdateListener(animation -> {
             TintedImageView.this.color = (int) animation.getAnimatedValue();
             setColorFilter(TintedImageView.this.color);
+            setAlpha((float) Color.alpha(TintedImageView.this.color) / 255);
         });
         animator.start();
     }
@@ -35,6 +37,7 @@ public class TintedImageView extends AppCompatImageView {
     public void setTint(@ColorInt int color) {
         this.color = color;
         setColorFilter(color);
+        setAlpha((float) Color.alpha(color) / 255);
     }
 
 }

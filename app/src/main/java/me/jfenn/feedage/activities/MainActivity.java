@@ -1,6 +1,5 @@
 package me.jfenn.feedage.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
     private TintedImageView home;
     private TintedImageView feeds;
     private TintedImageView bookmarks;
+
+    private int textColor;
+    private int accentColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,10 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
 
         setSupportActionBar(toolbar);
 
-        home.setTint(ContextCompat.getColor(this, R.color.colorAccent));
+        textColor = ContextCompat.getColor(this, R.color.colorTextSecondary);
+        accentColor = ContextCompat.getColor(this, R.color.colorAccent);
+
+        home.setTint(accentColor);
         home.setOnClickListener(v -> {
             if (!(fragment instanceof CategoriesFragment)) {
                 fragment = new CategoriesFragment();
@@ -71,13 +76,13 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
                         .replace(R.id.fragment, fragment)
                         .commit();
 
-                home.tint(ContextCompat.getColor(this, R.color.colorAccent));
-                feeds.tint(Color.BLACK);
-                bookmarks.tint(Color.BLACK);
+                home.tint(accentColor);
+                feeds.tint(textColor);
+                bookmarks.tint(textColor);
             }
         });
 
-        feeds.setTint(Color.BLACK);
+        feeds.setTint(textColor);
         feeds.setOnClickListener(v -> {
             if (!(fragment instanceof FeedsFragment)) {
                 fragment = new FeedsFragment();
@@ -85,13 +90,13 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
                         .replace(R.id.fragment, fragment)
                         .commit();
 
-                home.tint(Color.BLACK);
-                feeds.tint(ContextCompat.getColor(this, R.color.colorAccent));
-                bookmarks.tint(Color.BLACK);
+                home.tint(textColor);
+                feeds.tint(accentColor);
+                bookmarks.tint(textColor);
             }
         });
 
-        bookmarks.setTint(Color.BLACK);
+        bookmarks.setTint(textColor);
         bookmarks.setOnClickListener(v -> {
             if (!(fragment instanceof BookmarksFragment)) {
                 fragment = new BookmarksFragment();
@@ -99,9 +104,9 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
                         .replace(R.id.fragment, fragment)
                         .commit();
 
-                home.tint(Color.BLACK);
-                feeds.tint(Color.BLACK);
-                bookmarks.tint(ContextCompat.getColor(this, R.color.colorAccent));
+                home.tint(textColor);
+                feeds.tint(textColor);
+                bookmarks.tint(accentColor);
             }
         });
     }
