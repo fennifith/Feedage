@@ -30,43 +30,70 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
+            android:paddingBottom="4dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingBottom="4dp"
-            android:textSize="18sp"
+            android:paddingTop="16dp"
             android:textColor="?android:textColorPrimary"
+            android:textSize="18sp"
             tools:text="Title Title is a Title" />
 
         <TextView
             android:id="@+id/source"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="From example.com"
-            android:textSize="12sp"
-            android:textStyle="italic"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingBottom="8dp" />
+            android:textSize="12sp"
+            android:textStyle="italic"
+            tools:text="From example.com" />
+
+        <LinearLayout
+            android:id="@+id/authorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="?android:textColorPrimary"
+                android:text="@string/title_written_by" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/authors"
+                android:layout_width="match_parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.2"
-            android:paddingTop="4dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="4dp"
             android:textColor="?android:textColorSecondary"
             android:textSize="14sp"
             tools:text="Content content content content content content content content content content content content content content content content content." />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/authors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#30FFFFFF" />
 
     </LinearLayout>
 

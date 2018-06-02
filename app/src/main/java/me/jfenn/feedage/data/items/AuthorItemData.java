@@ -29,30 +29,25 @@ public class AuthorItemData extends ItemData<AuthorItemData.ViewHolder> {
     @Override
     public void bind(Context context, ViewHolder viewHolder) {
         viewHolder.name.setText(author.getName());
+
         if (author.getImageUrl() != null)
             Glide.with(context).load(author.getImageUrl()).into(viewHolder.image);
+        else viewHolder.image.setVisibility(View.GONE);
 
-        if (author.getHomepage() != null) {
-            viewHolder.homepage.setVisibility(View.VISIBLE);
-            viewHolder.homepage.setText(author.getHomepage());
+        if (author.getHomepage() != null)
             viewHolder.itemView.setOnClickListener(v -> v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(author.getHomepage()))));
-        } else {
-            viewHolder.homepage.setVisibility(View.GONE);
-            viewHolder.itemView.setOnClickListener(null);
-        }
+        else viewHolder.itemView.setOnClickListener(null);
     }
 
     public static class ViewHolder extends ItemData.ViewHolder {
 
         private ImageView image;
         private TextView name;
-        private TextView homepage;
 
         public ViewHolder(View v) {
             super(v);
             image = v.findViewById(R.id.image);
             name = v.findViewById(R.id.name);
-            homepage = v.findViewById(R.id.homepage);
         }
     }
 

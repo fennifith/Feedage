@@ -14,7 +14,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -27,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -107,8 +109,13 @@ public class PostActivity extends AppCompatActivity {
         for (AuthorData author : post.getAuthors())
             items.add(new AuthorItemData(author));
 
-        authors.setLayoutManager(new LinearLayoutManager(this));
-        authors.setAdapter(new ItemAdapter(items));
+        if (items.size() > 0) {
+            FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+            layoutManager.setFlexDirection(FlexDirection.ROW);
+            layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+            authors.setLayoutManager(layoutManager);
+            authors.setAdapter(new ItemAdapter(items));
+        } else findViewById(R.id.authorLayout).setVisibility(View.GONE);
 
         Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
         DrawableCompat.setTint(icon, Color.BLACK);
