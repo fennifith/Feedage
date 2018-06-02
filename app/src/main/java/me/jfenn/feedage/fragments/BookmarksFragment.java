@@ -19,7 +19,7 @@ import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.data.items.PostItemData;
 import me.jfenn.feedage.lib.data.PostData;
 
-public class BookmarksFragment extends BaseFragment {
+public class BookmarksFragment extends BasePagerFragment {
 
     @Nullable
     @Override
@@ -37,4 +37,8 @@ public class BookmarksFragment extends BaseFragment {
         return v;
     }
 
+    @Override
+    public String getTitle() {
+        return "Bookmarks";
+    }
 }
