@@ -83,7 +83,6 @@ public class SOAMCOS { //stands for "Sort Of A Markov Chain Or Something" becaus
                 else averages.add(average);
             }
         }
-        System.out.println(averages.size());
     }
 
     public Double getDifference(SOAMCOS o) {

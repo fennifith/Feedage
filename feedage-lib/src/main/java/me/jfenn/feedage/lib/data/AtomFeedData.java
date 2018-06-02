@@ -3,6 +3,7 @@ package me.jfenn.feedage.lib.data;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +80,16 @@ public class AtomFeedData extends FeedData {
                 post.addAuthor(author);
             }
 
-            Element sourceElement = element.selectFirst(":root > link, :root > guid, :root > id");
-            if (sourceElement != null)
-                post.setSourceUrl(sourceElement.text());
+            Elements sourceElements = element.select(":root > guid, :root > link, :root > guid, :root > id");
+            String source = null;
+            for (Element sourceElement : sourceElements) {
+                System.out.println(sourceElement.tagName() + ": " + sourceElement.text() + " - " + sourceElement.attributes().toString());
+                if (source == null || (sourceElement.text() != null && sourceElement.text().length() > source.length()))
+                    source = sourceElement.text();
+            }
+
+            if (source != null)
+                post.setSourceUrl(source);
 
             posts.add(post);
         }
