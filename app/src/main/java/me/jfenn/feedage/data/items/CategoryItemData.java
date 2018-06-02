@@ -1,6 +1,5 @@
 package me.jfenn.feedage.data.items;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,7 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
     private String subtitle;
     private ItemAdapter adapter;
 
-    public CategoryItemData(CategoryData category, Activity activity) {
+    public CategoryItemData(CategoryData category) {
         super(R.layout.item_category);
         this.category = category;
 
@@ -34,7 +33,7 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
         List<ItemData> items = new ArrayList<>();
         List<PostData> posts = category.getPosts();
         for (int i = 0; i < posts.size() && i < 3; i++)
-            items.add(new PostItemData(posts.get(i), activity));
+            items.add(new PostItemData(posts.get(i)));
 
         adapter = new ItemAdapter(items);
     }
@@ -49,9 +48,9 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
         viewHolder.itemView.setAlpha(0);
         viewHolder.itemView.animate().alpha(1).start();
 
-        if (category.getTitle() != null)
+        if (title != null)
             viewHolder.title.setText(title);
-        if (category.getDescription().length() > 0) {
+        if (subtitle != null && subtitle.length() > 0) {
             viewHolder.subtitle.setVisibility(View.VISIBLE);
             viewHolder.subtitle.setText(subtitle);
         } else viewHolder.subtitle.setVisibility(View.GONE);

@@ -1,6 +1,5 @@
 package me.jfenn.feedage.data.items;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,21 +19,19 @@ import me.jfenn.feedage.utils.StringUtils;
 
 public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
-    private Activity activity;
     private PostData post;
     private String title;
     private String imageUrl;
 
-    public PostItemData(PostData post, Activity activity) {
-        this(post, activity, R.layout.item_post);
+    public PostItemData(PostData post) {
+        this(post, R.layout.item_post);
     }
 
-    public PostItemData(PostData post, Activity activity, int layoutRes) {
+    public PostItemData(PostData post, int layoutRes) {
         super(layoutRes);
         this.post = post;
         title = StringUtils.toPlainText(post.getTitle());
         imageUrl = post.getImageUrl();
-        this.activity = activity;
     }
 
     @Override

@@ -112,7 +112,7 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
 
         List<ItemData> items = new ArrayList<>();
         for (FeedData feed : feeds)
-            items.add(new FeedItemData(feed, getActivity()));
+            items.add(new FeedItemData(feed));
 
         if (recycler.getAdapter() != null && recycler.getAdapter().getItemCount() > 0) {
             if (shouldSwap) {

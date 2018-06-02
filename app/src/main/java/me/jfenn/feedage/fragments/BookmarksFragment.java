@@ -29,7 +29,7 @@ public class BookmarksFragment extends BasePagerFragment {
 
         List<ItemData> items = new ArrayList<>();
         for (PostData post : ((Feedage) getContext().getApplicationContext()).getBookmarks())
-            items.add(new PostItemData(post, getActivity(), R.layout.item_post_horiz));
+            items.add(new PostItemData(post, R.layout.item_post_horiz));
 
         recycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recycler.setAdapter(new ItemAdapter(items));

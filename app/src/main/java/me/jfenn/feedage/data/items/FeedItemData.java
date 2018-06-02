@@ -1,6 +1,5 @@
 package me.jfenn.feedage.data.items;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,18 +22,19 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
     private String subtitle;
     private ItemAdapter adapter;
 
-    public FeedItemData(FeedData feed, Activity activity) {
+    public FeedItemData(FeedData feed) {
         super(R.layout.item_category);
         this.feed = feed;
 
         title = StringUtils.toPlainText(feed.getName());
         subtitle = StringUtils.toPlainText(feed.getBasicHomepage());
 
-        List<ItemData> posts = new ArrayList<>();
-        for (PostData post : feed.getPosts())
-            posts.add(new PostItemData(post, activity));
+        List<ItemData> items = new ArrayList<>();
+        List<PostData> posts = feed.getPosts();
+        for (int i = 0; i < posts.size() && i < 3; i++)
+            items.add(new PostItemData(posts.get(i)));
 
-        adapter = new ItemAdapter(posts);
+        adapter = new ItemAdapter(items);
     }
 
     @Override
@@ -47,10 +47,14 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
         viewHolder.itemView.setAlpha(0);
         viewHolder.itemView.animate().alpha(1).start();
 
-        if (title != null)
+        if (title != null && title.length() > 0) {
             viewHolder.title.setText(title);
-        if (subtitle != null)
             viewHolder.subtitle.setText(subtitle);
+            viewHolder.subtitle.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.title.setText(subtitle);
+            viewHolder.subtitle.setVisibility(View.GONE);
+        }
 
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
