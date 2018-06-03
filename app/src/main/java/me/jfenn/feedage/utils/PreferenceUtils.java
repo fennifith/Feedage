@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.jfenn.feedage.data.CategoryParcelData;
+import me.jfenn.feedage.data.FeedParcelData;
 import me.jfenn.feedage.data.PostParcelData;
 import me.jfenn.feedage.lib.data.CategoryData;
+import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
 
 public class PreferenceUtils {
@@ -44,6 +46,23 @@ public class PreferenceUtils {
             categories.add(new CategoryParcelData(prefs, name + "-" + i).getCategory());
 
         return categories;
+    }
+
+    public static SharedPreferences.Editor putFeedList(SharedPreferences.Editor editor, String name, List<FeedData> feeds) {
+        editor = editor.putInt(name + "-length", feeds.size());
+        for (int i = 0; i < feeds.size(); i++)
+            editor = new FeedParcelData(feeds.get(i)).putPreference(editor, name + "-" + i);
+
+        return editor;
+    }
+
+    public static List<FeedData> getFeedList(SharedPreferences prefs, String name) {
+        List<FeedData> feeds = new ArrayList<>();
+        int length = prefs.getInt(name + "-length", 0);
+        for (int i = 0; i < length; i++)
+            feeds.add(new FeedParcelData(prefs, name + "-" + i).getFeed());
+
+        return feeds;
     }
 
     public static SharedPreferences.Editor putStringList(SharedPreferences.Editor editor, String name, List<String> strings) {
