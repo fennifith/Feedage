@@ -33,9 +33,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:layout_marginTop="12dp"
                 android:text="@string/title_feeds"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="18sp" />
@@ -50,14 +50,40 @@
                 android:id="@+id/newFeed"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
+                android:layout_marginBottom="4dp"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
-                android:layout_marginBottom="4dp"
                 android:paddingRight="16dp"
                 android:text="@string/title_new_feed"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/title_theme"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/theme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

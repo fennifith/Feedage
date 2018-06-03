@@ -21,6 +21,11 @@ import me.jfenn.feedage.utils.PreferenceUtils;
 
 public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdatedListener {
 
+    public static final String PREF_THEME = "theme";
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
+    public static final int THEME_AMOLED = 2;
+
     private FeedageLib feedage;
     private List<FeedageLib.OnCategoriesUpdatedListener> listeners;
     private OnProgressUpdateListener progressListener;
@@ -64,6 +69,13 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         );
 
         getNext();
+    }
+
+    public int getThemeRes() {
+        int theme = prefs.getInt(PREF_THEME, THEME_LIGHT);
+        if (theme == THEME_DARK)
+            return R.style.AppTheme_Dark;
+        else return R.style.AppTheme;
     }
 
     public void addListener(FeedageLib.OnCategoriesUpdatedListener listener) {
