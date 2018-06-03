@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import java.util.List;
 
 import me.jfenn.attribouter.Attribouter;
-import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.SimplePagerAdapter;
 import me.jfenn.feedage.fragments.BookmarksFragment;
@@ -23,9 +21,7 @@ import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.views.TintedImageView;
 
-public class MainActivity extends AppCompatActivity implements FeedageLib.OnCategoriesUpdatedListener, ViewPager.OnPageChangeListener {
-
-    private Feedage feedage;
+public class MainActivity extends FeedageActivity implements FeedageLib.OnCategoriesUpdatedListener, ViewPager.OnPageChangeListener {
 
     private TintedImageView home;
     private TintedImageView feeds;
@@ -39,9 +35,8 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        feedage = (Feedage) getApplicationContext();
 
-        feedage.addListener(this);
+        getFeedage().addListener(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         home = findViewById(R.id.home);
@@ -54,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
         pager.setAdapter(new SimplePagerAdapter(getSupportFragmentManager(), new CategoriesFragment(), new FeedsFragment(), new BookmarksFragment()));
         pager.addOnPageChangeListener(this);
 
-        textColor = ContextCompat.getColor(this, R.color.colorTextSecondary);
+        textColor = ContextCompat.getColor(this, R.color.textColorSecondary);
         accentColor = ContextCompat.getColor(this, R.color.colorAccent);
 
         home.setTint(accentColor);
@@ -85,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        feedage.removeListener(this);
+        if (getFeedage() != null)
+            getFeedage().removeListener(this);
     }
 
     @Override

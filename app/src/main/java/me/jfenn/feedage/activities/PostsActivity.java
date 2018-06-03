@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
 import me.jfenn.feedage.data.items.ItemData;
@@ -26,19 +24,16 @@ import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
 
-public class PostsActivity extends AppCompatActivity {
+public class PostsActivity extends FeedageActivity {
 
     public static final String EXTRA_CATEGORY = "me.jfenn.feedage.EXTRA_CATEGORY";
     public static final String EXTRA_FEED = "me.jfenn.feedage.EXTRA_FEED";
     public static final String EXTRA_AUTHOR = "me.jfenn.feedage.EXTRA_AUTHOR";
 
-    private Feedage feedage;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts);
-        feedage = (Feedage) getApplicationContext();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         RecyclerView recycler = findViewById(R.id.recycler);
@@ -49,7 +44,7 @@ public class PostsActivity extends AppCompatActivity {
         if (intent.hasExtra(EXTRA_CATEGORY)) {
             CategoryData category = null;
             String categoryName = intent.getStringExtra(EXTRA_CATEGORY);
-            for (CategoryData category1 : feedage.getCategories()) {
+            for (CategoryData category1 : getFeedage().getCategories()) {
                 if (category1.getTitle().equals(categoryName)) {
                     category = category1;
                     break;
@@ -65,7 +60,7 @@ public class PostsActivity extends AppCompatActivity {
             FeedData feed = null;
             String feedName = intent.getStringExtra(EXTRA_FEED);
             String authorName = intent.getStringExtra(EXTRA_AUTHOR);
-            for (FeedData feed1 : feedage.getFeeds()) {
+            for (FeedData feed1 : getFeedage().getFeeds()) {
                 if (feed1.getUrl().equals(feedName)) {
                     feed = feed1;
                     break;
@@ -90,7 +85,7 @@ public class PostsActivity extends AppCompatActivity {
         } else if (intent.hasExtra(EXTRA_FEED)) {
             FeedData feed = null;
             String feedName = intent.getStringExtra(EXTRA_FEED);
-            for (FeedData feed1 : feedage.getFeeds()) {
+            for (FeedData feed1 : getFeedage().getFeeds()) {
                 if (feed1.getUrl().equals(feedName)) {
                     feed = feed1;
                     break;

@@ -14,7 +14,6 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -35,7 +34,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
 import me.jfenn.feedage.data.PostParcelData;
@@ -45,7 +43,7 @@ import me.jfenn.feedage.lib.data.AuthorData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
 
-public class PostActivity extends AppCompatActivity {
+public class PostActivity extends FeedageActivity {
 
     public static final String EXTRA_POST_PARCEL = "me.jfenn.feedage.EXTRA_POST_PARCEL";
 
@@ -58,13 +56,11 @@ public class PostActivity extends AppCompatActivity {
 
     private PostData post;
     private FeedData parent;
-    private Feedage feedage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        feedage = (Feedage) getApplicationContext();
 
         PostParcelData parcel = getIntent().getParcelableExtra(EXTRA_POST_PARCEL);
         post = parcel.getPost();
@@ -129,7 +125,7 @@ public class PostActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_post, menu);
-        menu.findItem(R.id.bookmark).setIcon(feedage.isBookmarked(post) ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
+        menu.findItem(R.id.bookmark).setIcon(getFeedage().isBookmarked(post) ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -138,8 +134,8 @@ public class PostActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             finish();
         else if (item.getItemId() == R.id.bookmark) {
-            boolean isBookmarked = !feedage.isBookmarked(post);
-            feedage.setBookmarked(post, isBookmarked);
+            boolean isBookmarked = !getFeedage().isBookmarked(post);
+            getFeedage().setBookmarked(post, isBookmarked);
             item.setIcon(isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
         } else if (item.getItemId() == R.id.open)
             new CustomTabsIntent.Builder()

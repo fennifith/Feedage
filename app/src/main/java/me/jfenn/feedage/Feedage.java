@@ -75,6 +75,8 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         int theme = prefs.getInt(PREF_THEME, THEME_LIGHT);
         if (theme == THEME_DARK)
             return R.style.AppTheme_Dark;
+        else if (theme == THEME_AMOLED)
+            return R.style.AppTheme_AMOLED;
         else return R.style.AppTheme;
     }
 

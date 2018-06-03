@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,16 +27,14 @@ import me.jfenn.feedage.data.items.FeedPreferenceItemData;
 import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.lib.data.FeedData;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends FeedageActivity {
 
-    private Feedage feedage;
     private SharedPreferences prefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        feedage = (Feedage) getApplicationContext();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -46,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
         AppCompatSpinner theme = findViewById(R.id.theme);
 
         List<ItemData> items = new ArrayList<>();
-        for (FeedData feed : feedage.getFeeds())
+        for (FeedData feed : getFeedage().getFeeds())
             items.add(new FeedPreferenceItemData(feed));
 
         feeds.setLayoutManager(new LinearLayoutManager(this));

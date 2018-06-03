@@ -68,6 +68,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:scaleType="centerInside"
+            android:tint="?android:textColorSecondary"
             app:srcCompat="@drawable/ic_open" />
 
     </LinearLayout>

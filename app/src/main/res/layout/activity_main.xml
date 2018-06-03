@@ -27,7 +27,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/colorPrimary"
+        android:background="?colorPrimary"
         android:elevation="8dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
