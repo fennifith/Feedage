@@ -107,7 +107,7 @@ public class PostActivity extends AppCompatActivity {
 
         List<ItemData> items = new ArrayList<>();
         for (AuthorData author : post.getAuthors())
-            items.add(new AuthorItemData(author));
+            items.add(new AuthorItemData(author, post.getParent().getUrl()));
 
         if (items.size() > 0) {
             FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
