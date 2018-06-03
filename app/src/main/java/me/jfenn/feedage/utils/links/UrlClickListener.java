@@ -1,4 +1,4 @@
-package me.jfenn.feedage.utils;
+package me.jfenn.feedage.utils.links;
 
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;

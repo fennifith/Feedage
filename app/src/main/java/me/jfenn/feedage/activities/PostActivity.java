@@ -17,7 +17,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +40,7 @@ import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.lib.data.AuthorData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
+import me.jfenn.feedage.utils.links.CustomTabsMovementMethod;
 
 public class PostActivity extends FeedageActivity {
 
@@ -98,7 +98,7 @@ public class PostActivity extends FeedageActivity {
                 Uri.parse("https://" + post.getParent().getBasicHomepage()))));
 
         String html = post.getHTML();
-        content.setMovementMethod(new LinkMovementMethod());
+        content.setMovementMethod(new CustomTabsMovementMethod(this));
         new HtmlParserThread(html, html1 -> content.setText(html1)).start();
 
         List<ItemData> items = new ArrayList<>();
