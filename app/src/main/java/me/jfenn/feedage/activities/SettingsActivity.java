@@ -58,7 +58,10 @@ public class SettingsActivity extends FeedageActivity {
         theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                prefs.edit().putInt(Feedage.PREF_THEME, position).apply();
+                if (position != getFeedage().getThemePreference()) {
+                    getFeedage().setTheme(position);
+                    finish();
+                }
             }
 
             @Override

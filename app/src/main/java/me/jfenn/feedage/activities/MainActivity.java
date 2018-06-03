@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import me.jfenn.attribouter.Attribouter;
+import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.SimplePagerAdapter;
 import me.jfenn.feedage.fragments.BookmarksFragment;
@@ -21,7 +22,7 @@ import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.views.TintedImageView;
 
-public class MainActivity extends FeedageActivity implements FeedageLib.OnCategoriesUpdatedListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends FeedageActivity implements FeedageLib.OnCategoriesUpdatedListener, ViewPager.OnPageChangeListener, Feedage.OnPreferenceListener {
 
     private TintedImageView home;
     private TintedImageView feeds;
@@ -37,6 +38,7 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
         setContentView(R.layout.activity_main);
 
         getFeedage().addListener(this);
+        getFeedage().setOnPreferenceListener(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         home = findViewById(R.id.home);
@@ -80,18 +82,18 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (getFeedage() != null)
+        if (getFeedage() != null) {
             getFeedage().removeListener(this);
+            getFeedage().setOnPreferenceListener(null);
+        }
     }
 
     @Override
     public void onFeedsUpdated(List<FeedData> feeds) {
-
     }
 
     @Override
     public void onCategoriesUpdated(List<CategoryData> categories) {
-
     }
 
     @Override
@@ -112,7 +114,6 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
     }
 
     @Override
@@ -124,6 +125,15 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
 
     @Override
     public void onPageScrollStateChanged(int state) {
+    }
 
+    @Override
+    public void onThemeChanged() {
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void onBookmarksChanged() {
     }
 }

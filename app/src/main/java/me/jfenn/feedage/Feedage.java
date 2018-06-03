@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
     private FeedageLib feedage;
     private List<FeedageLib.OnCategoriesUpdatedListener> listeners;
     private OnProgressUpdateListener progressListener;
+    private OnPreferenceListener preferenceListener;
 
     private List<FeedData> feeds;
     private List<CategoryData> categories;
@@ -72,12 +74,50 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
     }
 
     public int getThemeRes() {
-        int theme = prefs.getInt(PREF_THEME, THEME_LIGHT);
+        int theme = getThemePreference();
         if (theme == THEME_DARK)
             return R.style.AppTheme_Dark;
         else if (theme == THEME_AMOLED)
             return R.style.AppTheme_AMOLED;
         else return R.style.AppTheme;
+    }
+
+    public int getThemePreference() {
+        return prefs.getInt(PREF_THEME, THEME_LIGHT);
+    }
+
+    public int getTextColorPrimary() {
+        return ContextCompat.getColor(this, getThemePreference() == THEME_LIGHT ? R.color.textColorPrimary : R.color.textColorPrimaryInverse);
+    }
+
+    public int getTextColorSecondary() {
+        return ContextCompat.getColor(this, getThemePreference() == THEME_LIGHT ? R.color.textColorSecondary : R.color.textColorSecondaryInverse);
+    }
+
+    public int getTextColorTertiary() {
+        return ContextCompat.getColor(this, getThemePreference() == THEME_LIGHT ? R.color.textColorTertiary : R.color.textColorTertiaryInverse);
+    }
+
+    public int getTextColorPrimaryInverse() {
+        return ContextCompat.getColor(this, getThemePreference() != THEME_LIGHT ? R.color.textColorPrimary : R.color.textColorPrimaryInverse);
+    }
+
+    public int getTextColorSecondaryInverse() {
+        return ContextCompat.getColor(this, getThemePreference() != THEME_LIGHT ? R.color.textColorSecondary : R.color.textColorSecondaryInverse);
+    }
+
+    public int getTextColorTertiaryInverse() {
+        return ContextCompat.getColor(this, getThemePreference() != THEME_LIGHT ? R.color.textColorTertiary : R.color.textColorTertiaryInverse);
+    }
+
+    public void setTheme(int theme) {
+        prefs.edit().putInt(PREF_THEME, theme).apply();
+        if (preferenceListener != null)
+            preferenceListener.onThemeChanged();
+    }
+
+    public void setOnPreferenceListener(OnPreferenceListener listener) {
+        preferenceListener = listener;
     }
 
     public void addListener(FeedageLib.OnCategoriesUpdatedListener listener) {
@@ -162,5 +202,11 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
 
     public interface OnProgressUpdateListener {
         void onProgressUpdate(boolean isLoading, float progress);
+    }
+
+    public interface OnPreferenceListener {
+        void onThemeChanged();
+
+        void onBookmarksChanged();
     }
 }
