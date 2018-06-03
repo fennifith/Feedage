@@ -135,7 +135,12 @@ public class PostActivity extends FeedageActivity {
         else if (item.getItemId() == R.id.bookmark) {
             boolean isBookmarked = !getFeedage().isBookmarked(post);
             getFeedage().setBookmarked(post, isBookmarked);
-            item.setIcon(isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
+
+            Drawable icon = VectorDrawableCompat.create(getResources(), isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline, getTheme());
+            if (icon != null) {
+                DrawableCompat.setTint(icon, getFeedage().getTextColorSecondary());
+                item.setIcon(icon);
+            }
         } else if (item.getItemId() == R.id.open)
             new CustomTabsIntent.Builder()
                     .build()
