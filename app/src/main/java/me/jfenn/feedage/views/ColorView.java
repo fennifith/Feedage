@@ -8,6 +8,7 @@ import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 
+import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.utils.ColorUtils;
 import me.jfenn.feedage.utils.DimenUtils;
 
@@ -43,7 +44,10 @@ public class ColorView extends View {
     public void setColor(@ColorInt int color) {
         this.color = color;
         paint.setColor(color);
-        outlinePaint.setColor(ColorUtils.isColorDark(color) ? Color.TRANSPARENT : Color.BLACK);
+        if (((Feedage) getContext().getApplicationContext()).getThemePreference() == Feedage.THEME_LIGHT)
+            outlinePaint.setColor(ColorUtils.isColorDark(color) ? Color.TRANSPARENT : Color.BLACK);
+        else outlinePaint.setColor(ColorUtils.isColorDark(color) ? Color.WHITE : Color.TRANSPARENT);
+
         invalidate();
     }
 
