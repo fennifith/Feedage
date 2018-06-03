@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -141,7 +142,9 @@ public class PostActivity extends AppCompatActivity {
             feedage.setBookmarked(post, isBookmarked);
             item.setIcon(isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
         } else if (item.getItemId() == R.id.open)
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(post.getSourceUrl())));
+            new CustomTabsIntent.Builder()
+                    .build()
+                    .launchUrl(this, Uri.parse(post.getSourceUrl()));
         else if (item.getItemId() == R.id.share) {
             Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse(post.getSourceUrl()));
             intent.setType("text/plain");
