@@ -31,7 +31,7 @@ public class BookmarksFragment extends BasePagerFragment {
         for (PostData post : ((Feedage) getContext().getApplicationContext()).getBookmarks())
             items.add(new PostItemData(post, R.layout.item_post_horiz));
 
-        recycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recycler.setAdapter(new ItemAdapter(items));
 
         return v;

@@ -104,7 +104,7 @@ public class PostsActivity extends AppCompatActivity {
             } else finish();
         }
 
-        recycler.setLayoutManager(new GridLayoutManager(this, 3));
+        recycler.setLayoutManager(new GridLayoutManager(this, 2));
         recycler.setAdapter(new ItemAdapter(items));
 
         Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
