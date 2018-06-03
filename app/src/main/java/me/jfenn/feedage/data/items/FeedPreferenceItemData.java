@@ -1,9 +1,12 @@
 package me.jfenn.feedage.data.items;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import james.colorpickerdialog.dialogs.ColorPickerDialog;
+import james.colorpickerdialog.dialogs.PreferenceDialog;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.views.ColorView;
@@ -28,12 +31,34 @@ public class FeedPreferenceItemData extends ItemData<FeedPreferenceItemData.View
 
         viewHolder.textColor.setColor(feed.getTextColor());
         viewHolder.textColor.setOnClickListener(v -> {
+            new ColorPickerDialog(v.getContext()).setPreference(feed.getTextColor()).setDefaultPreference(Color.BLACK).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+                @Override
+                public void onPreference(PreferenceDialog dialog, Integer preference) {
+                    feed.setTextColor(preference);
+                    viewHolder.textColor.setColor(preference);
+                }
 
+                @Override
+                public void onCancel(PreferenceDialog dialog) {
+
+                }
+            }).show();
         });
 
         viewHolder.backgroundColor.setColor(feed.getBackgroundColor());
         viewHolder.backgroundColor.setOnClickListener(v -> {
+            new ColorPickerDialog(v.getContext()).setPreference(feed.getBackgroundColor()).setDefaultPreference(Color.WHITE).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+                @Override
+                public void onPreference(PreferenceDialog dialog, Integer preference) {
+                    feed.setBackgroundColor(preference);
+                    viewHolder.backgroundColor.setColor(preference);
+                }
 
+                @Override
+                public void onCancel(PreferenceDialog dialog) {
+
+                }
+            }).show();
         });
     }
 

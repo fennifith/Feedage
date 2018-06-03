@@ -1,6 +1,5 @@
 package me.jfenn.feedage;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import james.colorpickerdialog.ColorPicker;
 import me.jfenn.feedage.lib.FeedageLib;
 import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;
@@ -19,7 +19,7 @@ import me.jfenn.feedage.lib.data.PostData;
 import me.jfenn.feedage.utils.HackyCacheInterface;
 import me.jfenn.feedage.utils.PreferenceUtils;
 
-public class Feedage extends Application implements FeedageLib.OnCategoriesUpdatedListener {
+public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdatedListener {
 
     private FeedageLib feedage;
     private List<FeedageLib.OnCategoriesUpdatedListener> listeners;

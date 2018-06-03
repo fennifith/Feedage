@@ -35,6 +35,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.google.android:flexbox:1.0.0'
+    implementation 'james.colorpickerdialog:colorpickerdialog:0.0.4'
     implementation 'me.jfenn:attribouter:0.0.7'
 
     implementation project(':feedage-lib')

@@ -52,5 +52,12 @@
             licenseName="Apache License 2.0"
             repo="google/flexbox-layout"
             title="FlexBox Layout" />
+        <project
+            description="A simple dialog making it quick and easy to add color picking functionality to any app."
+            license="apache-2.0"
+            licenseName="Apache License 2.0"
+            repo="TheAndroidMaster/ColorPickerDialog"
+            title="Color Picker Dialog"
+            website="https://bintray.com/18jafenn90/maven/colorpickerdialog" />
     </licenses>
 </about>
