@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,13 +10,14 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:singleLine="true"
+        android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
-        android:ellipsize="end"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:layout_marginTop="8dp"
         android:paddingTop="8dp"
+        android:singleLine="true"
         android:textColor="?android:textColorPrimary"
         android:textSize="26sp"
         tools:text="Title" />
@@ -24,8 +26,8 @@
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="3"
         android:ellipsize="end"
+        android:maxLines="3"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:textColor="?android:textColorSecondary"
@@ -35,10 +37,39 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:layout_marginBottom="8dp"
         android:clipToPadding="false"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:scrollbars="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/viewMore"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:text="@string/title_view_more"
+            android:textAllCaps="true"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_open" />
+
+    </LinearLayout>
 
 </LinearLayout>

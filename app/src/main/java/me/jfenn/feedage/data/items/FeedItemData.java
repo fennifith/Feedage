@@ -1,6 +1,7 @@
 package me.jfenn.feedage.data.items;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.jfenn.feedage.R;
+import me.jfenn.feedage.activities.PostsActivity;
 import me.jfenn.feedage.adapters.ItemAdapter;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
@@ -59,18 +61,29 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
             viewHolder.subtitle.setVisibility(View.GONE);
         }
 
-        if (viewHolder.recycler != null) {
+        if (adapter.getItemCount() > 0) {
+            viewHolder.recycler.setVisibility(View.VISIBLE);
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             viewHolder.recycler.setAdapter(adapter);
+
+            viewHolder.viewMore.setVisibility(View.VISIBLE);
+            viewHolder.viewMore.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), PostsActivity.class);
+                intent.putExtra(PostsActivity.EXTRA_FEED, feed.getUrl());
+                v.getContext().startActivity(intent);
+            });
+        } else {
+            viewHolder.recycler.setVisibility(View.GONE);
+            viewHolder.viewMore.setVisibility(View.GONE);
         }
     }
 
     public static class ViewHolder extends ItemData.ViewHolder {
 
-        private View background;
         private TextView title;
         private TextView subtitle;
         private RecyclerView recycler;
+        private View viewMore;
 
         public ViewHolder(View v, RecyclerView.RecycledViewPool viewPool) {
             super(v);
@@ -78,6 +91,7 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
             subtitle = v.findViewById(R.id.subtitle);
             recycler = v.findViewById(R.id.recycler);
             recycler.setRecycledViewPool(viewPool);
+            viewMore = v.findViewById(R.id.viewMore);
         }
     }
 

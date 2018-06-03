@@ -8,4 +8,5 @@
     <string name="title_authors">Authors</string>
     <string name="title_written_by">Written by</string>
     <string name="title_written_by_author">Written by %s</string>
+    <string name="title_view_more">View More</string>
 </resources>
