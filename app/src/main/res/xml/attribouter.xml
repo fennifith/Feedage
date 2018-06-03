@@ -46,5 +46,11 @@
             licenseName="Apache License 2.0"
             repo="chrisbanes/PhotoView"
             title="Photo View" />
+        <project
+            description="Flexbox for Android"
+            license="apache-2.0"
+            licenseName="Apache License 2.0"
+            repo="google/flexbox-layout"
+            title="FlexBox Layout" />
     </licenses>
 </about>
