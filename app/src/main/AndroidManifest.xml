@@ -24,6 +24,7 @@
             android:name=".activities.ImageViewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activities.PostsActivity" />
+        <activity android:name=".activities.SettingsActivity" />
     </application>
 
 </manifest>

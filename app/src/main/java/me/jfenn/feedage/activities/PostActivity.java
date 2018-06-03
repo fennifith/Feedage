@@ -118,9 +118,11 @@ public class PostActivity extends AppCompatActivity {
         } else findViewById(R.id.authorLayout).setVisibility(View.GONE);
 
         Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
-        DrawableCompat.setTint(icon, Color.BLACK);
-        toolbar.setNavigationIcon(icon);
-        setSupportActionBar(toolbar);
+        if (icon != null) {
+            DrawableCompat.setTint(icon, Color.BLACK);
+            toolbar.setNavigationIcon(icon);
+            setSupportActionBar(toolbar);
+        }
     }
 
     @Override

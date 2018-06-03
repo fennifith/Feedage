@@ -1,5 +1,6 @@
 package me.jfenn.feedage.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -105,8 +106,10 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about)
+        if (item.getItemId() == R.id.about)
             Attribouter.from(this).show();
+        else if (item.getItemId() == R.id.settings)
+            startActivity(new Intent(this, SettingsActivity.class));
 
         return super.onOptionsItemSelected(item);
     }

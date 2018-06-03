@@ -108,9 +108,11 @@ public class PostsActivity extends AppCompatActivity {
         recycler.setAdapter(new ItemAdapter(items));
 
         Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
-        DrawableCompat.setTint(icon, Color.BLACK);
-        toolbar.setNavigationIcon(icon);
-        setSupportActionBar(toolbar);
+        if (icon != null) {
+            DrawableCompat.setTint(icon, Color.BLACK);
+            toolbar.setNavigationIcon(icon);
+            setSupportActionBar(toolbar);
+        }
     }
 
     @Override

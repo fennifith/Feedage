@@ -9,31 +9,21 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 import me.jfenn.feedage.R;
 
-public class ImageViewActivity extends AppCompatActivity {
-
-    public static final String EXTRA_IMAGE_URL = "me.jfenn.feedage.EXTRA_IMAGE_URL";
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_view);
-
-        ImageView image = findViewById(R.id.image);
-        String url = getIntent().getStringExtra(EXTRA_IMAGE_URL);
-        if (url != null)
-            Glide.with(this).load(url).into(image);
+        setContentView(R.layout.activity_settings);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
         if (icon != null) {
-            DrawableCompat.setTint(icon, Color.WHITE);
+            DrawableCompat.setTint(icon, Color.BLACK);
             toolbar.setNavigationIcon(icon);
             setSupportActionBar(toolbar);
         }
@@ -42,7 +32,7 @@ public class ImageViewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
-            supportFinishAfterTransition();
+            finish();
 
         return super.onOptionsItemSelected(item);
     }
