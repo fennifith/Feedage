@@ -24,7 +24,7 @@ public class BookmarksFragment extends BasePagerFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_recycler, container, false);
+        View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         RecyclerView recycler = v.findViewById(R.id.recycler);
 
         List<ItemData> items = new ArrayList<>();
