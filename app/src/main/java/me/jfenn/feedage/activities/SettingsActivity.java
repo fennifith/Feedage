@@ -2,7 +2,6 @@ package me.jfenn.feedage.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -81,7 +80,7 @@ public class SettingsActivity extends FeedageActivity {
 
         Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
         if (icon != null) {
-            DrawableCompat.setTint(icon, Color.BLACK);
+            DrawableCompat.setTint(icon, getFeedage().getTextColorSecondary());
             toolbar.setNavigationIcon(icon);
             setSupportActionBar(toolbar);
         }
