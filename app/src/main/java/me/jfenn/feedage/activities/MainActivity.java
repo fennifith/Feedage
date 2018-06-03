@@ -51,7 +51,7 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
         pager.setAdapter(new SimplePagerAdapter(getSupportFragmentManager(), new CategoriesFragment(), new FeedsFragment(), new BookmarksFragment()));
         pager.addOnPageChangeListener(this);
 
-        textColor = ContextCompat.getColor(this, R.color.textColorSecondary);
+        textColor = getFeedage().getTextColorSecondary();
         accentColor = ContextCompat.getColor(this, R.color.colorAccent);
 
         home.setTint(accentColor);
