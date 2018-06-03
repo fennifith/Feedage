@@ -67,7 +67,7 @@ public class AtomFeedData extends FeedData {
                 post.addTag(tagElement.text());
 
             for (Element authorElement : element.select(":root > dc|creator"))
-                post.addAuthor(new AuthorData(authorElement.text()));
+                post.addAuthor(authorElement.text());
 
             for (Element authorElement : element.select(":root > author")) {
                 AuthorData author;

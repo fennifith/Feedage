@@ -48,11 +48,24 @@
             android:textStyle="italic"
             tools:text="From example.com" />
 
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="4dp"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"
+            tools:text="Content content content content content content content content content content content content content content content content content." />
+
         <LinearLayout
             android:id="@+id/authorLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
             android:layout_marginTop="8dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
@@ -76,24 +89,10 @@
                 android:layout_marginBottom="4dp"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="1.2"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="4dp"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="14sp"
-            tools:text="Content content content content content content content content content content content content content content content content content." />
 
     </LinearLayout>
 

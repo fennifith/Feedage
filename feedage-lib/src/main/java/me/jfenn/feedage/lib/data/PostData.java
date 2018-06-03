@@ -19,11 +19,11 @@ public class PostData {
     private String content;
     private String imageUrl;
     private String sourceUrl;
-    private transient List<String> tags;
+    private List<String> tags;
 
     private transient Date publishDate;
     private transient Date updateDate;
-    private transient List<AuthorData> authors;
+    private List<AuthorData> authors;
 
     private transient FeedData parent;
     private transient SOAMCOS chain;
@@ -36,12 +36,13 @@ public class PostData {
 
     public PostData(FeedData parent, PostData post) {
         this.parent = parent;
-        tags = new ArrayList<>();
-        authors = new ArrayList<>();
         this.title = post.title;
         this.description = post.description;
         this.content = post.content;
         this.imageUrl = post.imageUrl;
+        this.sourceUrl = post.sourceUrl;
+        tags = new ArrayList<>(post.tags);
+        authors = new ArrayList<>(post.authors);
     }
 
     public String getTitle() {
@@ -133,6 +134,27 @@ public class PostData {
 
     public void addAuthor(AuthorData author) {
         authors.add(author);
+    }
+
+    public void addAuthor(String authors) {
+        if (authors == null || authors.length() < 1)
+            return;
+
+        if (authors.contains(", ")) {
+            for (String author : authors.split(", "))
+                addAuthor(author);
+
+            return;
+        }
+
+        if (authors.contains(" and ")) {
+            for (String author : authors.split(" and "))
+                addAuthor(author);
+
+            return;
+        }
+
+        this.authors.add(new AuthorData(authors));
     }
 
     public List<AuthorData> getAuthors() {
