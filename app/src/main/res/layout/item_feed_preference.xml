@@ -27,12 +27,4 @@
         android:layout_marginRight="4dp"
         android:background="?attr/selectableItemBackgroundBorderless" />
 
-    <me.jfenn.feedage.views.ColorView
-        android:id="@+id/textColor"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:background="?attr/selectableItemBackgroundBorderless" />
-
 </LinearLayout>

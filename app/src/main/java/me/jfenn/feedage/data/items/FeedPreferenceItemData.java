@@ -9,6 +9,7 @@ import james.colorpickerdialog.dialogs.ColorPickerDialog;
 import james.colorpickerdialog.dialogs.PreferenceDialog;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.lib.data.FeedData;
+import me.jfenn.feedage.utils.ColorUtils;
 import me.jfenn.feedage.views.ColorView;
 
 public class FeedPreferenceItemData extends ItemData<FeedPreferenceItemData.ViewHolder> {
@@ -29,49 +30,30 @@ public class FeedPreferenceItemData extends ItemData<FeedPreferenceItemData.View
     public void bind(Context context, ViewHolder viewHolder) {
         viewHolder.url.setText(feed.getUrl());
 
-        viewHolder.textColor.setColor(feed.getTextColor());
-        viewHolder.textColor.setOnClickListener(v -> {
-            new ColorPickerDialog(v.getContext()).setPreference(feed.getTextColor()).setDefaultPreference(Color.BLACK).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
-                @Override
-                public void onPreference(PreferenceDialog dialog, Integer preference) {
-                    feed.setTextColor(preference);
-                    viewHolder.textColor.setColor(preference);
-                }
-
-                @Override
-                public void onCancel(PreferenceDialog dialog) {
-
-                }
-            }).show();
-        });
-
         viewHolder.backgroundColor.setColor(feed.getBackgroundColor());
-        viewHolder.backgroundColor.setOnClickListener(v -> {
-            new ColorPickerDialog(v.getContext()).setPreference(feed.getBackgroundColor()).setDefaultPreference(Color.WHITE).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
-                @Override
-                public void onPreference(PreferenceDialog dialog, Integer preference) {
-                    feed.setBackgroundColor(preference);
-                    viewHolder.backgroundColor.setColor(preference);
-                }
+        viewHolder.backgroundColor.setOnClickListener(v -> new ColorPickerDialog(v.getContext()).setPreference(feed.getBackgroundColor()).setDefaultPreference(Color.WHITE).setListener(new PreferenceDialog.OnPreferenceListener<Integer>() {
+            @Override
+            public void onPreference(PreferenceDialog dialog, Integer preference) {
+                feed.setBackgroundColor(preference);
+                feed.setTextColor(ColorUtils.isColorDark(preference) ? Color.WHITE : Color.BLACK);
+                viewHolder.backgroundColor.setColor(preference);
+            }
 
-                @Override
-                public void onCancel(PreferenceDialog dialog) {
+            @Override
+            public void onCancel(PreferenceDialog dialog) {
 
-                }
-            }).show();
-        });
+            }
+        }).show());
     }
 
     public static class ViewHolder extends ItemData.ViewHolder {
 
         private TextView url;
-        private ColorView textColor;
         private ColorView backgroundColor;
 
         public ViewHolder(View v) {
             super(v);
             url = v.findViewById(R.id.url);
-            textColor = v.findViewById(R.id.textColor);
             backgroundColor = v.findViewById(R.id.backgroundColor);
         }
     }
