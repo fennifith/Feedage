@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import java.util.List;
 
 import me.jfenn.attribouter.Attribouter;
-import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.SimplePagerAdapter;
 import me.jfenn.feedage.fragments.BookmarksFragment;
@@ -22,7 +21,9 @@ import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.views.TintedImageView;
 
-public class MainActivity extends FeedageActivity implements FeedageLib.OnCategoriesUpdatedListener, ViewPager.OnPageChangeListener, Feedage.OnPreferenceListener {
+public class MainActivity extends FeedageActivity implements FeedageLib.OnCategoriesUpdatedListener, ViewPager.OnPageChangeListener {
+
+    private static final int REQUEST_SETTINGS = 7164;
 
     private TintedImageView home;
     private TintedImageView feeds;
@@ -38,7 +39,6 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
         setContentView(R.layout.activity_main);
 
         getFeedage().addListener(this);
-        getFeedage().setOnPreferenceListener(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         home = findViewById(R.id.home);
@@ -107,9 +107,18 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
         if (item.getItemId() == R.id.about)
             Attribouter.from(this).show();
         else if (item.getItemId() == R.id.settings)
-            startActivity(new Intent(this, SettingsActivity.class));
+            startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_SETTINGS);
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SETTINGS && resultCode == RESULT_OK && data != null && data.getBooleanExtra(SettingsActivity.EXTRA_SHOULD_RESTART, false)) {
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     @Override
@@ -125,15 +134,5 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
 
     @Override
     public void onPageScrollStateChanged(int state) {
-    }
-
-    @Override
-    public void onThemeChanged() {
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
-    }
-
-    @Override
-    public void onBookmarksChanged() {
     }
 }

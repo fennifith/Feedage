@@ -1,5 +1,6 @@
 package me.jfenn.feedage.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -28,6 +29,8 @@ import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.lib.data.FeedData;
 
 public class SettingsActivity extends FeedageActivity {
+
+    public static final String EXTRA_SHOULD_RESTART = "me.jfenn.feedage.EXTRA_SHOULD_RESTART";
 
     private SharedPreferences prefs;
 
@@ -60,7 +63,13 @@ public class SettingsActivity extends FeedageActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != getFeedage().getThemePreference()) {
                     getFeedage().setTheme(position);
+
+                    Intent intent = new Intent();
+                    intent.putExtra(EXTRA_SHOULD_RESTART, true);
+                    setResult(RESULT_OK, intent);
+
                     finish();
+                    startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
                 }
             }
 
