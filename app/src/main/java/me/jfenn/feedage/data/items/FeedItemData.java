@@ -42,7 +42,7 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
 
     @Override
     public ViewHolder getViewHolder(View v) {
-        return new ViewHolder(v);
+        return new ViewHolder(v, viewPool);
     }
 
     @Override
@@ -62,7 +62,6 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
         if (viewHolder.recycler != null) {
             viewHolder.recycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             viewHolder.recycler.setAdapter(adapter);
-            viewHolder.recycler.setRecycledViewPool(viewPool);
         }
     }
 
@@ -73,11 +72,12 @@ public class FeedItemData extends ItemData<FeedItemData.ViewHolder> {
         private TextView subtitle;
         private RecyclerView recycler;
 
-        public ViewHolder(View v) {
+        public ViewHolder(View v, RecyclerView.RecycledViewPool viewPool) {
             super(v);
             title = v.findViewById(R.id.title);
             subtitle = v.findViewById(R.id.subtitle);
             recycler = v.findViewById(R.id.recycler);
+            recycler.setRecycledViewPool(viewPool);
         }
     }
 
