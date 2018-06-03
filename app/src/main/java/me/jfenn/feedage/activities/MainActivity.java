@@ -82,10 +82,8 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (getFeedage() != null) {
+        if (getFeedage() != null)
             getFeedage().removeListener(this);
-            getFeedage().setOnPreferenceListener(null);
-        }
     }
 
     @Override

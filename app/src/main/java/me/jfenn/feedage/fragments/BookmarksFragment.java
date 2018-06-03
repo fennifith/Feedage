@@ -19,16 +19,24 @@ import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.data.items.PostItemData;
 import me.jfenn.feedage.lib.data.PostData;
 
-public class BookmarksFragment extends BasePagerFragment {
+public class BookmarksFragment extends BasePagerFragment implements Feedage.OnPreferenceListener {
+
+    private RecyclerView recycler;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getFeedage().addOnPreferenceListener(this);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        RecyclerView recycler = v.findViewById(R.id.recycler);
+        recycler = v.findViewById(R.id.recycler);
 
         List<ItemData> items = new ArrayList<>();
-        for (PostData post : ((Feedage) getContext().getApplicationContext()).getBookmarks())
+        for (PostData post : getFeedage().getBookmarks())
             items.add(new PostItemData(post, R.layout.item_post_horiz));
 
         recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -38,7 +46,29 @@ public class BookmarksFragment extends BasePagerFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getFeedage().removeOnPreferenceListener(this);
+    }
+
+    @Override
     public String getTitle() {
         return "Bookmarks";
+    }
+
+    @Override
+    public void onThemeChanged() {
+
+    }
+
+    @Override
+    public void onBookmarksChanged() {
+        if (recycler != null && recycler.getAdapter() != null) {
+            List<ItemData> items = new ArrayList<>();
+            for (PostData post : getFeedage().getBookmarks())
+                items.add(new PostItemData(post, R.layout.item_post_horiz));
+
+            recycler.swapAdapter(new ItemAdapter(items), true);
+        }
     }
 }

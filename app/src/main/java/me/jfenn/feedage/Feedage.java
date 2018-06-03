@@ -30,7 +30,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
     private FeedageLib feedage;
     private List<FeedageLib.OnCategoriesUpdatedListener> listeners;
     private OnProgressUpdateListener progressListener;
-    private OnPreferenceListener preferenceListener;
+    private List<OnPreferenceListener> preferenceListeners;
 
     private List<FeedData> feeds;
     private List<CategoryData> categories;
@@ -45,6 +45,8 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         listeners = new ArrayList<>();
+        preferenceListeners = new ArrayList<>();
+
         feeds = new ArrayList<>();
         categories = PreferenceUtils.getCategoryList(prefs, "categories");
         bookmarks = PreferenceUtils.getPostList(prefs, "bookmarks");
@@ -112,12 +114,16 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
 
     public void setTheme(int theme) {
         prefs.edit().putInt(PREF_THEME, theme).apply();
-        if (preferenceListener != null)
-            preferenceListener.onThemeChanged();
+        for (OnPreferenceListener listener : preferenceListeners)
+            listener.onThemeChanged();
     }
 
-    public void setOnPreferenceListener(OnPreferenceListener listener) {
-        preferenceListener = listener;
+    public void addOnPreferenceListener(OnPreferenceListener listener) {
+        preferenceListeners.add(listener);
+    }
+
+    public void removeOnPreferenceListener(OnPreferenceListener listener) {
+        preferenceListeners.remove(listener);
     }
 
     public void addListener(FeedageLib.OnCategoriesUpdatedListener listener) {
@@ -155,6 +161,9 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         else bookmarks.remove(post);
 
         PreferenceUtils.putPostList(prefs.edit(), "bookmarks", bookmarks).apply();
+
+        for (OnPreferenceListener listener : preferenceListeners)
+            listener.onBookmarksChanged();
     }
 
     public boolean isBookmarked(PostData post) {
