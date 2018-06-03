@@ -41,6 +41,9 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
 
     @Override
     public void bind(Context context, ViewHolder viewHolder) {
+        viewHolder.itemView.setAlpha(0);
+        viewHolder.itemView.animate().alpha(1).start();
+
         FeedData parent = post.getParent();
 
         if (title != null)
