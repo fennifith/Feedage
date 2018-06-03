@@ -63,8 +63,16 @@ public abstract class FeedData {
         return backgroundColor;
     }
 
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
     public int getTextColor() {
         return textColor;
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
     }
 
     void setName(String name) {
