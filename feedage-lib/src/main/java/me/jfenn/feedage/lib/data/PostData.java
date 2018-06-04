@@ -133,6 +133,10 @@ public class PostData {
         else return publishDateString;
     }
 
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
     public void setUpdateDate(String updateDate) {
         if (updateDate != null) {
             updateDateString = updateDate;

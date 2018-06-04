@@ -12,11 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
-import me.jfenn.feedage.data.items.ItemData;
 import me.jfenn.feedage.data.items.PostItemData;
 import me.jfenn.feedage.lib.data.AuthorData;
 import me.jfenn.feedage.lib.data.CategoryData;
@@ -37,7 +37,7 @@ public class PostsActivity extends FeedageActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         RecyclerView recycler = findViewById(R.id.recycler);
 
-        List<ItemData> items = new ArrayList<>();
+        List<PostItemData> items = new ArrayList<>();
 
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_CATEGORY)) {
@@ -98,8 +98,9 @@ public class PostsActivity extends FeedageActivity {
             } else finish();
         }
 
+        Collections.sort(items);
         recycler.setLayoutManager(new GridLayoutManager(this, 2));
-        recycler.setAdapter(new ItemAdapter(items));
+        recycler.setAdapter(new ItemAdapter(new ArrayList<>(items)));
 
         Drawable icon = VectorDrawableCompat.create(getResources(), R.drawable.ic_arrow_back, getTheme());
         if (icon != null) {

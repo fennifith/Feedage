@@ -3,6 +3,7 @@ package me.jfenn.feedage.data.items;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
 import me.jfenn.feedage.utils.StringUtils;
 
-public class PostItemData extends ItemData<PostItemData.ViewHolder> {
+public class PostItemData extends ItemData<PostItemData.ViewHolder> implements Comparable<PostItemData> {
 
     private PostData post;
     private String title;
@@ -69,6 +70,11 @@ public class PostItemData extends ItemData<PostItemData.ViewHolder> {
             v.getContext().startActivity(intent, ActivityOptionsCompat.makeClipRevealAnimation(viewHolder.background, (int) viewHolder.background.getX(),
                     (int) viewHolder.background.getY(), viewHolder.background.getWidth(), viewHolder.background.getHeight()).toBundle());
         });
+    }
+
+    @Override
+    public int compareTo(@NonNull PostItemData o) {
+        return post.getPublishDate() != null && o.post.getPublishDate() != null ? o.post.getPublishDate().compareTo(post.getPublishDate()) : 0;
     }
 
     public static class ViewHolder extends ItemData.ViewHolder {

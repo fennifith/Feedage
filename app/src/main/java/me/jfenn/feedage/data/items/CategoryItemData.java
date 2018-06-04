@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import me.jfenn.feedage.R;
@@ -35,12 +36,13 @@ public class CategoryItemData extends ItemData<CategoryItemData.ViewHolder> {
         if (category.getDescription().length() > 0)
             subtitle = category.getDescriptionSentence();
 
-        List<ItemData> items = new ArrayList<>();
+        List<PostItemData> items = new ArrayList<>();
         List<PostData> posts = category.getPosts();
         for (int i = 0; i < posts.size() && i < 3; i++)
             items.add(new PostItemData(posts.get(i)));
 
-        adapter = new ItemAdapter(items);
+        Collections.sort(items);
+        adapter = new ItemAdapter(new ArrayList<>(items));
     }
 
     @Override
