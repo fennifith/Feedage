@@ -71,6 +71,8 @@ public class PostActivity extends FeedageActivity {
         source = findViewById(R.id.source);
         content = findViewById(R.id.content);
         image = findViewById(R.id.image);
+        TextView publishDate = findViewById(R.id.publishDate);
+        TextView updateDate = findViewById(R.id.updateDate);
 
         toolbar.setTitle(post.getTitle());
 
@@ -96,6 +98,16 @@ public class PostActivity extends FeedageActivity {
         source.setText("From " + post.getParent().getBasicHomepage());
         source.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://" + post.getParent().getBasicHomepage()))));
+
+        String published = post.getPublishDateString();
+        if (published != null)
+            publishDate.setText(String.format(getString(R.string.title_published_on), published));
+        else publishDate.setVisibility(View.GONE);
+
+        String updated = post.getUpdateDateString();
+        if (updated != null)
+            updateDate.setText(String.format(getString(R.string.title_updated_on), updated));
+        else updateDate.setVisibility(View.GONE);
 
         String html = post.getHTML();
         content.setMovementMethod(new CustomTabsMovementMethod(this));

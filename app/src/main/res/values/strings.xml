@@ -19,6 +19,8 @@
     <string name="msg_invalid_url">Invalid URL</string>
     <string name="title_feed_url">RSS feed URL</string>
     <string name="title_add_feed">Add Feed</string>
+    <string name="title_updated_on">Updated on %s</string>
+    <string name="title_published_on">Published on %s</string>
     <string-array name="themes">
         <item>Light</item>
         <item>Dark</item>

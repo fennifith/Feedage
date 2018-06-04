@@ -26,6 +26,8 @@ public class PostParcelData implements Parcelable {
         post.setContent(in.readString());
         post.setImageUrl(in.readString());
         post.setSourceUrl(in.readString());
+        post.setPublishDate(in.readString());
+        post.setUpdateDate(in.readString());
 
         int tags = in.readInt();
         for (int i = 0; i < tags; i++)
@@ -53,6 +55,8 @@ public class PostParcelData implements Parcelable {
         post.setContent(prefs.getString(name + "-content", null));
         post.setImageUrl(prefs.getString(name + "-image", null));
         post.setSourceUrl(prefs.getString(name + "-source", null));
+        post.setPublishDate(prefs.getString(name + "-date-published", null));
+        post.setUpdateDate(prefs.getString(name + "-date-updated", null));
 
         int tags = prefs.getInt(name + "-tags-length", 0);
         for (int i = 0; i < tags; i++)
@@ -76,6 +80,8 @@ public class PostParcelData implements Parcelable {
                 .putString(name + "-content", post.getContent())
                 .putString(name + "-image", post.getImageUrl())
                 .putString(name + "-source", post.getSourceUrl())
+                .putString(name + "-date-published", post.getPublishDateString())
+                .putString(name + "-date-updated", post.getUpdateDateString())
                 .putInt(name + "-tags-length", post.getTags().size())
                 .putInt(name + "-authors-length", post.getAuthors().size());
 
@@ -123,6 +129,8 @@ public class PostParcelData implements Parcelable {
         dest.writeString(post.getContent());
         dest.writeString(post.getImageUrl());
         dest.writeString(post.getSourceUrl());
+        dest.writeString(post.getPublishDateString());
+        dest.writeString(post.getUpdateDateString());
         dest.writeInt(post.getTags().size());
         for (String tag : post.getTags())
             dest.writeString(tag);

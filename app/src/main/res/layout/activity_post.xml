@@ -49,11 +49,32 @@
             tools:text="From example.com" />
 
         <TextView
+            android:id="@+id/publishDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="12sp"
+            android:text="@string/title_published_on" />
+
+        <TextView
+            android:id="@+id/updateDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/title_updated_on"
+            android:textColor="?android:textColorTertiary"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="1.2"
             android:layout_marginTop="8dp"
+            android:lineSpacingMultiplier="1.2"
             android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -67,27 +88,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:paddingTop="12dp"
+            android:orientation="vertical"
             android:paddingBottom="12dp"
-            android:orientation="vertical">
+            android:paddingTop="12dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textSize="16sp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:text="@string/title_written_by"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/title_written_by" />
+                android:textSize="16sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/authors"
                 android:layout_width="match_parent"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
                 android:paddingBottom="8dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp" />

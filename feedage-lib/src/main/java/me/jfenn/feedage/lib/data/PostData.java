@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +18,8 @@ import java.util.Locale;
 import me.jfenn.feedage.lib.utils.SOAMCOS;
 
 public class PostData {
+
+    private static final String DEFAULT_DATE_FORMAT = "EEEE, MMMM d, yyyy";
 
     private String title;
     private String description;
@@ -148,17 +151,31 @@ public class PostData {
     }
 
     private Date parseDateString(String dateString) {
-        DateFormat format = new SimpleDateFormat("E, dd MM yyyy kk:mm:ss Z", Locale.getDefault());
-        try {
-            return format.parse(dateString);
-        } catch (ParseException e) {
-            return null;
-        }
+        return parseDateString(dateString, new ArrayList<>(Arrays.asList(
+                DEFAULT_DATE_FORMAT,
+                "EEE, dd MMM yyyy HH:mm:ss Z",
+                "EEE, d MMM yyyy HH:mm:ss z",
+                "EEE MMM d HH:mm z yyyy",
+                "dd MMM yyyy HH:mm:ss z",
+                "yyyy-MM-dd'T'HH:mm:ssZ"
+        )));
+    }
+
+    private Date parseDateString(String dateString, List<String> formats) {
+        if (formats.size() > 0) {
+            DateFormat format = new SimpleDateFormat(formats.get(0), Locale.getDefault());
+            try {
+                return format.parse(dateString);
+            } catch (ParseException e) {
+                formats.remove(0);
+                return parseDateString(dateString, formats);
+            }
+        } else return null;
     }
 
     private String formatDate(Date date) {
         if (date != null)
-            return new SimpleDateFormat("E, dd MM yyyy", Locale.getDefault()).format(date);
+            return new SimpleDateFormat(DEFAULT_DATE_FORMAT, Locale.getDefault()).format(date);
         else return null;
     }
 
