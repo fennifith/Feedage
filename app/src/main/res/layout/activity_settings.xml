@@ -37,7 +37,7 @@
                 android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
-                android:pahddingTop="8dp">
+                android:paddingTop="8dp">
 
                 <TextView
                     android:layout_width="0dp"
