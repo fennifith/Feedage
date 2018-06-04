@@ -23,6 +23,10 @@ import me.jfenn.feedage.utils.PreferenceUtils;
 public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdatedListener {
 
     public static final String PREF_THEME = "theme";
+    public static final String PREF_FEEDS = "feeds";
+    public static final String PREF_CATEGORIES = "categories";
+    public static final String PREF_BOOKMARKS = "bookmarks";
+
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
     public static final int THEME_AMOLED = 2;
@@ -48,10 +52,10 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         preferenceListeners = new ArrayList<>();
 
         feeds = new ArrayList<>();
-        categories = PreferenceUtils.getCategoryList(prefs, "categories");
-        bookmarks = PreferenceUtils.getPostList(prefs, "bookmarks");
+        categories = PreferenceUtils.getCategoryList(prefs, PREF_CATEGORIES);
+        bookmarks = PreferenceUtils.getPostList(prefs, PREF_BOOKMARKS);
 
-        feeds = PreferenceUtils.getFeedList(prefs, "feeds");
+        feeds = PreferenceUtils.getFeedList(prefs, PREF_FEEDS);
         if (feeds.size() == 0) {
             feeds.addAll(Arrays.asList(
                     new AtomFeedData("https://www.androidpolice.com/feed/", Color.parseColor("#af1c1c"), Color.WHITE),
@@ -143,6 +147,14 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         isLoading = true;
     }
 
+    public void setFeeds(List<FeedData> feeds) {
+        this.feeds = feeds;
+        PreferenceUtils.putFeedList(prefs.edit(), PREF_FEEDS, feeds).apply();
+
+        for (OnPreferenceListener listener : preferenceListeners)
+            listener.onFeedsChanged();
+    }
+
     public List<FeedData> getFeeds() {
         return feeds;
     }
@@ -160,7 +172,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
             bookmarks.add(post);
         else bookmarks.remove(post);
 
-        PreferenceUtils.putPostList(prefs.edit(), "bookmarks", bookmarks).apply();
+        PreferenceUtils.putPostList(prefs.edit(), PREF_BOOKMARKS, bookmarks).apply();
 
         for (OnPreferenceListener listener : preferenceListeners)
             listener.onBookmarksChanged();
@@ -189,7 +201,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
     public void onCategoriesUpdated(final List<CategoryData> categories) {
         this.categories = categories;
         new Handler(Looper.getMainLooper()).post(() -> {
-            PreferenceUtils.putCategoryList(prefs.edit(), "categories", categories).apply();
+            PreferenceUtils.putCategoryList(prefs.edit(), PREF_CATEGORIES, categories).apply();
             for (FeedageLib.OnCategoriesUpdatedListener listener : listeners)
                 listener.onCategoriesUpdated(categories);
 
@@ -215,6 +227,8 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
 
     public interface OnPreferenceListener {
         void onThemeChanged();
+
+        void onFeedsChanged();
 
         void onBookmarksChanged();
     }
