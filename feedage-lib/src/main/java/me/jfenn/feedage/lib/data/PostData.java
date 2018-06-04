@@ -6,9 +6,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import me.jfenn.feedage.lib.utils.SOAMCOS;
 
@@ -23,6 +27,8 @@ public class PostData {
 
     private transient Date publishDate;
     private transient Date updateDate;
+    private String publishDateString;
+    private String updateDateString;
     private List<AuthorData> authors;
 
     private transient FeedData parent;
@@ -43,6 +49,9 @@ public class PostData {
         this.sourceUrl = post.sourceUrl;
         tags = post.tags != null ? new ArrayList<>(post.tags) : new ArrayList<>();
         authors = post.authors != null ? new ArrayList<>(post.authors) : new ArrayList<>();
+
+        setPublishDate(post.publishDateString);
+        setUpdateDate(post.updateDateString);
     }
 
     public String getTitle() {
@@ -109,17 +118,48 @@ public class PostData {
     }
 
     public void setPublishDate(String publishDate) {
+        if (publishDate != null) {
+            publishDateString = publishDate;
+            this.publishDate = parseDateString(publishDate);
+        }
     }
 
-    public Date getPublishDate() {
-        return publishDate;
+    public String getPublishDateString() {
+        if (publishDate != null)
+            return formatDate(publishDate);
+        else return publishDateString;
     }
 
     public void setUpdateDate(String updateDate) {
+        if (updateDate != null) {
+            updateDateString = updateDate;
+            this.updateDate = parseDateString(updateDate);
+        }
+    }
+
+    public String getUpdateDateString() {
+        if (updateDate != null)
+            return formatDate(updateDate);
+        else return updateDateString;
     }
 
     public Date getUpdateDate() {
         return updateDate;
+    }
+
+    private Date parseDateString(String dateString) {
+        DateFormat format = new SimpleDateFormat("E, dd MM yyyy kk:mm:ss Z", Locale.getDefault());
+        try {
+            return format.parse(dateString);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    private String formatDate(Date date) {
+        if (date != null)
+            return new SimpleDateFormat("E, dd MM yyyy", Locale.getDefault()).format(date);
+        else return null;
     }
 
     public void addTag(String tag) {

@@ -80,6 +80,14 @@ public class AtomFeedData extends FeedData {
                 post.addAuthor(author);
             }
 
+            Element publishElement = element.selectFirst(":root > pubDate, :root > published");
+            if (publishElement != null)
+                post.setPublishDate(publishElement.text());
+
+            Element updateElement = element.selectFirst(":root > updated");
+            if (updateElement != null)
+                post.setUpdateDate(updateElement.text());
+
             Elements sourceElements = element.select(":root > guid, :root > link, :root > guid, :root > id");
             String source = null;
             for (Element sourceElement : sourceElements) {
