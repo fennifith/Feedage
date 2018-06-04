@@ -14,7 +14,11 @@
     <string name="title_new_feed">New feed...</string>
     <string name="title_theme">Theme</string>
     <string name="title_remove_feed">Remove Feed</string>
-    <string name="msg_remove_feed">Are you sure that you want to delete this feed? This cannot be undone.</string>
+    <string name="msg_remove_feed">Are you sure that you want to delete the feed \"%s\"? This cannot be undone.</string>
+    <string name="msg_feed_added">Feed added</string>
+    <string name="msg_invalid_url">Invalid URL</string>
+    <string name="title_feed_url">RSS feed URL</string>
+    <string name="title_add_feed">Add Feed</string>
     <string-array name="themes">
         <item>Light</item>
         <item>Dark</item>
