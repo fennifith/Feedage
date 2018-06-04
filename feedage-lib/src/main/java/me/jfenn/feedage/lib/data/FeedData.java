@@ -8,9 +8,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import me.jfenn.feedage.lib.utils.CacheInterface;
+import me.jfenn.feedage.lib.utils.threading.CancelableRunnable;
+import me.jfenn.feedage.lib.utils.threading.ExecutorServiceWrapper;
 
 public abstract class FeedData {
 
@@ -114,49 +115,87 @@ public abstract class FeedData {
         return url.contains("%s");
     }
 
-    public final void getNext(ExecutorService service, OnFeedLoadedListener listener) {
+    public final void getNext(ExecutorServiceWrapper service, OnFeedLoadedListener listener) {
         this.listener = listener;
         isLoading = true;
 
-        service.execute(() -> {
-            HttpURLConnection connection = null;
-            InputStream stream = null;
-            BufferedReader reader = null;
-            StringBuilder response = new StringBuilder();
-            try {
-                connection = (HttpURLConnection) new URL(url.contains("%s") ? String.format(url, pages + pageStart) : url).openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
+        service.submit(new CancelableRunnable() {
 
-                stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-            } catch (IOException ignored) {
-            }
+            private volatile boolean isCanceled;
+            private HttpURLConnection connection;
+            private InputStream stream;
+            private BufferedReader reader;
 
-            if (connection != null)
-                connection.disconnect();
-
-            if (stream != null) {
+            @Override
+            public void run() {
+                connection = null;
+                stream = null;
+                reader = null;
+                StringBuilder response = new StringBuilder();
                 try {
-                    stream.close();
+                    connection = (HttpURLConnection) new URL(url.contains("%s") ? String.format(url, pages + pageStart) : url).openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    stream = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    String line;
+                    while ((line = reader.readLine()) != null && !isCanceled) {
+                        response.append(line);
+                        response.append('\n');
+                    }
                 } catch (IOException ignored) {
                 }
-            }
 
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException ignored) {
+                if (isCanceled)
+                    return;
+
+                if (connection != null)
+                    connection.disconnect();
+
+                if (stream != null) {
+                    try {
+                        stream.close();
+                    } catch (IOException ignored) {
+                    }
                 }
+
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException ignored) {
+                    }
+                }
+
+                pages++;
+                onFeedLoaded(response.toString());
             }
 
-            pages++;
-            onFeedLoaded(response.toString());
+            @Override
+            public void cancel() {
+                if (connection != null) {
+                    try {
+                        connection.disconnect();
+                    } catch (Exception ignored) {
+                    }
+                }
+
+                if (stream != null) {
+                    try {
+                        stream.close();
+                    } catch (Exception ignored) {
+                    }
+                }
+
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (Exception ignored) {
+                    }
+                }
+
+                isCanceled = true;
+            }
         });
     }
 

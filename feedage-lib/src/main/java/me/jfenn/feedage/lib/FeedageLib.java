@@ -3,19 +3,21 @@ package me.jfenn.feedage.lib;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.utils.CacheInterface;
+import me.jfenn.feedage.lib.utils.threading.CancelableRunnable;
+import me.jfenn.feedage.lib.utils.threading.ExecutorServiceWrapper;
 
 public class FeedageLib implements FeedData.OnFeedLoadedListener {
 
     private FeedData[] feeds;
-    private ExecutorService service;
+    private ExecutorServiceWrapper service;
     private OnCategoriesUpdatedListener listener;
     private boolean hasOrganized;
+
+    private List<CancelableRunnable> runnables;
 
     /**
      * Create a FeedageLib object from a set of feeds
@@ -25,7 +27,8 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
      */
     public FeedageLib(CacheInterface cache, FeedData... feeds) {
         this.feeds = feeds;
-        service = Executors.newSingleThreadExecutor();
+        runnables = new ArrayList<>();
+        service = new ExecutorServiceWrapper();
 
         for (FeedData feed : feeds)
             feed.loadCache(cache);
@@ -37,11 +40,15 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
      * @param listener listener for when the loading is complete
      */
     public void getNext(OnCategoriesUpdatedListener listener) {
+        service.cancel();
+
         this.listener = listener;
         for (FeedData feed : feeds) {
             if (feed.getPage() == 0 || feed.isPaginated())
                 feed.getNext(service, this);
         }
+
+        service.end();
     }
 
     @Override

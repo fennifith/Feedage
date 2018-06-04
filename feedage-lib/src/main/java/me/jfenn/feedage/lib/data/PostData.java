@@ -41,8 +41,8 @@ public class PostData {
         this.content = post.content;
         this.imageUrl = post.imageUrl;
         this.sourceUrl = post.sourceUrl;
-        tags = new ArrayList<>(post.tags);
-        authors = new ArrayList<>(post.authors);
+        tags = post.tags != null ? new ArrayList<>(post.tags) : new ArrayList<>();
+        authors = post.authors != null ? new ArrayList<>(post.authors) : new ArrayList<>();
     }
 
     public String getTitle() {
@@ -59,8 +59,6 @@ public class PostData {
     }
 
     public String getDescriptionText() {
-        if (parent.getBasicHomepage().equals("theverge.com"))
-            System.out.println("Description: " + description + ", Content: " + getContentText());
         return description != null && description.length() > 0 ? description : getContentText();
     }
 

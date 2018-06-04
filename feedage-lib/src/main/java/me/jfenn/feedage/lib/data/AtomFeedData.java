@@ -83,7 +83,6 @@ public class AtomFeedData extends FeedData {
             Elements sourceElements = element.select(":root > guid, :root > link, :root > guid, :root > id");
             String source = null;
             for (Element sourceElement : sourceElements) {
-                System.out.println(sourceElement.tagName() + ": " + sourceElement.text() + " - " + sourceElement.attributes().toString());
                 if (source == null || (sourceElement.text() != null && sourceElement.text().length() > source.length()))
                     source = sourceElement.text();
             }
