@@ -136,7 +136,10 @@ public class PostActivity extends FeedageActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_post, menu);
-        menu.findItem(R.id.bookmark).setIcon(getFeedage().isBookmarked(post) ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
+        boolean isBookmarked = getFeedage().isBookmarked(post);
+        MenuItem bookmarkItem = menu.findItem(R.id.bookmark);
+        bookmarkItem.setIcon(isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline);
+        bookmarkItem.setTitle(isBookmarked ? R.string.action_bookmark_remove : R.string.action_bookmark_add);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -148,6 +151,7 @@ public class PostActivity extends FeedageActivity {
             boolean isBookmarked = !getFeedage().isBookmarked(post);
             getFeedage().setBookmarked(post, isBookmarked);
 
+            item.setTitle(isBookmarked ? R.string.action_bookmark_remove : R.string.action_bookmark_add);
             Drawable icon = VectorDrawableCompat.create(getResources(), isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline, getTheme());
             if (icon != null) {
                 DrawableCompat.setTint(icon, getFeedage().getTextColorSecondary());
