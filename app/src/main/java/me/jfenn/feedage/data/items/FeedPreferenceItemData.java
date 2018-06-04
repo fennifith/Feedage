@@ -21,6 +21,10 @@ public class FeedPreferenceItemData extends ItemData<FeedPreferenceItemData.View
         this.feed = feed;
     }
 
+    public FeedData getFeed() {
+        return feed;
+    }
+
     @Override
     public ViewHolder getViewHolder(View v) {
         return new ViewHolder(v);

@@ -8,10 +8,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +36,9 @@ public class SettingsActivity extends FeedageActivity {
 
     private SharedPreferences prefs;
 
+    private RecyclerView feedRecycler;
+    private List<ItemData> feedList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +47,43 @@ public class SettingsActivity extends FeedageActivity {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        RecyclerView feeds = findViewById(R.id.feeds);
+        feedRecycler = findViewById(R.id.feeds);
         AppCompatSpinner theme = findViewById(R.id.theme);
 
-        List<ItemData> items = new ArrayList<>();
+        feedList = new ArrayList<>();
         for (FeedData feed : getFeedage().getFeeds())
-            items.add(new FeedPreferenceItemData(feed));
+            feedList.add(new FeedPreferenceItemData(feed));
 
-        feeds.setLayoutManager(new LinearLayoutManager(this));
-        feeds.setAdapter(new ItemAdapter(items));
+        feedRecycler.setLayoutManager(new LinearLayoutManager(this));
+        feedRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        feedRecycler.setAdapter(new ItemAdapter(feedList));
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                new AlertDialog.Builder(SettingsActivity.this).setTitle(R.string.title_remove_feed)
+                        .setMessage(R.string.msg_remove_feed)
+                        .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                            feedList.remove(position);
+                            feedRecycler.getAdapter().notifyItemRemoved(position);
+
+                            List<FeedData> feeds = new ArrayList<>();
+                            for (ItemData item : feedList) {
+                                if (item instanceof FeedPreferenceItemData)
+                                    feeds.add(((FeedPreferenceItemData) item).getFeed());
+                            }
+                            getFeedage().setFeeds(feeds);
+                        })
+                        .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss())
+                        .show();
+            }
+        }).attachToRecyclerView(feedRecycler);
 
         findViewById(R.id.newFeed).setOnClickListener(v -> {
 

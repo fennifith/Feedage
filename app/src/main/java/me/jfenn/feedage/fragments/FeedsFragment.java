@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
 import me.jfenn.feedage.adapters.ItemAdapter;
 import me.jfenn.feedage.data.items.FeedItemData;
@@ -27,7 +28,7 @@ import me.jfenn.feedage.lib.FeedageLib;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 
-public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCategoriesUpdatedListener {
+public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCategoriesUpdatedListener, Feedage.OnPreferenceListener {
 
     private RecyclerView recycler;
     private View refresh;
@@ -99,12 +100,14 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFeedage().addListener(this);
+        getFeedage().addOnPreferenceListener(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         getFeedage().removeListener(this);
+        getFeedage().removeOnPreferenceListener(this);
     }
 
     @Override
@@ -142,5 +145,19 @@ public class FeedsFragment extends BasePagerFragment implements FeedageLib.OnCat
     @Override
     public String getTitle() {
         return "Feeds";
+    }
+
+    @Override
+    public void onThemeChanged() {
+    }
+
+    @Override
+    public void onFeedsChanged() {
+        shouldSwap = true;
+        onFeedsUpdated(getFeedage().getFeeds());
+    }
+
+    @Override
+    public void onBookmarksChanged() {
     }
 }

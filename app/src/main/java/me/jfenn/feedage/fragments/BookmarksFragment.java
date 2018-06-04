@@ -58,7 +58,10 @@ public class BookmarksFragment extends BasePagerFragment implements Feedage.OnPr
 
     @Override
     public void onThemeChanged() {
+    }
 
+    @Override
+    public void onFeedsChanged() {
     }
 
     @Override
