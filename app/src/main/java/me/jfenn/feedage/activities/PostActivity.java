@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -152,10 +153,17 @@ public class PostActivity extends FeedageActivity {
             getFeedage().setBookmarked(post, isBookmarked);
 
             item.setTitle(isBookmarked ? R.string.action_bookmark_remove : R.string.action_bookmark_add);
-            Drawable icon = VectorDrawableCompat.create(getResources(), isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline, getTheme());
-            if (icon != null) {
-                DrawableCompat.setTint(icon, getFeedage().getTextColorSecondary());
-                item.setIcon(icon);
+            AnimatedVectorDrawableCompat drawable = AnimatedVectorDrawableCompat.create(this, isBookmarked ? R.drawable.ic_anim_bookmark_to_bookmarked : R.drawable.ic_anim_bookmarked_to_bookmark);
+            if (drawable != null) {
+                DrawableCompat.setTint(drawable, getFeedage().getTextColorSecondary());
+                item.setIcon(drawable);
+                drawable.start();
+            } else {
+                Drawable icon = VectorDrawableCompat.create(getResources(), isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline, getTheme());
+                if (icon != null) {
+                    DrawableCompat.setTint(icon, getFeedage().getTextColorSecondary());
+                    item.setIcon(icon);
+                }
             }
         } else if (item.getItemId() == R.id.open)
             new CustomTabsIntent.Builder()
