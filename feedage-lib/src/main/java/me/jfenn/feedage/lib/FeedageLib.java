@@ -51,6 +51,11 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
         service.end();
     }
 
+    public void stopLoading() {
+        service.end();
+        service.cancel();
+    }
+
     @Override
     public void onFeedLoaded(FeedData feed, boolean shouldReorganize) {
         List<FeedData> feeds = Arrays.asList(this.feeds);
