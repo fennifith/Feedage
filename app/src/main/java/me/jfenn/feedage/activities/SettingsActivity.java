@@ -1,5 +1,6 @@
 package me.jfenn.feedage.activities;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -24,10 +26,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import me.jfenn.feedage.Feedage;
 import me.jfenn.feedage.R;
@@ -41,11 +47,15 @@ import me.jfenn.feedage.utils.DimenUtils;
 public class SettingsActivity extends FeedageActivity {
 
     public static final String EXTRA_SHOULD_RESTART = "me.jfenn.feedage.EXTRA_SHOULD_RESTART";
+    private static final String FORMAT_12H = "h:mm a";
+    private static final String FORMAT_24H = "HH:mm";
 
     private SharedPreferences prefs;
 
     private RecyclerView feedRecycler;
     private List<ItemData> feedList;
+
+    private TextView syncTimeValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +67,14 @@ public class SettingsActivity extends FeedageActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         feedRecycler = findViewById(R.id.feeds);
         AppCompatSpinner theme = findViewById(R.id.theme);
+        syncTimeValue = findViewById(R.id.syncTimeValue);
+
+        updateSyncTime();
+        findViewById(R.id.syncTime).setOnClickListener(v -> new TimePickerDialog(v.getContext(), (view, hourOfDay, minute) -> {
+            getFeedage().setSyncTime(hourOfDay);
+            updateSyncTime();
+        }, getFeedage().getSyncTime(), 0, DateFormat.is24HourFormat(v.getContext()))
+                .show());
 
         feedList = new ArrayList<>();
         for (FeedData feed : getFeedage().getFeeds())
@@ -164,6 +182,14 @@ public class SettingsActivity extends FeedageActivity {
             toolbar.setNavigationIcon(icon);
             setSupportActionBar(toolbar);
         }
+    }
+
+    private void updateSyncTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, getFeedage().getSyncTime());
+        calendar.set(Calendar.MINUTE, 0);
+        syncTimeValue.setText(new SimpleDateFormat(DateFormat.is24HourFormat(this) ? FORMAT_24H : FORMAT_12H, Locale.getDefault())
+                .format(calendar.getTime()));
     }
 
     @Override

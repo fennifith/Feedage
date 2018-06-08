@@ -26,6 +26,7 @@
     <string name="title_syncing_articles">Syncing Articles</string>
     <string name="title_articles_sync">Articles Sync</string>
     <string name="title_sync_now">Sync Now</string>
+    <string name="title_article_sync_time">Article Sync Time</string>
     <string-array name="themes">
         <item>Light</item>
         <item>Dark</item>

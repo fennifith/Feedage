@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -84,6 +85,35 @@
                 android:text="@string/title_new_feed"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/syncTime"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:textColor="?android:textColorPrimary"
+                    android:text="@string/title_article_sync_time" />
+
+                <TextView
+                    android:id="@+id/syncTimeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="?android:textColorSecondary"
+                    tools:text="12:00 PM" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
