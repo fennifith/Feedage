@@ -23,7 +23,10 @@ import me.jfenn.feedage.lib.data.FeedData;
 
 public class SyncService extends Service implements FeedageLib.OnCategoriesUpdatedListener {
 
+    public static final String EXTRA_FORCE_SYNC = "me.jfenn.feedage.EXTRA_FORCE_SYNC";
+
     private Feedage feedage;
+    private boolean isForeground;
 
     @Override
     public void onCreate() {
@@ -47,13 +50,16 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
             alarmManager.set(AlarmManager.RTC_WAKEUP, now.getTimeInMillis(), PendingIntent.getService(this, 0,
                     new Intent(this, SyncService.class), 0));
 
+            if (intent != null && intent.hasExtra(EXTRA_FORCE_SYNC))
+                shouldSync = shouldSync || intent.getBooleanExtra(EXTRA_FORCE_SYNC, false);
+
             if (!shouldSync) {
                 stop();
                 return START_NOT_STICKY;
             }
         }
 
-        if (!feedage.isLoading()) {
+        if (!feedage.isLoading() || !isForeground) {
             feedage.getNext();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -62,7 +68,8 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
                     notificationManager.createNotificationChannel(new NotificationChannel("sync", getString(R.string.title_articles_sync), NotificationManager.IMPORTANCE_MIN));
             }
 
-            startForeground(0, new NotificationCompat.Builder(this, "sync")
+            isForeground = true;
+            startForeground(723, new NotificationCompat.Builder(this, "sync")
                     .setSmallIcon(R.drawable.ic_notification_sync)
                     .setContentTitle(getString(R.string.title_syncing_articles))
                     .setContentText(" ")
@@ -72,10 +79,11 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
                     .build());
         }
 
-        return START_NOT_STICKY;
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void stop() {
+        isForeground = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             stopSelf();
 

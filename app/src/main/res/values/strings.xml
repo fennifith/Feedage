@@ -25,6 +25,7 @@
     <string name="action_bookmark_add">Add to Bookmarks</string>
     <string name="title_syncing_articles">Syncing Articles</string>
     <string name="title_articles_sync">Articles Sync</string>
+    <string name="title_sync_now">Sync Now</string>
     <string-array name="themes">
         <item>Light</item>
         <item>Dark</item>

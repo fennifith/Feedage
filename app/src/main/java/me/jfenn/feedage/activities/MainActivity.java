@@ -19,6 +19,8 @@ import me.jfenn.feedage.fragments.FeedsFragment;
 import me.jfenn.feedage.lib.FeedageLib;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
+import me.jfenn.feedage.services.SyncService;
+import me.jfenn.feedage.utils.ServiceUtils;
 import me.jfenn.feedage.views.TintedImageView;
 
 public class MainActivity extends FeedageActivity implements FeedageLib.OnCategoriesUpdatedListener, ViewPager.OnPageChangeListener {
@@ -104,7 +106,11 @@ public class MainActivity extends FeedageActivity implements FeedageLib.OnCatego
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.about)
             Attribouter.from(this).show();
-        else if (item.getItemId() == R.id.settings)
+        else if (item.getItemId() == R.id.sync) {
+            Intent intent = new Intent(this, SyncService.class);
+            intent.putExtra(SyncService.EXTRA_FORCE_SYNC, true);
+            ServiceUtils.startService(this, intent);
+        } else if (item.getItemId() == R.id.settings)
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_SETTINGS);
 
         return super.onOptionsItemSelected(item);
