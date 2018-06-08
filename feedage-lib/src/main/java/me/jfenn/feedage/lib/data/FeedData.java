@@ -56,6 +56,10 @@ public abstract class FeedData {
         }
     }
 
+    public boolean hasCache() {
+        return cache != null;
+    }
+
     public String getUrl() {
         return url;
     }

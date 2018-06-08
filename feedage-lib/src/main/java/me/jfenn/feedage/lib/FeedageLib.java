@@ -7,7 +7,6 @@ import java.util.List;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.utils.CacheInterface;
-import me.jfenn.feedage.lib.utils.threading.CancelableRunnable;
 import me.jfenn.feedage.lib.utils.threading.ExecutorServiceWrapper;
 
 public class FeedageLib implements FeedData.OnFeedLoadedListener {
@@ -17,7 +16,7 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
     private OnCategoriesUpdatedListener listener;
     private boolean hasOrganized;
 
-    private List<CancelableRunnable> runnables;
+    private CacheInterface cache;
 
     /**
      * Create a FeedageLib object from a set of feeds
@@ -25,13 +24,17 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
      * @param cache interface used to store data temporarily
      * @param feeds sources to fetch data from
      */
-    public FeedageLib(CacheInterface cache, FeedData... feeds) {
+    public FeedageLib(CacheInterface cache, boolean loadCache, FeedData... feeds) {
+        this.cache = cache;
         this.feeds = feeds;
-        runnables = new ArrayList<>();
         service = new ExecutorServiceWrapper();
 
-        for (FeedData feed : feeds)
-            feed.loadCache(cache);
+        if (loadCache) {
+            for (FeedData feed : feeds) {
+                if (!feed.hasCache())
+                    feed.loadCache(cache);
+            }
+        }
     }
 
     /**
@@ -41,6 +44,11 @@ public class FeedageLib implements FeedData.OnFeedLoadedListener {
      */
     public void getNext(OnCategoriesUpdatedListener listener) {
         service.cancel();
+
+        for (FeedData feed : feeds) {
+            if (!feed.hasCache())
+                feed.loadCache(cache);
+        }
 
         this.listener = listener;
         for (FeedData feed : feeds) {

@@ -77,6 +77,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
 
         feedage = new FeedageLib(
                 new HackyCacheInterface(prefs),
+                false,
                 feeds.toArray(new FeedData[feeds.size()])
         );
 
