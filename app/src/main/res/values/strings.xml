@@ -23,6 +23,8 @@
     <string name="title_published_on">Published on %s</string>
     <string name="action_bookmark_remove">Remove from Bookmarks</string>
     <string name="action_bookmark_add">Add to Bookmarks</string>
+    <string name="title_syncing_articles">Syncing Articles</string>
+    <string name="title_articles_sync">Articles Sync</string>
     <string-array name="themes">
         <item>Light</item>
         <item>Dark</item>

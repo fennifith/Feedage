@@ -1,5 +1,6 @@
 package me.jfenn.feedage;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
@@ -17,8 +18,10 @@ import me.jfenn.feedage.lib.data.AtomFeedData;
 import me.jfenn.feedage.lib.data.CategoryData;
 import me.jfenn.feedage.lib.data.FeedData;
 import me.jfenn.feedage.lib.data.PostData;
+import me.jfenn.feedage.services.SyncService;
 import me.jfenn.feedage.utils.HackyCacheInterface;
 import me.jfenn.feedage.utils.PreferenceUtils;
+import me.jfenn.feedage.utils.ServiceUtils;
 
 public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdatedListener {
 
@@ -26,6 +29,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
     public static final String PREF_FEEDS = "feeds";
     public static final String PREF_CATEGORIES = "categories";
     public static final String PREF_BOOKMARKS = "bookmarks";
+    public static final String PREF_SYNC_TIME = "syncTime";
 
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
@@ -76,7 +80,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
                 feeds.toArray(new FeedData[feeds.size()])
         );
 
-        getNext();
+        ServiceUtils.startService(this, new Intent(this, SyncService.class));
     }
 
     public int getThemeRes() {
@@ -90,6 +94,15 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
 
     public int getThemePreference() {
         return prefs.getInt(PREF_THEME, THEME_LIGHT);
+    }
+
+    public void setSyncTime(int syncTime) {
+        prefs.edit().putInt(PREF_SYNC_TIME, syncTime).apply();
+        ServiceUtils.startService(this, new Intent(this, SyncService.class));
+    }
+
+    public int getSyncTime() {
+        return prefs.getInt(PREF_SYNC_TIME, 0);
     }
 
     public int getTextColorPrimary() {
