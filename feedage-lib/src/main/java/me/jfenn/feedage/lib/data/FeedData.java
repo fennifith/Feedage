@@ -205,6 +205,11 @@ public abstract class FeedData {
 
     abstract List<PostData> parseContent(String content);
 
+    public void addPost(PostData post) {
+        if (!posts.contains(post))
+            posts.add(post);
+    }
+
     private void onFeedLoaded(String content) {
         List<PostData> newPosts = parseContent(content);
         int newCount = 0;

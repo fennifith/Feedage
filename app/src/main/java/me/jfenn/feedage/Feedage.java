@@ -84,6 +84,10 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         ServiceUtils.startService(this, new Intent(this, SyncService.class));
     }
 
+    public SharedPreferences getPrefs() {
+        return prefs;
+    }
+
     public int getThemeRes() {
         int theme = getThemePreference();
         if (theme == THEME_DARK)
@@ -202,6 +206,10 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
 
     @Override
     public void onFeedsUpdated(final List<FeedData> feeds) {
+        onFeedsUpdated(feeds, true);
+    }
+
+    public void onFeedsUpdated(final List<FeedData> feeds, boolean shouldSave) {
         this.feeds = feeds;
         new Handler(Looper.getMainLooper()).post(() -> {
             for (FeedageLib.OnCategoriesUpdatedListener listener : listeners)
@@ -213,6 +221,10 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
 
     @Override
     public void onCategoriesUpdated(final List<CategoryData> categories) {
+        onCategoriesUpdated(categories, true);
+    }
+
+    public void onCategoriesUpdated(final List<CategoryData> categories, boolean shouldSave) {
         this.categories = categories;
         new Handler(Looper.getMainLooper()).post(() -> {
             PreferenceUtils.putCategoryList(prefs.edit(), PREF_CATEGORIES, categories).apply();

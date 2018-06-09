@@ -98,7 +98,7 @@ public class AtomFeedData extends FeedData {
             if (source != null)
                 post.setSourceUrl(source);
 
-            posts.add(post);
+            addPost(post);
         }
 
         return posts;
