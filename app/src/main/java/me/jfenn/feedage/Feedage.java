@@ -22,6 +22,8 @@ import me.jfenn.feedage.services.SyncService;
 import me.jfenn.feedage.utils.HackyCacheInterface;
 import me.jfenn.feedage.utils.PreferenceUtils;
 import me.jfenn.feedage.utils.ServiceUtils;
+import me.jfenn.feedage.utils.tasks.ArticlesGetterTask;
+import me.jfenn.feedage.utils.tasks.ArticlesPutterTask;
 
 public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdatedListener {
 
@@ -47,6 +49,9 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
     private SharedPreferences prefs;
     private boolean isLoading;
 
+    private ArticlesGetterTask getterTask;
+    private ArticlesPutterTask putterTask;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,7 +61,7 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         preferenceListeners = new ArrayList<>();
 
         feeds = new ArrayList<>();
-        categories = PreferenceUtils.getCategoryList(prefs, PREF_CATEGORIES);
+        categories = new ArrayList<>();
         bookmarks = PreferenceUtils.getPostList(prefs, PREF_BOOKMARKS);
 
         feeds = PreferenceUtils.getFeedList(prefs, PREF_FEEDS);
@@ -82,6 +87,8 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         );
 
         ServiceUtils.startService(this, new Intent(this, SyncService.class));
+        getterTask = new ArticlesGetterTask(this);
+        getterTask.execute();
     }
 
     public SharedPreferences getPrefs() {
@@ -209,9 +216,17 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
         onFeedsUpdated(feeds, true);
     }
 
-    public void onFeedsUpdated(final List<FeedData> feeds, boolean shouldSave) {
+    public void onFeedsUpdated(final List<FeedData> feeds, final boolean shouldSave) {
         this.feeds = feeds;
         new Handler(Looper.getMainLooper()).post(() -> {
+            if (shouldSave) {
+                if (putterTask != null)
+                    putterTask.cancel(true);
+
+                putterTask = new ArticlesPutterTask(Feedage.this);
+                putterTask.execute();
+            }
+
             for (FeedageLib.OnCategoriesUpdatedListener listener : listeners)
                 listener.onFeedsUpdated(feeds);
 
@@ -227,7 +242,14 @@ public class Feedage extends ColorPicker implements FeedageLib.OnCategoriesUpdat
     public void onCategoriesUpdated(final List<CategoryData> categories, boolean shouldSave) {
         this.categories = categories;
         new Handler(Looper.getMainLooper()).post(() -> {
-            PreferenceUtils.putCategoryList(prefs.edit(), PREF_CATEGORIES, categories).apply();
+            if (shouldSave) {
+                if (putterTask != null)
+                    putterTask.cancel(true);
+
+                putterTask = new ArticlesPutterTask(Feedage.this);
+                putterTask.execute();
+            }
+
             for (FeedageLib.OnCategoriesUpdatedListener listener : listeners)
                 listener.onCategoriesUpdated(categories);
 
