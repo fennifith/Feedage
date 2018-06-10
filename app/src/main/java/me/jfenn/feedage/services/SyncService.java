@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.List;
@@ -37,8 +38,12 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("Received intent", "");
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (alarmManager != null) {
+            Log.d("Service", "Getting times");
+
             Calendar now = Calendar.getInstance();
             int syncTime = feedage.getSyncTime();
             boolean shouldSync = now.get(Calendar.HOUR_OF_DAY) == syncTime;
@@ -46,6 +51,8 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
             now.set(Calendar.HOUR_OF_DAY, syncTime);
             now.set(Calendar.MINUTE, 0);
             now.add(Calendar.DAY_OF_YEAR, 1);
+
+            Log.d("Service", "setting alarm");
 
             alarmManager.set(AlarmManager.RTC_WAKEUP, now.getTimeInMillis(), PendingIntent.getService(this, 0,
                     new Intent(this, SyncService.class), 0));
@@ -60,8 +67,10 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
         }
 
         if (!feedage.isLoading() || !isForeground) {
+            Log.d("Service", "starting load");
             feedage.getNext();
 
+            Log.d("Service", "displaying notification");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 if (notificationManager != null)
@@ -83,11 +92,15 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
     }
 
     private void stop() {
+        Log.d("Service", "stopping service");
+
         isForeground = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             stopSelf();
 
         stopForeground(true);
+
+        Log.d("Service", "stopped");
     }
 
     @Nullable
@@ -97,11 +110,20 @@ public class SyncService extends Service implements FeedageLib.OnCategoriesUpdat
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("Service", "destroyed");
+    }
+
+    @Override
     public void onFeedsUpdated(List<FeedData> feeds) {
+        Log.d("Service", "updated feeds");
     }
 
     @Override
     public void onCategoriesUpdated(List<CategoryData> categories) {
+        Log.d("Service", "updated categories");
+
         if (!feedage.isLoading())
             stop();
     }
