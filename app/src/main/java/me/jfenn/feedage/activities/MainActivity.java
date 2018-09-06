@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
     private ViewPager pager;
     private int textColor;
     private int accentColor;
+    private BookmarksFragment bookmarksFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
 
         setSupportActionBar(toolbar);
 
-        pager.setAdapter(new SimplePagerAdapter(getSupportFragmentManager(), new CategoriesFragment(), new FeedsFragment(), new BookmarksFragment()));
+        bookmarksFragment = new BookmarksFragment();
+        pager.setAdapter(new SimplePagerAdapter(getSupportFragmentManager(), new CategoriesFragment(), new FeedsFragment(), bookmarksFragment));
         pager.addOnPageChangeListener(this);
 
         textColor = ContextCompat.getColor(this, R.color.colorTextSecondary);
@@ -79,6 +81,12 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
                 onPageSelected(2);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bookmarksFragment.update();
     }
 
     @Override
@@ -121,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements FeedageLib.OnCate
         home.tint(position == 0 ? accentColor : textColor);
         feeds.tint(position == 1 ? accentColor : textColor);
         bookmarks.tint(position == 2 ? accentColor : textColor);
+        if (position == 2) {
+            bookmarksFragment.update();
+        }
     }
 
     @Override

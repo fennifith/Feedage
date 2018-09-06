@@ -21,24 +21,36 @@ import me.jfenn.feedage.lib.data.PostData;
 
 public class BookmarksFragment extends BasePagerFragment {
 
+    private View view;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bookmarks, container, false);
-        RecyclerView recycler = v.findViewById(R.id.recycler);
+        update();
+        return inflater.inflate(R.layout.fragment_bookmarks, container, false);
+    }
 
-        List<ItemData> items = new ArrayList<>();
-        for (PostData post : ((Feedage) getContext().getApplicationContext()).getBookmarks())
-            items.add(new PostItemData(post, R.layout.item_post_horiz));
+    public void update() {
+        if (view != null) {
+            RecyclerView recycler = view.findViewById(R.id.recycler);
+            List<ItemData> items = new ArrayList<>();
+            for (PostData post : ((Feedage) getContext().getApplicationContext()).getBookmarks())
+                items.add(new PostItemData(post, R.layout.item_post_horiz));
 
-        recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        recycler.setAdapter(new ItemAdapter(items));
-
-        return v;
+            recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            recycler.setAdapter(new ItemAdapter(items));
+        }
     }
 
     @Override
     public String getTitle() {
         return "Bookmarks";
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.view = view;
+    }
+
 }
