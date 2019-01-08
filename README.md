@@ -4,7 +4,7 @@ Feedage is a basic "news reader" app that sorts articles from various RSS feeds 
 
 |Categories|Article|About|
 |-----|-----|-----|
-|![img](./screenshots/categories.png?raw=true)|![img](./screenshots/article.png?raw=true)|![img](./screenshots/about.png?raw=true)|
+|![img](./.github/images/categories.png?raw=true)|![img](./.github/images/article.png?raw=true)|![img](./.github/images/about.png?raw=true)|
 
 ## Contributing
 
